@@ -1,7 +1,7 @@
 "plugins: vim-polygot cemant.vim vim-visual-multi vim-easy-align
 " vim-abolish golden-ratio vim-surround vim-commentary vim-terminal-help
 " melange.nvim vim-rooter
-"nvim: gitsigns.nvim registers.nvim range-highlight.nvim black
+"nvim: gitsigns.nvim registers.nvim range-highlight.nvim
 " which-key.nvim nvim-colorizer.lua nvim-notify plenary.nvim
 " nvim-lspconfig nvim-lsp-installer nvim-cmp cmp-vsnip vim-vsnip
 " cmp-nvim-lsp cmp-buffer cmp-path telescope.nvim
