@@ -1,0 +1,10 @@
+#!sh
+# installer script for (n)vim config
+
+# remove old config
+rm -rf ~/.vimrc ~/.vim ~/.config/nvim || true
+
+# install new config
+cp -r ./.vimrc ~/.vimrc
+mkdir ~/.vim && cp -r ./.vim ~/.vim
+mkdir ~/.config/nvim && cp -r ./.config/nvim ~/.config/nvim
