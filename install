@@ -1,0 +1,21 @@
+#!sh
+# installer script to install my vim config
+echo "Installer for vimdot."
+
+# update submodules
+echo "→ Updating submodules."
+git submodule update --init --recursive --depth=1
+
+# remove the current config
+echo "→ Removing current configurations."
+rm -rf ~/.vimrc ~/.vim ~/.config/nvim
+
+# install this config
+echo "→ Installing vimdot."
+mkdir -p ~/.config
+cp .vimrc ~
+cp -r .vim ~
+cp -r .config/nvim ~/.config
+
+echo "Done!"
+
