@@ -1,6 +1,14 @@
 #!sh
 # installer script to install my vim config
-echo "Installer for vimdot."
+# assume vim is present
+# check if neovim is there
+nvim_=true
+nvimnotfound(){
+  echo "no"
+  nvim_=false
+}
+echo -n "checking if nvim is present... "
+which nvim >/dev/null && echo "yes" || nvimnotfound
 
 # update submodules
 echo "→ Updating submodules."
@@ -15,7 +23,9 @@ echo "→ Installing vimdot."
 mkdir -p ~/.config
 cp .vimrc ~
 cp -r .vim ~
-cp -r .config/nvim ~/.config
+if [ $nvim_ = true ]; then
+  cp -r .config/nvim ~/.config
+fi
 
 echo "Done!"
 
