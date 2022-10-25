@@ -88,9 +88,9 @@ if has('nvim')
    })
   })
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-   require("nvim-lsp-installer").on_server_ready(function(server)
-    local opts = { capabilities = capabilities }
-    server:setup(opts)
+  require("nvim-lsp-installer").on_server_ready(function(server)
+   local opts = { capabilities = capabilities }
+   server:setup(opts)
   end)
 EOF
 end
