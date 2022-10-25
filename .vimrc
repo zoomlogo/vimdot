@@ -8,6 +8,7 @@
 se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=1
 se stal=2 list lcs=tab:→\ ,space:· bg=dark gfn=sevka,agave_NF_r:h13
 se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/ngn_k/vim-k enc=utf-8
+se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
@@ -18,7 +19,6 @@ au filetype make se noet
 filet plugin indent on
 sy on
 colo melange
-se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 nm <space> <nop>
 let mapleader=" "
 nm Q @q
@@ -46,10 +46,9 @@ if has('nvim')
  nm <leader>m <cmd>MRU<cr>
  au textyankpost * lua vim.highlight.on_yank{higroup="IncSearch", timeout=150, on_visual=true}
  lua << EOF
-  require("notify").setup({ stages="slide", icons={
-    ERROR="", WARN="", INFO="", DEBUG="d", TRACE="t",
-   },
-  })
+  require("notify").setup({stages="slide", icons={
+   ERROR="", WARN="", INFO="", DEBUG="d", TRACE="t",
+  }})
   vim.notify = require("notify")
   require("colorizer").setup()
   require("gitsigns").setup()
@@ -61,8 +60,8 @@ if has('nvim')
   end
   local cmp = require("cmp")
   cmp.setup({ snippet={ expand=function(args)
-    vim.fn["vsnip#anonymous"](args.body)
-     end,
+   vim.fn["vsnip#anonymous"](args.body)
+    end,
    },
    mapping = {
     ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
@@ -74,11 +73,11 @@ if has('nvim')
     }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
+     if cmp.visible() then
+      cmp.select_next_item()
+     else
+      fallback()
+     end
     end,
    },
    sources = cmp.config.sources({
