@@ -30,7 +30,6 @@ nm <leader>cd <cmd>cd %/..<cr>
 nm D d$
 nm Y y$
 nm <m-w> viw
-se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 if has('nvim')
  se pp+=~/.vim
  se scl=yes ls=3
@@ -95,3 +94,4 @@ if has('nvim')
   end)
 EOF
 end
+se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
