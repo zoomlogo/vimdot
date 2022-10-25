@@ -18,6 +18,7 @@ au filetype make se noet
 filet plugin indent on
 sy on
 colo melange
+se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 nm <space> <nop>
 let mapleader=" "
 nm Q @q
@@ -94,4 +95,3 @@ if has('nvim')
   end)
 EOF
 end
-se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
