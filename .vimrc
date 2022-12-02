@@ -15,6 +15,7 @@ au vimleave * se gcr=a:ver25
 au filetype python nn <cr> :w<cr>:!python %<cr>
 au filetype k nn <cr> :w<cr>:!k %<cr>
 au filetype c nn <cr> :w<cr>:!gcc % -Wall -Wextra -O2 -std=c17 && ./a.out<cr>
+au bufnew,bufnewfile,bufread *.flx nn <cr> :w<cr>:!flax f %<cr>
 au filetype make se noet
 filet plugin indent on
 sy on
