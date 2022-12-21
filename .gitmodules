@@ -76,3 +76,6 @@
 [submodule ".config/nvim/pack/plugins/start/telescope.nvim"]
 	path = .config/nvim/pack/plugins/start/telescope.nvim
 	url = https://github.com/nvim-telescope/telescope.nvim
+[submodule ".vim/pack/plugins/start/defun.vim"]
+	path = .vim/pack/plugins/start/defun.vim
+	url = https://github.com/PyGamer0/defun.vim
