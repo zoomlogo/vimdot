@@ -79,3 +79,6 @@
 [submodule ".vim/pack/plugins/start/defun.vim"]
 	path = .vim/pack/plugins/start/defun.vim
 	url = https://github.com/PyGamer0/defun.vim
+[submodule ".vim/pack/plugins/start/vim-sensible"]
+	path = .vim/pack/plugins/start/vim-sensible
+	url = https://github.com/tpope/vim-sensible
