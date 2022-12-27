@@ -1,14 +1,6 @@
-"plugins: vim-polygot cemant.vim vim-visual-multi vim-easy-align
-" vim-abolish golden-ratio vim-surround vim-commentary vim-terminal-help
-" melange.nvim vim-rooter
-"nvim: gitsigns.nvim registers.nvim range-highlight.nvim
-" which-key.nvim nvim-colorizer.lua nvim-notify plenary.nvim
-" nvim-lspconfig nvim-lsp-installer nvim-cmp cmp-vsnip vim-vsnip
-" cmp-nvim-lsp cmp-buffer cmp-path telescope.nvim
 se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=1
 se stal=2 list lcs=tab:→\ ,space:· bg=dark gfn=sevka,agave_NF_r:h13 cole=1
 se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/ngn_k/vim-k enc=utf-8
-se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
@@ -18,7 +10,7 @@ au filetype c nn <cr> :w<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c17 && ./a.o
 au bufnew,bufnewfile,bufread *.flx nn <cr> :w<cr>:!flax f %<cr>
 au filetype make se noet
 filet plugin indent on
-sy on
+sy enable
 colo melange
 nm <space> <nop>
 let mapleader=" "
@@ -46,7 +38,7 @@ if has('nvim')
  nm <leader>fg <cmd>Telescope live_grep<cr>
  nm <leader>m <cmd>MRU<cr>
  au textyankpost * lua vim.highlight.on_yank{higroup="IncSearch", timeout=150, on_visual=true}
- lua << EOF
+lua << EOF
   require("notify").setup({stages="slide", icons={
    ERROR="", WARN="", INFO="", DEBUG="d", TRACE="t",
   }})
@@ -95,3 +87,4 @@ if has('nvim')
   end)
 EOF
 end
+se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
