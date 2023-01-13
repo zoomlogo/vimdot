@@ -82,3 +82,9 @@
 [submodule ".vim/pack/plugins/start/vim-sensible"]
 	path = .vim/pack/plugins/start/vim-sensible
 	url = https://github.com/tpope/vim-sensible
+[submodule ".vim/pack/plugins/start/rainbow"]
+	path = .vim/pack/plugins/start/rainbow
+	url = https://github.com/luochen1990/rainbow
+[submodule ".vim/pack/plugins/start/arm64asm-vim"]
+	path = .vim/pack/plugins/start/arm64asm-vim
+	url = https://github.com/compnerd/arm64asm-vim
