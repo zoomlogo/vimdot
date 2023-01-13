@@ -1,11 +1,11 @@
-Install using:
+install using:
   git clone https://github.com/PyGamer0/vimdot
   cd vimdot && ./install
 
-Features:
-  LSP!  (neovim only)
+features:
+  lsp!  (neovim only)
   no treesitter :(  (uses vim-polygot...)
   similar configuration for vim and neovim (they use the same file for config...)
   
-Bugs:
+bugs:
   the statusline broken on nvim...
