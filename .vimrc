@@ -14,6 +14,7 @@ filet plugin indent on
 sy enable
 colo melange
 nm <space> <nop>
+let g:rainbow_active=1
 let mapleader=" "
 nm Q @q
 nm <leader>w <cmd>w<cr>
