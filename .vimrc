@@ -1,6 +1,6 @@
 se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=1 title
 se stal=2 list lcs=tab:→\ ,space:· bg=dark gfn=sevka,agave_NF_r:h13 cole=1
-se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/ngn_k/vim-k enc=utf-8
+se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/k/vim-k enc=utf-8
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
