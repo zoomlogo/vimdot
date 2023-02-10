@@ -91,3 +91,6 @@
 [submodule ".vim/pack/plugins/start/decino.vim"]
 	path = .vim/pack/plugins/start/decino.vim
 	url = https://github.com/PyGamer0/decino.vim
+[submodule ".vim/pack/plugins/start/colorscheme_changer.vim"]
+	path = .vim/pack/plugins/start/colorscheme_changer.vim
+	url = https://github.com/PyGamer0/colorscheme_changer.vim
