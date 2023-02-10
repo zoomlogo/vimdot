@@ -88,3 +88,6 @@
 [submodule ".vim/pack/plugins/start/arm64asm-vim"]
 	path = .vim/pack/plugins/start/arm64asm-vim
 	url = https://github.com/compnerd/arm64asm-vim
+[submodule ".vim/pack/plugins/start/decino.vim"]
+	path = .vim/pack/plugins/start/decino.vim
+	url = https://github.com/PyGamer0/decino.vim
