@@ -1,4 +1,3 @@
-#!sh
 # installer script to install my vim config
 # assume vim is present
 # check if neovim is there

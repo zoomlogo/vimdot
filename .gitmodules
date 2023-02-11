@@ -94,3 +94,6 @@
 [submodule ".vim/pack/plugins/start/colorscheme_changer.vim"]
 	path = .vim/pack/plugins/start/colorscheme_changer.vim
 	url = https://github.com/PyGamer0/colorscheme_changer.vim
+[submodule ".vim/pack/plugins/start/everforest"]
+	path = .vim/pack/plugins/start/everforest
+	url = https://github.com/sainnhe/everforest

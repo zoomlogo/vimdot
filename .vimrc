@@ -13,7 +13,7 @@ au filetype make se noet
 filet plugin indent on
 sy enable
 colo melange
-let g:colorscheme_changer_colors=['melange','defun','decino','cemant']
+let g:colorscheme_changer_colors=['melange','defun','decino','cemant','everforest']
 nm <space> <nop>
 let g:rainbow_active=1
 let mapleader=" "
