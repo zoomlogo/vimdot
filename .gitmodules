@@ -49,9 +49,6 @@
 [submodule ".config/nvim/pack/plugins/start/nvim-lspconfig"]
 	path = .config/nvim/pack/plugins/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig
-[submodule ".config/nvim/pack/plugins/start/nvim-lsp-installer"]
-	path = .config/nvim/pack/plugins/start/nvim-lsp-installer
-	url = https://github.com/williamboman/nvim-lsp-installer/
 [submodule ".config/nvim/pack/plugins/start/nvim-cmp"]
 	path = .config/nvim/pack/plugins/start/nvim-cmp
 	url = https://github.com/hrsh7th/nvim-cmp
