@@ -1,5 +1,5 @@
 se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=1 title
-se stal=2 list lcs=tab:→\ ,space:· bg=dark gfn=sevka,agave_NF_r:h13 cole=1
+se stal=2 list lcs=tab:→\ ,space:· bg=dark gfn=sevka,agave_NF_r:h13 cole=1 pp+=~/.vim
 se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/k/vim-k enc=utf-8
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
@@ -12,8 +12,8 @@ au bufnew,bufnewfile,bufread *.flx nn <cr> :w<cr>:!flax f %<cr>
 au filetype make se noet
 filet plugin indent on
 sy enable
-colo melange
-let g:colorscheme_changer_colors=['melange','defun','decino','cemant','everforest']
+colo decino
+let g:colorscheme_changer_colors=['decino','defun','decino','cemant','everforest']
 nm <space> <nop>
 let g:rainbow_active=1
 let mapleader=" "
@@ -29,7 +29,6 @@ nm D d$
 nm Y y$
 nm <m-w> viw
 if has('nvim')
- se pp+=~/.vim
  se scl=yes ls=3
  nm <f1> <cmd>lua vim.diagnostic.goto_next()<cr>
  nm <f2> <cmd>lua vim.diagnostic.goto_prev()<cr>
