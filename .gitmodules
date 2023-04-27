@@ -94,3 +94,6 @@
 [submodule ".config/nvim/pack/plugins/start/mason.nvim"]
 	path = .config/nvim/pack/plugins/start/mason.nvim
 	url = https://github.com/williamboman/mason.nvim
+[submodule ".vim/pack/plugins/start/vim-sneak"]
+	path = .vim/pack/plugins/start/vim-sneak
+	url = https://github.com/justinmk/vim-sneak
