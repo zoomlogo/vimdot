@@ -97,3 +97,6 @@
 [submodule ".vim/pack/plugins/start/vim-sneak"]
 	path = .vim/pack/plugins/start/vim-sneak
 	url = https://github.com/justinmk/vim-sneak
+[submodule ".vim/pack/plugins/start/vim-repeat"]
+	path = .vim/pack/plugins/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat
