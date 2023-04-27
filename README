@@ -7,5 +7,3 @@ features:
   no treesitter :(  (uses vim-polygot...)
   similar configuration for vim and neovim (they use the same file for config...)
   
-bugs:
-  the statusline broken on nvim...
