@@ -100,3 +100,6 @@
 [submodule ".vim/pack/plugins/start/vim-repeat"]
 	path = .vim/pack/plugins/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat
+[submodule ".vim/pack/plugins/start/vim-latex"]
+	path = .vim/pack/plugins/start/vim-latex
+	url = https://github.com/vim-latex/vim-latex
