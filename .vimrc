@@ -10,12 +10,14 @@ au filetype c nn <cr> :w<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c17 && ./a.o
 au filetype cpp nn <cr> :w<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++20 && ./a.out<cr>
 au bufnew,bufnewfile,bufread *.flx nn <cr> :w<cr>:!flax f %<cr>
 au filetype make se noet
+au filetype tex se ts=2 sw=2 isk+=:
 filet plugin indent on
 sy enable
 colo decino
 let g:colorscheme_changer_colors=['decino','defun','decino','cemant','everforest']
 nm <space> <nop>
 let g:rainbow_active=1
+let g:tex_flavor="latex"
 let mapleader=" "
 nm Q @q
 nm <leader>w <cmd>w<cr>
