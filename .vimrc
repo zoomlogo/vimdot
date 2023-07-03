@@ -8,13 +8,14 @@ au filetype python nn <cr> :w<cr>:!clear && python %<cr>
 au filetype k nn <cr> :w<cr>:!clear && ~/k/k %<cr>
 au filetype c nn <cr> :w<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c17 && ./a.out<cr>
 au filetype cpp nn <cr> :w<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++20 && ./a.out<cr>
+au filetype tex nn <cr> :w<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
 au bufnew,bufnewfile,bufread *.flx nn <cr> :w<cr>:!flax f %<cr>
 au filetype make se noet
 au filetype tex se ts=2 sw=2 isk+=:
 filet plugin indent on
 sy enable
 colo decino
-let g:colorscheme_changer_colors=['decino','defun','decino','cemant','everforest']
+let g:colorscheme_changer_colors=['decino','defun','cemant','everforest']
 nm <space> <nop>
 let g:rainbow_active=1
 let g:tex_flavor="latex"
