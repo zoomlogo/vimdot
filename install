@@ -12,6 +12,7 @@ which nvim >/dev/null && echo "yes" || nvimnotfound
 # update submodules
 echo "→ Updating submodules."
 git submodule update --init --recursive --depth=1
+git submodule foreach git pull origin master --depth=1
 
 # remove the current config
 echo "→ Removing current configurations."
