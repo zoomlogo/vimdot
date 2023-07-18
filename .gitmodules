@@ -25,6 +25,36 @@
 [submodule ".vim/pack/plugins/start/vim-rooter"]
 	path = .vim/pack/plugins/start/vim-rooter
 	url = https://github.com/airblade/vim-rooter
+[submodule ".vim/pack/plugins/start/defun.vim"]
+	path = .vim/pack/plugins/start/defun.vim
+	url = https://github.com/PyGamer0/defun.vim
+[submodule ".vim/pack/plugins/start/vim-sensible"]
+	path = .vim/pack/plugins/start/vim-sensible
+	url = https://github.com/tpope/vim-sensible
+[submodule ".vim/pack/plugins/start/rainbow"]
+	path = .vim/pack/plugins/start/rainbow
+	url = https://github.com/luochen1990/rainbow
+[submodule ".vim/pack/plugins/start/arm64asm-vim"]
+	path = .vim/pack/plugins/start/arm64asm-vim
+	url = https://github.com/compnerd/arm64asm-vim
+[submodule ".vim/pack/plugins/start/decino.vim"]
+	path = .vim/pack/plugins/start/decino.vim
+	url = https://github.com/PyGamer0/decino.vim
+[submodule ".vim/pack/plugins/start/colorscheme_changer.vim"]
+	path = .vim/pack/plugins/start/colorscheme_changer.vim
+	url = https://github.com/PyGamer0/colorscheme_changer.vim
+[submodule ".vim/pack/plugins/start/everforest"]
+	path = .vim/pack/plugins/start/everforest
+	url = https://github.com/sainnhe/everforest
+[submodule ".vim/pack/plugins/start/vim-sneak"]
+	path = .vim/pack/plugins/start/vim-sneak
+	url = https://github.com/justinmk/vim-sneak
+[submodule ".vim/pack/plugins/start/vim-repeat"]
+	path = .vim/pack/plugins/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat
+[submodule ".vim/pack/plugins/start/vim-latex"]
+	path = .vim/pack/plugins/start/vim-latex
+	url = https://github.com/vim-latex/vim-latex
 [submodule ".config/nvim/pack/plugins/start/gitsigns.nvim"]
 	path = .config/nvim/pack/plugins/start/gitsigns.nvim
 	url = https://github.com/lewis6991/gitsigns.nvim
@@ -70,36 +100,6 @@
 [submodule ".config/nvim/pack/plugins/start/telescope.nvim"]
 	path = .config/nvim/pack/plugins/start/telescope.nvim
 	url = https://github.com/nvim-telescope/telescope.nvim
-[submodule ".vim/pack/plugins/start/defun.vim"]
-	path = .vim/pack/plugins/start/defun.vim
-	url = https://github.com/PyGamer0/defun.vim
-[submodule ".vim/pack/plugins/start/vim-sensible"]
-	path = .vim/pack/plugins/start/vim-sensible
-	url = https://github.com/tpope/vim-sensible
-[submodule ".vim/pack/plugins/start/rainbow"]
-	path = .vim/pack/plugins/start/rainbow
-	url = https://github.com/luochen1990/rainbow
-[submodule ".vim/pack/plugins/start/arm64asm-vim"]
-	path = .vim/pack/plugins/start/arm64asm-vim
-	url = https://github.com/compnerd/arm64asm-vim
-[submodule ".vim/pack/plugins/start/decino.vim"]
-	path = .vim/pack/plugins/start/decino.vim
-	url = https://github.com/PyGamer0/decino.vim
-[submodule ".vim/pack/plugins/start/colorscheme_changer.vim"]
-	path = .vim/pack/plugins/start/colorscheme_changer.vim
-	url = https://github.com/PyGamer0/colorscheme_changer.vim
-[submodule ".vim/pack/plugins/start/everforest"]
-	path = .vim/pack/plugins/start/everforest
-	url = https://github.com/sainnhe/everforest
 [submodule ".config/nvim/pack/plugins/start/mason.nvim"]
 	path = .config/nvim/pack/plugins/start/mason.nvim
 	url = https://github.com/williamboman/mason.nvim
-[submodule ".vim/pack/plugins/start/vim-sneak"]
-	path = .vim/pack/plugins/start/vim-sneak
-	url = https://github.com/justinmk/vim-sneak
-[submodule ".vim/pack/plugins/start/vim-repeat"]
-	path = .vim/pack/plugins/start/vim-repeat
-	url = https://github.com/tpope/vim-repeat
-[submodule ".vim/pack/plugins/start/vim-latex"]
-	path = .vim/pack/plugins/start/vim-latex
-	url = https://github.com/vim-latex/vim-latex
