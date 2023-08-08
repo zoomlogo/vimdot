@@ -1,6 +1,6 @@
 " cemant colors for vim (.vim/colors/cemant.vim)
 " agaric <agaric@protonmail.com>
-" modified by PyGamer0
+" modified by zoomlogo
 
 " user sets background to light or dark depending on his wish
 hi clear
