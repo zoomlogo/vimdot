@@ -103,3 +103,12 @@
 [submodule ".config/nvim/pack/plugins/start/mason.nvim"]
 	path = .config/nvim/pack/plugins/start/mason.nvim
 	url = https://github.com/williamboman/mason.nvim
+[submodule ".vim/pack/plugins/start/vim-j"]
+	path = .vim/pack/plugins/start/vim-j
+	url = https://github.com/0racle/vim-j
+[submodule ".vim/pack/plugins/start/vimcomplete"]
+	path = .vim/pack/plugins/start/vimcomplete
+	url = https://github.com/girishji/vimcomplete
+[submodule ".vim/pack/plugins/start/lsp"]
+	path = .vim/pack/plugins/start/lsp
+	url = https://github.com/yegappan/lsp

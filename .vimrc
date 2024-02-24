@@ -19,6 +19,7 @@ let g:colorscheme_changer_colors=['decino','defun','cemant','everforest']
 nm <space> <nop>
 let g:rainbow_active=1
 let g:tex_flavor="latex"
+let g:vimcomplete_tab_enable = 1
 let mapleader=" "
 nm Q @q
 nm <leader>w <cmd>w<cr>
@@ -32,3 +33,4 @@ nm D d$
 nm Y y$
 nm <m-w> viw
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
+" TODO: LSP and vimcomplete config
