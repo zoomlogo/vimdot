@@ -33,4 +33,3 @@ nm D d$
 nm Y y$
 nm <m-w> viw
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
-" TODO: LSP and vimcomplete config
