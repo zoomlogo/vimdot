@@ -2,6 +2,10 @@ install using:
   git clone https://github.com/zoomlogo/vimdot
   cd vimdot && ./install
 
+update using:
+  cd <place where vimdot is located>/vimdot
+  ./install
+
 uninstall using:
   cd <place where vimdot is located>/vimdot
   ./uninstall
