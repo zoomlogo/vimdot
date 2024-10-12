@@ -1,5 +1,5 @@
 install using:
-  git clone https://github.com/PyGamer0/vimdot
+  git clone https://github.com/zoomlogo/vimdot
   cd vimdot && ./install
 
 features:
@@ -7,3 +7,6 @@ features:
   no treesitter :(  (uses vim-polygot...)
   similar configuration for vim and neovim (they use the same file for config...)
   
+todo:
+  vim9lsp
+  remove nvim config(?)  .i don't use nvim anymore
