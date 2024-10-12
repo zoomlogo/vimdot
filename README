@@ -2,6 +2,10 @@ install using:
   git clone https://github.com/zoomlogo/vimdot
   cd vimdot && ./install
 
+uninstall using:
+  cd <place where vimdot is located>/vimdot
+  ./uninstall
+
 features:
   lsp!  (neovim only)
   no treesitter :(  (uses vim-polygot...)
