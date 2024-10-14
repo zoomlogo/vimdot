@@ -7,7 +7,7 @@ nvimnotfound(){
   nvim_=false
 }
 echo -n "checking if nvim is present... "
-which nvim >/dev/null && echo "yes" || nvimnotfound
+which nvim >/dev/null 2>/dev/null && echo "yes" || nvimnotfound
 
 # update submodules
 echo "→ Updating submodules."
