@@ -20,7 +20,6 @@ tpope/vim-repeat
 tpope/vim-sensible/
 tpope/vim-surround
 
-doums/darcula
 joshdick/onedark.vim
 sainnhe/everforest
 zoomlogo/colorscheme_changer.vim

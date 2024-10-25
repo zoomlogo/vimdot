@@ -5,7 +5,7 @@ INSTALL_PATH=~/.vim/pack/plugins/start
 
 echo -------------------------------------------------
 
-echo "* installing vimrc"
+echo "* copying vimrc"
 cp .vimrc ~
 
 echo -------------------------------------------------
@@ -29,7 +29,7 @@ if [ $plugin ]; then
     loc=${INSTALL_PATH}/$name
     if [ ! -d $loc ]; then
         echo "+ $name"
-        git clone --depth=1 $url $loc
+        git clone --depth=1 $url $loc --quiet
     fi
 fi
 done <./plugins
