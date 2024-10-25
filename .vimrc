@@ -15,7 +15,7 @@ au filetype tex se ts=2 sw=2 isk+=:
 filet plugin indent on
 sy enable
 colo decino
-let g:colorscheme_changer_colors=['decino','everforest','melange','cemant']
+let g:colorscheme_changer_colors=['decino','everforest','onedark','cemant','darcula']
 nm <space> <nop>
 let g:rainbow_active=1
 let g:tex_flavor="latex"
