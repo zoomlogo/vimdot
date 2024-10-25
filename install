@@ -2,6 +2,22 @@
 # installer script to install vimdot
 echo "* vimdot installer v1"
 
+echo -------------------------------------------------
+
+VIMRC=~/.vimrc
+DOT_VIM=~/.vim
+INSTALL_PATH=$DOT_VIM/pack/plugins/start
+
+echo "* .vim: $DOT_VIM"
+echo "* .vimrc: $VIMRC"
+
+echo -------------------------------------------------
+
+echo "* installing vimrc"
+# cp ./.vimrc $VIMRC
+
+echo -------------------------------------------------
+
 # steps:
 # 0. copy the vimrc file
 # 1. read the plugins file.

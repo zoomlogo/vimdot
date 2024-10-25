@@ -19,7 +19,8 @@ let g:colorscheme_changer_colors=['decino','everforest','onedark','cemant','darc
 nm <space> <nop>
 let g:rainbow_active=1
 let g:tex_flavor="latex"
-let g:vimcomplete_tab_enable = 1
+let g:vimcomplete_tab_enable=1
+let g:onedark_terminal_italics=1
 let mapleader=" "
 nm Q @q
 nm <leader>w <cmd>w<cr>
