@@ -1,1 +1,4 @@
 #!sh
+# update:
+# 1. read the plugins file
+# 2. git pull each one

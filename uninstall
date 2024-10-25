@@ -1,2 +1,3 @@
 # #!sh
-# uninstall
+# uninstall config:
+# 1. remove ~/.vimrc, ~/.vim
