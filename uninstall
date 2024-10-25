@@ -1,3 +1,2 @@
-echo "→ Uninstalling..."
-rm -rf ~/.vimrc ~/.vim ~/.config/nvim
-echo "Done!"
+# #!sh
+# uninstall

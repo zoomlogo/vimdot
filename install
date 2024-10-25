@@ -1,31 +1,8 @@
-# installer script to install my vim config
-# assume vim is present
-# check if neovim is there
-nvim_=true
-nvimnotfound(){
-  echo "no"
-  nvim_=false
-}
-echo -n "checking if nvim is present... "
-which nvim >/dev/null 2>/dev/null && echo "yes" || nvimnotfound
+#!sh
+# installer script to install vimdot
+echo "vimdot installer v1"
 
-# update submodules
-echo "→ Updating submodules."
-git submodule update --init --recursive --depth=1
-git pull --recurse-submodules --depth=1
-
-# remove the current config
-echo "→ Removing current configurations."
-rm -rf ~/.vimrc ~/.vim ~/.config/nvim
-
-# install this config
-echo "→ Installing vimdot."
-mkdir -p ~/.config
-cp .vimrc ~
-cp -r .vim ~
-if [ $nvim_ = true ]; then
-  cp -r .config/nvim ~/.config
-fi
-
-echo "Done!"
-
+# steps:
+# 1. read the plugins file.
+# 2. determine which ones should be installed.
+# 3. install the plugins.
