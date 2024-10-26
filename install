@@ -22,17 +22,22 @@ echo "* installing plugins"
 cp -r .vim ~
 
 # install the plugins
-while read -r plugin; do
-if [ $plugin ]; then
-    url=https://github.com/$plugin
-    name=${plugin##*/}
+silent_git() {
+    url=https://github.com/$1
+    name=${1##*/}
     loc=${INSTALL_PATH}/$name
     if [ ! -d $loc ]; then
-        echo "+ $name"
         git clone --depth=1 $url $loc --quiet
+        echo "+ $name"
     fi
+}
+
+while read -r plugin; do
+if [ $plugin ]; then
+    silent_git $plugin &
 fi
 done <./plugins
+wait
 
 echo -------------------------------------------------
 
