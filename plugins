@@ -17,7 +17,7 @@ skywind3000/vim-terminal-help
 tpope/vim-abolish
 tpope/vim-commentary
 tpope/vim-repeat
-tpope/vim-sensible/
+tpope/vim-sensible
 tpope/vim-surround
 
 joshdick/onedark.vim
