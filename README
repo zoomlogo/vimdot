@@ -4,17 +4,14 @@ install using:
 
 update using:
   cd <place where vimdot is located>/vimdot
-  ./install
+  ./update
 
 uninstall using:
   cd <place where vimdot is located>/vimdot
   ./uninstall
 
-features:
-  lsp!  (neovim only)
-  no treesitter :(  (uses vim-polygot...)
-  similar configuration for vim and neovim (they use the same file for config...)
-  
+* plugins are installed using shell scripts and in parallel.
+* for nvim config check the `old` branch of this repo.
+
 todo:
-  vim9lsp
-  remove nvim config(?)  .i don't use nvim anymore
+  * vim9lsp.
