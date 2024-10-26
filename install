@@ -1,6 +1,6 @@
 #!sh
 # installer script to install vimdot
-echo "* vimdot installer v1"
+echo "* vimdot installer"
 INSTALL_PATH=~/.vim/pack/plugins/start
 
 echo -------------------------------------------------
@@ -10,23 +10,17 @@ cp .vimrc ~
 
 echo -------------------------------------------------
 
-# steps:
-# 0. copy the vimrc file
-# 1. read the plugins file.
-# 2. determine which ones should be installed.
-# 3. install the plugins.
-
 echo "* installing plugins"
 
 # setup directory
 cp -r .vim ~
 
 # install the plugins
-silent_git() {
+silent_clone() {
     url=https://github.com/$1
     name=${1##*/}
     loc=${INSTALL_PATH}/$name
-    if [ ! -d $loc ]; then
+    if [ ! -d $loc ]; then  # install plugin unless it already exists
         git clone --depth=1 $url $loc --quiet
         echo "+ $name"
     fi
@@ -34,7 +28,7 @@ silent_git() {
 
 while read -r plugin; do
 if [ $plugin ]; then
-    silent_git $plugin &
+    silent_clone $plugin &
 fi
 done <./plugins
 wait

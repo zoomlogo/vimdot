@@ -2,3 +2,31 @@
 # update:
 # 1. read the plugins file
 # 2. git pull each one
+
+echo "* vimdot plugin updater"
+INSTALL_PATH=~/.vim/pack/plugins/start
+
+echo -------------------------------------------------
+
+echo "* updating plugins"
+
+silent_pull() {
+    name=${1##*/}
+    loc=${INSTALL_PATH}/$name
+    if [ -d $loc ]; then  # pull only if it is installed
+        cd $loc
+        git pull --depth=1 --quiet
+        echo "~ $name"
+    fi
+}
+
+while read -r plugin; do
+if [ $plugin ]; then
+    silent_pull $plugin &
+fi
+done <./plugins
+wait
+
+echo -------------------------------------------------
+
+echo "* finished updating plugins"
