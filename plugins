@@ -2,6 +2,7 @@
 compnerd/arm64asm-vim
 vim-latex/vim-latex
 zoomlogo/vim-apl
+rust-lang/rust.vim
 
 airblade/vim-gitgutter
 airblade/vim-rooter
@@ -19,8 +20,13 @@ tpope/vim-commentary
 tpope/vim-repeat
 tpope/vim-sensible
 tpope/vim-surround
+preservim/vimux
+ntpeters/vim-better-whitespace
+junegunn/fzf
+junegunn/fzf.vim
 
 joshdick/onedark.vim
 sainnhe/everforest
 zoomlogo/colorscheme_changer.vim
 zoomlogo/decino.vim
+zefei/vim-colortuner
