@@ -30,5 +30,5 @@ au bufnew,bufenter *.hpp nn <leader>p :e %<.cpp<cr>
 au bufnew,bufenter *.c nn <leader>p :e %<.h<cr>
 au bufnew,bufenter *.h nn <leader>p :e %<.c<cr>
 "fzf+rg
-nm <c-r> <cmd>:Rg<cr>
+nm <leader>r <cmd>:Rg<cr>
 nm <c-f> <cmd>:Files<cr>
