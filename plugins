@@ -24,6 +24,7 @@ preservim/vimux
 ntpeters/vim-better-whitespace
 junegunn/fzf
 junegunn/fzf.vim
+jandamm/vim-projplugin
 
 joshdick/onedark.vim
 sainnhe/everforest

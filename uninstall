@@ -1,5 +1,7 @@
 # #!sh
 # uninstall config:
 echo "* uninstalling vimdot"
-rm -rf ~/.vim ~/.vimrc
+# selectively remove only installed files
+# to keep project vimrc intact (vim-projplugin)
+rm -rf ~/.vim/colors ~/.vim/pack ~/.vim/*.vim ~/.vimrc
 echo "* done"
