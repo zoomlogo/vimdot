@@ -28,6 +28,7 @@ jandamm/vim-projplugin
 
 joshdick/onedark.vim
 sainnhe/everforest
-zoomlogo/colorscheme_changer.vim
 zoomlogo/decino.vim
+morhetz/gruvbox
+zoomlogo/colorscheme_changer.vim
 zefei/vim-colortuner
