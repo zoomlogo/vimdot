@@ -16,6 +16,7 @@ silent_pull() {
     if [ -d $loc ]; then  # pull only if it is installed
         cd $loc
         git pull --depth=1 --quiet
+        git reset --hard @{u} --quiet
         echo "~ $name"
     fi
 }
