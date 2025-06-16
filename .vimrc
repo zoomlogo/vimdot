@@ -13,6 +13,10 @@ let g:rainbow_active=1
 let g:tex_flavor="latex"
 let g:vimcomplete_tab_enable=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
+"lsp (to disable it, comment the next line)
+pa lsp
+if get(g:, 'loaded_lsp', false)
+    so ~/.vim/lspconf.vim
+endif
 "other
 so ~/.vim/maps.vim
-so ~/.vim/lspconf.vim

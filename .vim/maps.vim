@@ -24,11 +24,14 @@ au filetype tex nn <cr> :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
 au bufnew,bufnewfile,bufread *.flx nn <cr> :up<cr>:!flax f %<cr>
 au filetype make se noet
 au filetype tex se ts=2 sw=2 isk+=:
-"c/c++ header
-au bufnew,bufenter *.cpp nn <leader>p :e %<.hpp<cr>
-au bufnew,bufenter *.hpp nn <leader>p :e %<.cpp<cr>
-au bufnew,bufenter *.c nn <leader>p :e %<.h<cr>
-au bufnew,bufenter *.h nn <leader>p :e %<.c<cr>
+"c/c++ source/header swapping
+if !get(g:, 'loaded_lsp', false)
+    " LspSwitchSourceHeader replaces this
+    au bufnew,bufenter *.cpp nn <leader>p :e %<.hpp<cr>
+    au bufnew,bufenter *.hpp nn <leader>p :e %<.cpp<cr>
+    au bufnew,bufenter *.c nn <leader>p :e %<.h<cr>
+    au bufnew,bufenter *.h nn <leader>p :e %<.c<cr>
+endif
 "fzf+rg
-nm <leader>r <cmd>:Rg<cr>
-nm <c-f> <cmd>:Files<cr>
+nm <leader>r <cmd>Rg<cr>
+nm <c-f> <cmd>Files<cr>
