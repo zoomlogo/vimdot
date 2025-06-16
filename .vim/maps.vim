@@ -34,7 +34,8 @@ if !exists('g:loaded_lsp')
 endif
 "fzf+rg
 nm <leader>r <cmd>Rg<cr>
-nm <c-f> <cmd>Files<cr>
+nm <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
+nm <leader>f <cmd>Files<cr>
 "lsp mappings
 if exists('g:loaded_lsp')
   nm <c-a> <cmd>LspCodeAction<cr>
