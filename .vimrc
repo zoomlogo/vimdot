@@ -15,7 +15,7 @@ let g:vimcomplete_tab_enable=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 "lsp (to disable it, comment the next line)
 pa lsp
-if get(g:, 'loaded_lsp', false)
+if exists('g:loaded_lsp')
     so ~/.vim/lspconf.vim
 endif
 "other
