@@ -16,3 +16,4 @@ uninstall using:
 todo:
   * vim9lsp full conf
   * vimcomplete will be deprecated(?)
+  * vimspector
