@@ -15,3 +15,4 @@ let g:vimcomplete_tab_enable=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 "other
 so ~/.vim/maps.vim
+so ~/.vim/lspconf.vim

@@ -5,14 +5,25 @@
 
 echo "* vimdot plugin updater"
 INSTALL_PATH=~/.vim/pack/plugins/start
+OPT_PATH=~/.vim/pack/plugins/opt
+
+# helper func
+beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
 
 echo -------------------------------------------------
 
 echo "* updating plugins"
 
 silent_pull() {
-    name=${1##*/}
-    loc=${INSTALL_PATH}/$name
+    if beginswith opt: $1; then
+        parsed=$(echo $1 | cut -d":" -f2)
+        name=${parsed##*/}
+        loc=${OPT_PATH}/$name
+    else
+        name=${1##*/}
+        loc=${INSTALL_PATH}/$name
+    fi
+
     if [ -d $loc ]; then  # pull only if it is installed
         cd $loc
         git pull --depth=1 --quiet

@@ -1,7 +1,11 @@
 #!sh
 # installer script to install vimdot
 echo "* vimdot installer"
+OPT_PATH=~/.vim/pack/plugins/opt
 INSTALL_PATH=~/.vim/pack/plugins/start
+
+# helper func
+beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
 
 echo -------------------------------------------------
 
@@ -17,9 +21,17 @@ cp -r .vim ~
 
 # install the plugins
 silent_clone() {
-    url=https://github.com/$1
-    name=${1##*/}
-    loc=${INSTALL_PATH}/$name
+    if beginswith opt: $1; then
+        parsed=$(echo $1 | cut -d":" -f2)
+        url=https://github.com/$parsed
+        name=${parsed##*/}
+        loc=${OPT_PATH}/$name
+    else
+        url=https://github.com/$1
+        name=${1##*/}
+        loc=${INSTALL_PATH}/$name
+    fi
+
     if [ ! -d $loc ]; then  # install plugin unless it already exists
         git clone --depth=1 $url $loc --quiet
         echo "+ $name"
