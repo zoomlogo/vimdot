@@ -38,7 +38,7 @@ nm <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
 nm <leader>f <cmd>Files<cr>
 "lsp mappings
 if exists('g:loaded_lsp')
-  nm <c-a> <cmd>LspCodeAction<cr>
+  nm <leader>a <cmd>LspCodeAction<cr>
   nm <leader>d <cmd>LspDiag next<cr>
   nm <leader>D <cmd>LspDiag prev<cr>
   nm <leader>gd <cmd>LspGotoDeclaration<cr>
