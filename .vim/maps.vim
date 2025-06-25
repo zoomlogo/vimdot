@@ -18,7 +18,7 @@ im <c-l> <right>
 "file specific maps:
 au filetype python nn <cr> :up<cr>:!clear && python %<cr>
 au filetype k nn <cr> :up<cr>:!clear && ~/k/k %<cr>
-au filetype c nn <cr> :up<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c17 && ./a.out<cr>
+au filetype c nn <cr> :up<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c23 && ./a.out<cr>
 au filetype cpp nn <cr> :up<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++20 && ./a.out<cr>
 au filetype tex nn <cr> :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
 au bufnew,bufnewfile,bufread *.flx nn <cr> :up<cr>:!flax f %<cr>
