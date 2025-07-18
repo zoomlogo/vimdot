@@ -10,3 +10,9 @@ call LspAddServer([#{name: 'pylsp',
     \ path: 'pylsp',
     \ args: []
     \ }])
+call LspAddServer([#{name: 'rustanalyzer',
+    \ filetype: ['rust'],
+    \ path: 'rust-analyzer',
+    \ args: [],
+    \ syncInit: v:true
+    \ }])
