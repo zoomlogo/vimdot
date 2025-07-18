@@ -5,7 +5,6 @@ se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/k/vim-k enc=utf-8 scl=num
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
-au vimleave * sil !echo -ne "\e[6 q"
 filet plugin indent on
 sy enable
 colo decino
