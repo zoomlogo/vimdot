@@ -15,6 +15,9 @@ im <c-h> <left>
 im <c-j> <down>
 im <c-k> <up>
 im <c-l> <right>
+"tab for completion
+ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
+ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 "file specific maps:
 au filetype python nn <cr> :up<cr>:!clear && python %<cr>
 au filetype k nn <cr> :up<cr>:!clear && ~/k/k %<cr>

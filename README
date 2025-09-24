@@ -14,5 +14,4 @@ uninstall using:
 * for nvim config check the `old` branch of this repo.
 
 todo:
-  * vimcomplete will be deprecated(?)
   * vimspector
