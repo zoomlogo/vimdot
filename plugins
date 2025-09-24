@@ -24,7 +24,6 @@ tpope/vim-repeat
 tpope/vim-sensible
 tpope/vim-surround
 
-girishji/vimcomplete
 junegunn/fzf
 junegunn/fzf.vim
 opt:yegappan/lsp

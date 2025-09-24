@@ -41,6 +41,7 @@ if exists('g:loaded_lsp')
   nm <leader>a <cmd>LspCodeAction<cr>
   nm <leader>d <cmd>LspDiag next<cr>
   nm <leader>D <cmd>LspDiag prev<cr>
+  nm <leader>ss <cmd>LspDiagShow<cr>
   nm <leader>gd <cmd>LspGotoDeclaration<cr>
   nm <leader>gg <cmd>LspGotoDefinition<cr>
   nm <leader>gi <cmd>LspGotoImpl<cr>
