@@ -21,4 +21,5 @@ if exists('g:loaded_lsp')
     so ~/.vim/lspconf.vim
 endif
 "other
-so ~/.vim/maps.vim
+so ~/.vim/maps.vim "mappings
+so ~/.vim/syn.vim  "syntax highlighting
