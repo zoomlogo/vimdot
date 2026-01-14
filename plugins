@@ -13,19 +13,25 @@ jandamm/vim-projplugin
 junegunn/vim-easy-align
 justinmk/vim-sneak
 luochen1990/rainbow
+mbbill/undotree
 mg979/vim-visual-multi
 ntpeters/vim-better-whitespace
 preservim/vimux
 roman/golden-ratio
 skywind3000/vim-terminal-help
+wellle/targets.vim
+
 tpope/vim-abolish
 tpope/vim-commentary
+tpope/vim-fugitive
 tpope/vim-repeat
 tpope/vim-sensible
 tpope/vim-surround
 
 junegunn/fzf
 junegunn/fzf.vim
+SirVer/ultisnips
+honza/vim-snippets
 opt:yegappan/lsp
 
 joshdick/onedark.vim

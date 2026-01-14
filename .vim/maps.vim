@@ -39,6 +39,12 @@ endif
 nm <leader>r <cmd>Rg<cr>
 nm <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
 nm <leader>f <cmd>Files<cr>
+"snips
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+"undotree
+nm <leader>u <cmd>UndoTreeToggle<cr>
 "lsp mappings
 if exists('g:loaded_lsp')
   nm <leader>a <cmd>LspCodeAction<cr>
