@@ -28,7 +28,7 @@ if (${1:condition}) {
 }
 endsnippet
 
-snippet el "Else" w
+snippet else "Else" w
 else {
 	${0:${VISUAL}}
 }
@@ -40,7 +40,7 @@ else if (${1:condition}) {
 }
 endsnippet
 
-snippet wh "While Loop" b
+snippet while "While Loop" b
 while (${1:condition}) {
 	${0:${VISUAL}}
 }
@@ -58,18 +58,18 @@ for (${4:usize} ${1:i} = 0; $1 < ${2:n}; ${3:$1++}) {
 }
 endsnippet
 
-snippet sw "Switch" b
+snippet switch "Switch" b
 switch (${1:var}) {
 	ca${0}
 }
 endsnippet
 
-snippet ca "Case" w
+snippet case "Case" w
 case ${1}: ${2} break;
-ca${0}
+case${0}
 endsnippet
 
-snippet def "Default" w
+snippet default "Default" w
 default: ${0}
 endsnippet
 

@@ -13,6 +13,26 @@ for (${4:usize} ${1:i} = 0; $1 < ${2:n}; ${3:++$1}) {
 }
 endsnippet
 
+priority 1
+snippet struct "Struct" b
+struct ${1} {
+	${0}
+};
+endsnippet
+
+priority 1
+snippet enum "Enum class" b
+enum class ${1} {
+	${0}
+};
+endsnippet
+
+snippet lambda "Lambda" w
+[${1:=}](${2}) {
+	${0:${VISUAL}}
+};
+endsnippet
+
 snippet class "Class" b
 class ${1} {
 public:
@@ -25,6 +45,77 @@ endsnippet
 
 snippet namespace "Namespace" b
 namespace ${1} {
-	${0:${VISUAL}}
+
+${0:${VISUAL}}
+
 }
+endsnippet
+
+# stl stuff
+snippet up "Unique Pointer" w
+std::unique_ptr<${1}>${0}
+endsnippet
+
+snippet sp "Shared Pointer" w
+std::shared_ptr<${1}>${0}
+endsnippet
+
+snippet mku "Make unique" w
+std::make_unique<${1}>(${2})${0}
+endsnippet
+
+snippet vec "std::vector" w
+std::vector<${1}> ${0}
+endsnippet
+
+snippet map "std::map" w
+std::map<${1}, ${2}> ${0}
+endsnippet
+
+snippet str "std::string" w
+std::string ${0}
+endsnippet
+
+snippet arr "std::array" w
+std::array<${1}, ${2}> ${0}
+endsnippet
+
+snippet dq "std::deque" w
+std::deque<${1}> ${0}
+endsnippet
+
+snippet list "std::list" w
+std::list<${1}> ${0}
+endsnippet
+
+snippet set "std::set" w
+std::set<${1}> ${0}
+endsnippet
+
+snippet umap "std::unordered_map" w
+std::unordered_map<${1}, ${2}> ${0}
+endsnippet
+
+snippet uset "std::unordered_set" w
+std::unordered_set<${1}> ${0}
+endsnippet
+
+snippet pair "std::pair" w
+std::pair<${1}, ${2}> ${0}
+endsnippet
+
+snippet tup "std::tuple" w
+std::tuple<${1}, ${2}, ${3}> ${0}
+endsnippet
+
+snippet opt "std::optional" w
+std::optional<${1}> ${0}
+endsnippet
+
+snippet var "std::variant" w
+std::variant<${1}, ${2}> ${0}
+endsnippet
+
+snippet any "std::any" w
+std::any ${0}
 endsnippet
