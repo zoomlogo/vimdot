@@ -1,0 +1,30 @@
+extends c
+
+priority 1
+snippet for "Range based For Loop" b
+for (auto &${1:item} : ${2:seq}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet fori "Indexed For Loop" b
+for (${4:usize} ${1:i} = 0; $1 < ${2:n}; ${3:++$1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet class "Class" b
+class ${1} {
+public:
+	$1(${2});
+	~$1();
+private:
+	${0}
+};
+endsnippet
+
+snippet namespace "Namespace" b
+namespace ${1} {
+	${0:${VISUAL}}
+}
+endsnippet

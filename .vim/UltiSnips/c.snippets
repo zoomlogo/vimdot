@@ -1,0 +1,140 @@
+snippet guard "Standard include guard" b
+#ifndef ${1:`!p snip.rv=snip.fn.replace('.','_').upper()`}
+#define $1
+
+${0}
+
+#endif $1
+endsnippet
+
+snippet once "#pragma once" b
+#pragma once
+${0}
+endsnippet
+
+snippet inc "Include Standard header file" b
+#include <${1:stdio.h}>
+${0}
+endsnippet
+
+snippet incl "Include local file" b
+#include "${1:types.h}"
+${0}
+endsnippet
+
+snippet if "If Statement" b
+if (${1:condition}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet el "Else" w
+else {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet elif "Else If" w
+else if (${1:condition}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet wh "While Loop" b
+while (${1:condition}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet do "Do While Loop" b
+do {
+	${0:${VISUAL}}
+} while (${1:condition});
+endsnippet
+
+snippet for "For Loop" b
+for (${4:usize} ${1:i} = 0; $1 < ${2:n}; ${3:$1++}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet sw "Switch" b
+switch (${1:var}) {
+	ca${0}
+}
+endsnippet
+
+snippet ca "Case" w
+case ${1}: ${2} break;
+ca${0}
+endsnippet
+
+snippet def "Default" w
+default: ${0}
+endsnippet
+
+snippet struct "Struct" b
+typedef struct ${1} {
+	${2}
+} ${1}_t;
+${0}
+endsnippet
+
+snippet enum "Enum" b
+typedef enum ${1} {
+	${2}
+} ${1}_e;
+${0}
+endsnippet
+
+snippet union "Union" b
+typedef union ${1:Name} {
+	${2:/* data */}
+} ${1}_u;
+${0}
+endsnippet
+
+snippet typesh "types.h" b
+#pragma once
+#include <stddef.h>
+#include <stdint.h>
+
+typedef int8_t   i8;
+typedef int16_t i16;
+typedef int32_t i32;
+typedef int64_t i64;
+
+typedef uint8_t   u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+
+typedef float  f32;
+typedef double f64;
+
+typedef size_t usize;
+typedef ptrdiff_t isize;
+${0}
+endsnippet
+
+snippet main "Main" b
+${1:int} main(${2:void}) {
+	${0}
+
+	return 0;
+}
+endsnippet
+
+snippet mal "malloc" b
+${1:type} *${2:name} = ($1 *) malloc(${3:1} * sizeof($1));
+${0}
+endsnippet
+
+snippet cal "calloc" b
+${1:type} *${2:name} = ($1 *) calloc(${3}, sizeof($1));
+${0}
+endsnippet
+
+snippet pr "Printf with Newline" w
+printf("${1:%d}\n", ${2:var});
+endsnippet

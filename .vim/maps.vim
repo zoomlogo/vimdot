@@ -40,7 +40,7 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 "undotree
-nm <leader>u <cmd>UndoTreeToggle<cr>
+nm <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 if exists('g:loaded_lsp')
   nm <leader>a <cmd>LspCodeAction<cr>

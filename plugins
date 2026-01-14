@@ -31,7 +31,6 @@ tpope/vim-surround
 junegunn/fzf
 junegunn/fzf.vim
 SirVer/ultisnips
-honza/vim-snippets
 opt:yegappan/lsp
 
 joshdick/onedark.vim
