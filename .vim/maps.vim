@@ -11,20 +11,16 @@ nm <leader>cc <cmd>ChangeColor<cr>
 nm D d$
 nm Y y$
 nm <m-w> viw
-im <c-h> <left>
-im <c-j> <down>
-im <c-k> <up>
-im <c-l> <right>
 "tab for completion
 ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
 ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 "file specific maps:
-au filetype python nn <cr> :up<cr>:!clear && python %<cr>
-au filetype k nn <cr> :up<cr>:!clear && ~/k/k %<cr>
-au filetype c nn <cr> :up<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c23 && ./a.out<cr>
-au filetype cpp nn <cr> :up<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++23 && ./a.out<cr>
-au filetype tex nn <cr> :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
-au bufnew,bufnewfile,bufread *.flx nn <cr> :up<cr>:!flax f %<cr>
+au filetype python nn <leader>b :up<cr>:!clear && python %<cr>
+au filetype k nn <leader>b :up<cr>:!clear && ~/k/k %<cr>
+au filetype c nn <leader>b :up<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c23 && ./a.out<cr>
+au filetype cpp nn <leader>b :up<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++23 && ./a.out<cr>
+au filetype tex nn <leader>b :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
+au bufnew,bufnewfile,bufread *.flx nn <leader>b :up<cr>:!flax f %<cr>
 au filetype make se noet
 au filetype tex se ts=2 sw=2 isk+=:
 "c/c++ source/header swapping
