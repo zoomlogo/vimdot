@@ -28,7 +28,7 @@ if (${1:condition}) {
 }
 endsnippet
 
-snippet else "Else" w
+snippet el "Else" w
 else {
 	${0:${VISUAL}}
 }
@@ -40,7 +40,7 @@ else if (${1:condition}) {
 }
 endsnippet
 
-snippet while "While Loop" b
+snippet wh "While Loop" b
 while (${1:condition}) {
 	${0:${VISUAL}}
 }
@@ -58,36 +58,36 @@ for (${4:usize} ${1:i} = 0; $1 < ${2:n}; ${3:$1++}) {
 }
 endsnippet
 
-snippet switch "Switch" b
+snippet sw "Switch" b
 switch (${1:var}) {
 	ca${0}
 }
 endsnippet
 
-snippet case "Case" w
+snippet ca "Case" w
 case ${1}: ${2} break;
-case${0}
+ca${0}
 endsnippet
 
-snippet default "Default" w
+snippet def "Default" w
 default: ${0}
 endsnippet
 
-snippet struct "Struct" b
+snippet st "Struct" b
 typedef struct ${1} {
 	${2}
 } ${1}_t;
 ${0}
 endsnippet
 
-snippet enum "Enum" b
+snippet en "Enum" b
 typedef enum ${1} {
 	${2}
 } ${1}_e;
 ${0}
 endsnippet
 
-snippet union "Union" b
+snippet un "Union" b
 typedef union ${1:Name} {
 	${2:/* data */}
 } ${1}_u;

@@ -1,16 +1,23 @@
-nm <space> <nop>
+nn <space> <nop>
 let mapleader=" "
-nm Q @q
-nm <leader>w <cmd>up<cr>
-nm <leader>h <cmd>vs<cr>
-nm <leader>v <cmd>sp<cr>
-nm <leader>t <cmd>tabnew<cr>
-nm <leader>n <cmd>tabn<cr>
-nm <leader>cd <cmd>cd %/..<cr>
-nm <leader>cc <cmd>ChangeColor<cr>
-nm D d$
-nm Y y$
-nm <m-w> viw
+nn Q @q
+nn <leader>w <cmd>up<cr>
+nn <leader>h <cmd>vs<cr>
+nn <leader>v <cmd>sp<cr>
+nn <leader>t <cmd>tabnew<cr>
+nn <leader>n <cmd>tabn<cr>
+nn <leader>cd <cmd>cd %:h<cr>
+nn <leader>cc <cmd>ChangeColor<cr>
+nn D d$
+nn Y y$
+nn <m-w> viw
+"more window management (along with vim-terminal-help)
+nn <m-U> <c-w>H
+nn <m-I> <c-w>J
+nn <m-O> <c-w>K
+nn <m-P> <c-w>L
+nn <m-N> <c-w>R
+nn <m-M> <c-w>r
 "tab for completion
 ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
 ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
@@ -25,33 +32,36 @@ au filetype make se noet
 au filetype tex se ts=2 sw=2 isk+=:
 "c/c++ source/header swapping
 if !exists('g:loaded_lsp')
-  " LspSwitchSourceHeader replaces this
+  "LspSwitchSourceHeader replaces this
   au bufnew,bufenter *.cpp nn <leader>p :e %<.hpp<cr>
   au bufnew,bufenter *.hpp nn <leader>p :e %<.cpp<cr>
   au bufnew,bufenter *.c nn <leader>p :e %<.h<cr>
   au bufnew,bufenter *.h nn <leader>p :e %<.c<cr>
 endif
 "fzf+rg
-nm <leader>r <cmd>Rg<cr>
-nm <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
-nm <leader>f <cmd>Files<cr>
+nn <leader>r <cmd>Rg<cr>
+nn <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
+nn <leader>f <cmd>Files<cr>
+"swap args
+nn <m-h> <cmd>SidewaysLeft<cr>
+nn <m-l> <cmd>SidewaysRight<cr>
 "snips
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 "undotree
-nm <leader>u <cmd>UndotreeToggle<cr>
+nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 if exists('g:loaded_lsp')
-  nm <leader>a <cmd>LspCodeAction<cr>
-  nm <leader>d <cmd>LspDiag next<cr>
-  nm <leader>D <cmd>LspDiag prev<cr>
-  nm <leader>ss <cmd>LspDiagShow<cr>
-  nm <leader>gd <cmd>LspGotoDeclaration<cr>
-  nm <leader>gg <cmd>LspGotoDefinition<cr>
-  nm <leader>gi <cmd>LspGotoImpl<cr>
-  nm <leader>gt <cmd>LspGotoTypedef<cr>
-  nm <leader>k <cmd>LspHover<cr>
-  nm <leader>lr <cmd>LspRename<cr>
-  nm <leader>p <cmd>LspSwitchSourceHeader<cr>
+  nn <leader>a <cmd>LspCodeAction<cr>
+  nn <leader>d <cmd>LspDiag next<cr>
+  nn <leader>D <cmd>LspDiag prev<cr>
+  nn <leader>ss <cmd>LspDiagShow<cr>
+  nn <leader>gd <cmd>LspGotoDeclaration<cr>
+  nn <leader>gg <cmd>LspGotoDefinition<cr>
+  nn <leader>gi <cmd>LspGotoImpl<cr>
+  nn <leader>gt <cmd>LspGotoTypedef<cr>
+  nn <leader>k <cmd>LspHover<cr>
+  nn <leader>lr <cmd>LspRename<cr>
+  nn <leader>p <cmd>LspSwitchSourceHeader<cr>
 endif

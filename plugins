@@ -5,6 +5,7 @@ rust-lang/rust.vim
 vim-latex/vim-latex
 zoomlogo/vim-apl
 
+AndrewRadev/sideways.vim
 airblade/vim-gitgutter
 airblade/vim-rooter
 haya14busa/is.vim
@@ -19,6 +20,7 @@ ntpeters/vim-better-whitespace
 preservim/vimux
 roman/golden-ratio
 skywind3000/vim-terminal-help
+tommcdo/vim-exchange
 wellle/targets.vim
 
 tpope/vim-abolish
