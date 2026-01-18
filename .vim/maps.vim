@@ -8,6 +8,7 @@ nn <leader>t <cmd>tabnew<cr>
 nn <leader>n <cmd>tabn<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>cc <cmd>ChangeColor<cr>
+nn - <cmd>Vired<cr>
 nn D d$
 nn Y y$
 nn <m-w> viw

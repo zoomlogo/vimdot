@@ -3,5 +3,5 @@
 echo "* uninstalling vimdot"
 # selectively remove only installed files
 # to keep project vimrc intact (vim-projplugin)
-rm -rf ~/.vim/colors ~/.vim/pack ~/.vim/*.vim ~/.vimrc ~/.vim/UltiSnips
+rm -rf ~/.vim/colors ~/.vim/pack ~/.vim/*.vim ~/.vimrc ~/.vim/plugin ~/.vim/UltiSnips
 echo "* done"
