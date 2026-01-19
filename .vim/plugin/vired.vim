@@ -3,7 +3,14 @@ var ls_cmd = 'ls -laF --group-directories-first'
 var fname_regex = '^\%(\s*\S\+\s\+\)\{8}\zs.*'
 
 # track
-sign define ViredTracker text=> texthl=Comment
+sign define ViredTracker
+
+# setup
+export def OpenVired()
+    enew
+    b:cwd = getcwd()
+    Render()
+enddef
 
 # colour
 def SetupViredColours()
@@ -48,39 +55,6 @@ def SetupViredColours()
     hi def link ViredLinkTarget Comment
 enddef
 
-# maps
-def NormalMappings()
-    nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
-    nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
-    nnoremap <buffer><nowait> q <Cmd>bd<CR>
-    nnoremap <buffer><nowait> d <ScriptCmd>Delete()<CR>
-    nnoremap <buffer><nowait> r <ScriptCmd>Rename()<CR>
-    nnoremap <buffer><nowait> o <ScriptCmd>New()<CR>
-
-    nnoremap <buffer><nowait> a <ScriptCmd>EditMode()<CR>
-    nnoremap <buffer><nowait> i <ScriptCmd>EditMode()<CR>
-
-    nnoremap <buffer><nowait> j <ScriptCmd>MoveCursor(1)<CR>
-    nnoremap <buffer><nowait> k <ScriptCmd>MoveCursor(-1)<CR>
-enddef
-
-def EditMappings()
-    nnoremap <buffer><nowait> cc <scriptcmd>Commit()<CR>
-    nnoremap <buffer><nowait> q <scriptcmd>Render()<CR>
-
-    silent! nunmap <buffer> <CR>
-    silent! nunmap <buffer> U
-    silent! nunmap <buffer> d
-    silent! nunmap <buffer> r
-    silent! nunmap <buffer> o
-
-    silent! nunmap <buffer> a
-    silent! nunmap <buffer> i
-
-    silent! nunmap <buffer> j
-    silent! nunmap <buffer> k
-enddef
-
 # helpers
 def GetFileName(line: string): string
     if line == '' || line == '(empty)' | return '' | endif
@@ -95,18 +69,13 @@ def GetFileName(line: string): string
     return name
 enddef
 
-def MoveCursor(dir: number)
-    if dir == 1
-        execute 'normal! ' .. v:count1 .. 'j'
-    elseif dir == -1
-        execute 'normal! ' .. v:count1 .. 'k'
-    endif
-
+def LockCursor()
+    var line = getline('.')
     var col = match(getline('.'), fname_regex)
-    if col != -1
+    if col == -1 | return | endif
+
+    if col('.') < col + 1
         cursor(line('.'), col + 1)
-    else
-        normal! 0
     endif
 enddef
 
@@ -129,6 +98,22 @@ def NewFileOrDir(line: string)
     endif
 enddef
 
+def TrackFiles()
+    sign_unplace('ViredGroup', {'buffer': bufnr()})
+    b:fmap = {}
+    var id = 1
+    var lines = getline(1, '$')
+
+    for i in range(len(lines))
+        var name = GetFileName(lines[i])
+        if name == '' | continue | endif
+
+        sign_place(id, 'ViredGroup', 'ViredTracker', bufnr(), {lnum: i + 1})
+        b:fmap[id] = name
+        id += 1
+    endfor
+enddef
+
 # render
 def Render()
     setlocal modifiable
@@ -144,48 +129,34 @@ def Render()
     endif
     setline(1, files)
 
-    setlocal nomodifiable buftype=nofile bufhidden=wipe
+    var bufname = 'vired://' .. b:cwd
+    silent! execute 'file ' .. fnameescape(bufname)
+
+    setlocal modified buftype=acwrite bufhidden=wipe
     setlocal noswapfile nonumber filetype=vired nowrap
     &l:statusline = b:cwd
     SetupViredColours()
 
-    sign_unplace('ViredGroup', {'buffer': bufnr()})
-    b:emode_map = {}
+    augroup ViredEvents
+        autocmd! * <buffer>
+        autocmd BufWriteCmd <buffer> Sync()
+        autocmd CursorMoved,CursorMovedI <buffer> LockCursor()
+    augroup END
 
-    MoveCursor(0)
-    NormalMappings()
+    nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
+    nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
+    nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bd<CR>
+
+    TrackFiles()
 enddef
 
-# edit mode
-def EditMode()
-    if &modifiable
-        echo "in edit mode, press <enter> to commit"
-        return
-    endif
-
-    b:emode_map = {}
-    var id = 1
-    var lines = getline(1, '$')
-
-    for i in range(len(lines))
-        var name = GetFileName(lines[i])
-        if name == '' | continue | endif
-
-        sign_place(id, 'ViredGroup', 'ViredTracker', bufnr(), {lnum: i + 1})
-        b:emode_map[id] = name
-        id += 1
-    endfor
-
-    setlocal modifiable
-    EditMappings()
-enddef
-
-def Commit()
+# sync on write
+def Sync()
     var signs = sign_getplaced(bufnr(), {group: 'ViredGroup'})[0].signs
     var map = {}
+    var seen = {}
     for s in signs | map[s.lnum] = s.id | endfor
 
-    var seen = {}
     var lines = getline(1, '$')
     for i in range(len(lines))
         var lnum = i + 1
@@ -195,7 +166,7 @@ def Commit()
         endif
 
         var id = map[lnum]
-        var name = b:emode_map[id]
+        var name = b:fmap[id]
         var nname = GetFileName(lines[i])
 
         seen[id] = true
@@ -213,7 +184,7 @@ def Commit()
             var src = b:cwd .. '/' .. name
             var dst = b:cwd .. '/' .. nname
             if !empty(glob(dst))
-                echoerr "Cannot rename: Destination exists " .. nname
+                echoerr "failed to rename " .. name
                 continue
             endif
 
@@ -225,10 +196,10 @@ def Commit()
         endif
     endfor
 
-    for idt in keys(b:emode_map)
+    for idt in keys(b:fmap)
         var id = str2nr(idt)
         if !has_key(seen, id)
-            var name = b:emode_map[idt]
+            var name = b:fmap[idt]
             var fp = b:cwd .. '/' .. name
             if delete(fp, 'rf') == 0
                 echo "deleted " .. name
@@ -238,79 +209,13 @@ def Commit()
         endif
     endfor
 
-    b:emode_map = {}
-    Render()
-enddef
-
-# file ops
-def Delete()
-    var name = GetFileName(getline('.'))
-    if name == '' || name == '.' || name == '..' | return | endif
-
-    var fp = b:cwd .. '/' .. name
-    echo 'delete ' .. name .. '? (y/n): '
-    var choice = getcharstr()
-    redraw
-
-    if choice == 'y'
-        if delete(fp, 'rf') == 0
-            echo "deleted " .. name
-            Render()
-        else
-            echoerr "failed to delete " .. name
-        endif
-    else
-        echo "cancelled..."
-    endif
-enddef
-
-def Rename()
-    var name = GetFileName(getline('.'))
-    if name == '' || name == '.' || name == '..' | return | endif
-
-    var fp0 = b:cwd .. '/' .. name
-    var new_name = input('rename `' .. name .. '` to? ')
-    redraw
-
-    if new_name == '' || new_name == name | echo "cancelled..." | return | endif
-    var fp1 = b:cwd .. '/' .. new_name
-
-    if rename(fp0, fp1) == 0
-        echo "renamed to " .. new_name
-        Render()
-    else
-        echoerr "failed to rename " .. name
-    endif
-enddef
-
-def New()
-    if &modifiable | return | endif
-    setlocal modifiable
-
-    normal! o
-    augroup ViredCreate
-        autocmd!
-        autocmd InsertLeave <buffer> ++once MakeNew()
-    augroup END
-
-    startinsert!
-enddef
-
-def MakeNew()
-    var lines = getline(1, '$')
-
-    for line in lines
-        if line == '(empty)' | continue | endif
-        if match(line, fname_regex) != -1 | continue | endif
-
-        NewFileOrDir(line)
-    endfor
     Render()
 enddef
 
 # movement
 def Enter()
     var name = GetFileName(getline('.'))
+    setlocal nomodified
 
     if name == '.'
         return
@@ -330,12 +235,6 @@ enddef
 
 def GoUp()
     b:cwd = fnamemodify(b:cwd, ':h')
-    Render()
-enddef
-
-def OpenVired()
-    enew
-    b:cwd = getcwd()
     Render()
 enddef
 
