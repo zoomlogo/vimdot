@@ -1,5 +1,8 @@
 vim9script
-var ls_cmd = 'ls -laF --group-directories-first'
+
+import './vimage.vim'
+
+var ls_cmd = 'ls -laF --group-directories-first --color=never'
 var fname_regex = '^\%(\s*\S\+\s\+\)\{8}\zs.*'
 
 # track
@@ -7,6 +10,7 @@ sign define ViredTracker
 
 # setup
 export def OpenVired()
+    setlocal nomodified
     enew
     b:cwd = getcwd()
     Render()
@@ -145,7 +149,7 @@ def Render()
 
     nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
-    nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bd<CR>
+    nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bdelete<CR>
 
     cursor(3, 0)
     LockCursor()
