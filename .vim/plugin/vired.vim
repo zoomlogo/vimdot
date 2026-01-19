@@ -147,6 +147,8 @@ def Render()
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
     nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bd<CR>
 
+    cursor(3, 0)
+    LockCursor()
     TrackFiles()
 enddef
 
