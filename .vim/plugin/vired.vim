@@ -1,7 +1,5 @@
 vim9script
 
-import './vimage.vim'
-
 var ls_cmd = 'ls -laF --group-directories-first --color=never'
 var fname_regex = '^\%(\s*\S\+\s\+\)\{8}\zs.*'
 
