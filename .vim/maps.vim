@@ -70,6 +70,13 @@ nn <leader>f <cmd>Files<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
+"vismulti
+let g:VM_maps = {}
+let g:VM_show_warnings = 0
+let g:VM_silent_exit = 1
+let g:VM_maps['Visual Cursors'] = 'gl'
+let g:VM_maps['Add Cursor Down'] = '<C-j>'
+let g:VM_maps['Add Cursor Up'] = '<C-k>'
 "snips
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
