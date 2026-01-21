@@ -52,8 +52,10 @@ aug B
   au filetype cpp nn <buffer> <leader>b :up<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++23 && ./a.out<cr>
   au filetype tex nn <buffer> <leader>b :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
   au bufnew,bufnewfile,bufread *.flx nn <buffer> <leader>b :up<cr>:!flax f %<cr>
+
   au filetype make setl noet
   au filetype tex setl ts=2 sw=2 isk+=:
+  au filetype c,cpp setl commentstring=//\ %s
 aug END
 "c/c++ source/header swapping
 if !exists('g:loaded_lsp')
