@@ -9,6 +9,16 @@ nn <leader>n <cmd>tabn<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>cc <cmd>ChangeColor<cr>
 nn - <cmd>Vired<cr>
+"vired autostart
+au vimenter * call s:viredstart()
+fu! s:viredstart()
+  if argc() == 0
+    Vired
+  elseif argc() == 1 && isdirectory(argv(0))
+    bw!
+    Vired
+  endif
+endfu
 nn D d$
 nn Y y$
 nn <m-w> viw
