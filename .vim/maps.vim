@@ -8,8 +8,11 @@ nn <leader>t <cmd>tabnew<cr>
 nn <leader>n <cmd>tabn<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>cc <cmd>ChangeColor<cr>
-nn - <cmd>Vired<cr>
+nn D d$
+nn Y y$
+nn <m-w> viw
 "vired autostart
+nn - <cmd>Vired<cr>
 au vimenter * call s:viredstart()
 fu! s:viredstart()
   if argc() == 0
@@ -19,9 +22,6 @@ fu! s:viredstart()
     Vired
   endif
 endfu
-nn D d$
-nn Y y$
-nn <m-w> viw
 ":
 cno <c-a> <Home>
 cno <c-e> <End>
@@ -29,13 +29,13 @@ cno <c-p> <Up>
 cno <c-n> <Down>
 cno <c-b> <Left>
 cno <c-f> <Right>
-"swapline
-nn <m-j> <cmd>m .+1<cr>==
-nn <m-k> <cmd>m .-2<cr>==
-ino <m-j> <Esc><cmd>m .+1<cr>==gi
-ino <m-k> <Esc><cmd>m .-2<cr>==gi
-vn <m-j> :m '>+1<cr>gv=gv
-vn <m-k> :m '<-2<cr>gv=gv
+"bubble
+nn <silent> <m-j> <cmd>sil! m .+1<cr>
+nn <silent> <m-k> <cmd>sil! m .-2<cr>
+ino <silent> <m-j> <Esc><cmd>sil! m .+1<cr>gi
+ino <silent> <m-k> <Esc><cmd>sil! m .-2<cr>gi
+vn <silent> <m-j> :m '>+1<cr>gv=gv
+vn <silent> <m-k> :m '<-2<cr>gv=gv
 "center screen
 nn <c-u> <c-u>zz
 nn <c-d> <c-d>zz
@@ -54,13 +54,16 @@ ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 "file specific maps:
 aug B
   au!
-  au filetype python nn <buffer> <leader>b :up<cr>:!clear && python %<cr>
-  au filetype k nn <buffer> <leader>b :up<cr>:!clear && ~/k/k %<cr>
-  au filetype c nn <buffer> <leader>b :up<cr>:!clear && gcc % -Wall -Wextra -O2 -std=c23 && ./a.out<cr>
-  au filetype cpp nn <buffer> <leader>b :up<cr>:!clear && g++ % -Wall -Wextra -O2 -std=c++23 && ./a.out<cr>
-  au filetype tex nn <buffer> <leader>b :up<cr>:!clear && pdflatex % && pdfmv %:t:r.pdf<cr>
-  au bufnew,bufnewfile,bufread *.flx nn <buffer> <leader>b :up<cr>:!flax f %<cr>
+  "quick runs:
+  au filetype python nn <buffer> <leader>b :up<cr>:term python %<cr>
+  au filetype k nn <buffer> <leader>b :up<cr>:term ~/k/k %<cr>
+  au filetype c nn <buffer> <leader>b :up<cr>:term gcc % -Wall -Wextra -O3 -std=gnu23 && ./a.out<cr>
+  au filetype cpp nn <buffer> <leader>b :up<cr>:term g++ % -Wall -Wextra -O3 -std=gnu++23 && ./a.out<cr>
 
+  au filetype tex nn <buffer> <leader>b :up<cr>:term pdflatex % && pdfmv %:t:r.pdf<cr>
+  au bufnew,bufnewfile,bufread *.flx nn <buffer> <leader>b :up<cr>:term flax f %<cr>
+
+  "file specific maps
   au filetype make setl noet
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
@@ -110,5 +113,5 @@ if exists('g:loaded_lsp')
 endif
 "wsl-only
 if executable('clip.exe')
-  vn <silent> <leader>y <cmd>'<,'>w !clip.exe<cr><cr>
+  vn <silent> <leader>y y<cmd>call system('clip.exe', @")<cr>
 endif

@@ -148,6 +148,7 @@ def Render()
     nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
     nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bdelete<CR>
+    nnoremap <buffer><nowait> ! <ScriptCmd>ShellCommand()<CR>
 
     cursor(3, 0)
     LockCursor()
@@ -240,6 +241,19 @@ enddef
 def GoUp()
     b:cwd = fnamemodify(b:cwd, ':h')
     Render()
+enddef
+
+def ShellCommand()
+    var name = GetFileName(getline('.'))
+    if name == '.' || name == '..' || name == '' | echo "select valid file..." | return | endif
+
+    var fp = fnameescape(b:cwd .. '/' .. name)
+    var cmd = input('! ', '', 'shellcmd')
+    redraw
+    if cmd == '' | return | endif
+
+    var rcmd = (stridx(cmd, '{}') != -1) ? substitute(cmd, '{}', fp, 'g') : cmd .. ' ' .. fp
+    execute 'botright terminal ' .. rcmd
 enddef
 
 command! Vired OpenVired()

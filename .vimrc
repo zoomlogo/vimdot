@@ -14,6 +14,8 @@ let g:rainbow_active=1
 let g:tex_flavor="latex"
 let g:vimcomplete_tab_enable=1
 let g:gitgutter_sign_priority=0
+let g:loaded_netrw=1
+let g:loaded_netrwPlugin=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 "lsp (to disable it, comment the next line)
 pa lsp
