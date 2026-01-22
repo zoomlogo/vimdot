@@ -23,12 +23,12 @@ nn D d$
 nn Y y$
 nn <m-w> viw
 ":
-cno <C-a> <Home>
-cno <C-e> <End>
-cno <C-p> <Up>
-cno <C-n> <Down>
-cno <C-b> <Left>
-cno <C-f> <Right>
+cno <c-a> <Home>
+cno <c-e> <End>
+cno <c-p> <Up>
+cno <c-n> <Down>
+cno <c-b> <Left>
+cno <c-f> <Right>
 "swapline
 nn <m-j> <cmd>m .+1<cr>==
 nn <m-k> <cmd>m .-2<cr>==
@@ -37,10 +37,8 @@ ino <m-k> <Esc><cmd>m .-2<cr>==gi
 vn <m-j> :m '>+1<cr>gv=gv
 vn <m-k> :m '<-2<cr>gv=gv
 "center screen
-nn <C-u> <C-u>zz
-nn <C-d> <C-d>zz
-nn <C-f> <C-f>zz
-nn <C-b> <C-b>zz
+nn <c-u> <c-u>zz
+nn <c-d> <c-d>zz
 nn n nzz
 nn N Nzz
 "more window management (along with vim-terminal-help)
