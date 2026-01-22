@@ -107,3 +107,7 @@ if exists('g:loaded_lsp')
   nn gr <cmd>LspRename<cr>
   nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 endif
+"wsl-only
+if executable('clip.exe')
+  vn <silent> <leader>y <cmd>w !clip.exe<cr><cr>
+endif

@@ -1,5 +1,5 @@
 "basic config
-se nocp nohls nowrap et ts=4 sw=4 nobk ru is nonu nornu ls=2 tgc noswf nowb so=6 t_Co=256
+se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=6 t_Co=256
 se stal=2 list bg=dark gfn=sevka,agave_NF_r:h13 cole=1 pp+=~/.vim fdls=99 ai hid cpt+=o
 se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/k/vim-k enc=utf-8 scl=yes ut=100
 au bufreadpost * sil! norm! g`"zv
