@@ -74,9 +74,10 @@ if !exists('g:loaded_lsp')
   au bufnew,bufenter *.h nn <m-p> :e %<.c<cr>
 endif
 "fzf+rg
-nn <leader>r <cmd>Rg<cr>
-nn <c-t> <cmd>GFiles --cached --others --exclude-standard<cr>
-nn <leader>f <cmd>Files<cr>
+nn <c-g> <cmd>Rg<cr>
+nn <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
+nn <c-t> <cmd>Files<cr>
+nn <c-b> <cmd>Buffers<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
@@ -109,5 +110,5 @@ if exists('g:loaded_lsp')
 endif
 "wsl-only
 if executable('clip.exe')
-  vn <silent> <leader>y <cmd>w !clip.exe<cr><cr>
+  vn <silent> <leader>y <cmd>'<,'>w !clip.exe<cr><cr>
 endif
