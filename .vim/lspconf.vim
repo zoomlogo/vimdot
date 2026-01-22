@@ -3,7 +3,7 @@ call LspAddServer([#{
     \ name: 'clangd',
     \ filetype: ['c', 'cpp'],
     \ path: 'clangd',
-    \ args: ['--background-index'],
+    \ args: ['--background-index', '--header-insertion=never'],
     \ }])
 call LspAddServer([#{name: 'pylsp',
     \ filetype: 'python',
