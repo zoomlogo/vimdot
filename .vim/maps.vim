@@ -55,12 +55,12 @@ ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 aug B
   au!
   "quick runs:
-  au filetype python nn <buffer> <leader>b :up<cr>:term python %<cr>
-  au filetype k nn <buffer> <leader>b :up<cr>:term ~/k/k %<cr>
-  au filetype c nn <buffer> <leader>b :up<cr>:term gcc % -Wall -Wextra -O3 -std=gnu23 && ./a.out<cr>
-  au filetype cpp nn <buffer> <leader>b :up<cr>:term g++ % -Wall -Wextra -O3 -std=gnu++23 && ./a.out<cr>
+  au filetype python nn <buffer> <leader>b :up<cr>:term bash -c "python '%'"<cr>
+  au filetype k nn <buffer> <leader>b :up<cr>:term bash -c "~/k/k '%'"<cr>
+  au filetype c nn <buffer> <leader>b :up<cr>:term bash -c "gcc '%' -Wall -Wextra -O3 -std=gnu23 && ./a.out"<cr>
+  au filetype cpp nn <buffer> <leader>b :up<cr>:term bash -c "g++ '%' -Wall -Wextra -O3 -std=gnu++23 && ./a.out"<cr>
 
-  au filetype tex nn <buffer> <leader>b :up<cr>:term pdflatex % && pdfmv %:t:r.pdf<cr>
+  au filetype tex nn <buffer> <leader>b :up<cr>:term bash -c "pdflatex '%' && pdfmv '%:t:r'.pdf"<cr>
   au bufnew,bufnewfile,bufread *.flx nn <buffer> <leader>b :up<cr>:term flax f %<cr>
 
   "file specific maps
