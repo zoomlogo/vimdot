@@ -7,6 +7,20 @@ INSTALL_PATH=~/.vim/pack/plugins/start
 # helper func
 beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
 
+# check for config updates
+echo "* checking for config updates..."
+git fetch --quiet
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse ${u})
+if [ "$LOCAL" != "$REMOTE" ]; then
+    echo "* pulling latest config..."
+    git pull --quiet
+    echo "* restarting script..."
+    exec "$0" "$@"
+else
+    echo "* no updates found..."
+fi
+
 echo -------------------------------------------------
 
 echo "* copying vimrc"
