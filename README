@@ -12,6 +12,7 @@ uninstall using:
 
 * plugins are installed using shell scripts and in parallel.
 * for nvim config check the `old` branch of this repo.
+* auto-detects upstream changes to this repo and updates (when running install).
 
 todo:
   * vimspector
