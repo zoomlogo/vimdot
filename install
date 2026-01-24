@@ -8,17 +8,21 @@ INSTALL_PATH=~/.vim/pack/plugins/start
 beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
 
 # check for config updates
-echo "* checking for config updates..."
-git fetch --quiet
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse ${u})
-if [ "$LOCAL" != "$REMOTE" ]; then
-    echo "* pulling latest config..."
-    git pull --quiet
-    echo "* restarting script..."
-    exec "$0" "$@"
-else
-    echo "* no updates found..."
+if [ -z "$VIMDOT_UPDATED" ]; then
+    echo "* checking for config updates..."
+    git fetch --quiet
+
+    BEHIND=$(git rev-list --count HEAD..@{u} 2>/dev/null)
+    if [ "$BEHIND" -gt 0 ]; then
+        echo "* found $BEHIND new commits! pulling latest config..."
+        git pull --quiet
+
+        echo "* restarting script..."
+        export VIMDOT_UPDATED=1
+        exec "$0" "$@"
+    else
+        echo "* no updates found..."
+    fi
 fi
 
 echo -------------------------------------------------
