@@ -1,4 +1,4 @@
-#!sh
+#!/bin/sh
 # installer script to install vimdot
 echo "* vimdot installer"
 OPT_PATH=~/.vim/pack/plugins/opt
