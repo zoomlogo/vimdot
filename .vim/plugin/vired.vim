@@ -1,7 +1,6 @@
 vim9script
 
-var ls_cmd = 'ls -laF --group-directories-first --color=never'
-var fname_regex = '^\%(\s*\S\+\s\+\)\{8}\zs.*'
+var fname_regex = '^\%(\s*\S\+\s\+\)\{5}\zs.*'
 
 # track
 sign define ViredTracker
@@ -16,8 +15,7 @@ enddef
 
 # colour
 def SetupViredColours()
-    syn match ViredPerms "^[drwxlst-][rwx-]*" contains=ViredType,ViredRead,ViredWrite,ViredExec,ViredDash nextgroup=ViredLinks skipwhite
-
+    syn match ViredPerms "^[drwxlst-][rwx-]*" contains=ViredType,ViredRead,ViredWrite,ViredExec,ViredDash nextgroup=ViredSize skipwhite
     syn match ViredType  "d" contained nextgroup=ViredRead
     syn match ViredType  "l" contained nextgroup=ViredRead
     syn match ViredRead  "r" contained nextgroup=ViredWrite
@@ -25,13 +23,7 @@ def SetupViredColours()
     syn match ViredExec  "x" contained nextgroup=ViredRead
     syn match ViredDash  "-" contained
 
-    syn match ViredLinks "\s*\d\+" contained nextgroup=ViredUser skipwhite
-
-    syn match ViredUser  "\S\+" contained nextgroup=ViredGroup skipwhite
-    syn match ViredGroup "\S\+" contained nextgroup=ViredSize skipwhite
-
     syn match ViredSize  "\s*\d\+\%(\.\d\+\)\?[kMGTPEZY]\?" contained nextgroup=ViredDate skipwhite
-
     syn match ViredDate  "\s*\S\+\s\+\d\+\s\+\%(\d\+:\d\+\|\d\{4\}\)" contained
 
     syn match ViredNameDir  "\s\zs[^/]\+/$"
@@ -45,9 +37,6 @@ def SetupViredColours()
     hi def link ViredExec Statement
     hi def link ViredDash Comment
 
-    hi def link ViredLinks Number
-    hi def link ViredUser Type
-    hi def link ViredGroup Type
     hi def link ViredSize Number
     hi def link ViredDate Directory
 
@@ -55,6 +44,67 @@ def SetupViredColours()
     hi def link ViredNameExec String
     hi def link ViredNameLink Constant
     hi def link ViredLinkTarget Comment
+enddef
+
+# emulate ls -la in vim9script
+def FormatSize(bytes: number): string
+    if bytes < 1024 | return string(bytes) | endif
+    var suffix = ['k', 'M', 'G', 'T', 'P']
+    var size = bytes * 1.0
+    for s in suffix
+        size = size / 1024.0
+        if size < 1024 | return printf("%.1f%s", size, s) | endif
+    endfor
+    return printf("%.1fE", size)
+enddef
+
+def FormatLine(dir: string, name: string): string
+    var fp = dir .. '/' .. name
+    var suffix = ''
+    var fptype = '-'
+
+    if isdirectory(fp)
+        fptype = 'd'
+        suffix = '/'
+    elseif getftype(fp) == 'link'
+        fptype = 'l'
+        var target = fnamemodify(resolve(fp), ":~")
+        if target =~ '^//' | target = target[1 : -1] | endif
+        suffix = '@ -> ' .. target
+    elseif executable(fp)
+        suffix = '*'
+    endif
+
+    var perm = fptype .. getfperm(fp)
+    var sz = fptype == 'd' ? '-' : FormatSize(getfsize(fp))
+    var date = strftime("%b %d %H:%M", getftime(fp))
+
+    return printf("%s %6s %s %s%s", perm, sz, date, name, suffix)
+enddef
+
+def GetFileList(dir: string): list<string>
+    var entries = readdir(dir)
+    if empty(entries) | return ["(empty)"] | endif
+
+    var dirs = []
+    var files = []
+    var ls = []
+
+    for name in entries
+        if isdirectory(dir .. '/' .. name)
+            add(dirs, name)
+        else
+            add(files, name)
+        endif
+    endfor
+
+    sort(dirs, 'i')
+    sort(files, 'i')
+
+    for dname in dirs | add(ls, FormatLine(dir, dname)) | endfor
+    for fname in files | add(ls, FormatLine(dir, fname)) | endfor
+
+    return ls
 enddef
 
 # helpers
@@ -121,10 +171,7 @@ def Render()
     setlocal modifiable
     silent! :%delete _
 
-    var files = systemlist(ls_cmd .. ' ' .. shellescape(b:cwd))
-    if len(files) > 0 && files[0] =~ '^total \d\+'
-        files = files[1 : -1]
-    endif
+    var files = GetFileList(b:cwd)
 
     if len(files) == 0
         files = ["(empty)"]
@@ -134,7 +181,7 @@ def Render()
     var bufname = 'vired://' .. b:cwd
     silent! execute 'file ' .. fnameescape(bufname)
 
-    setlocal modified buftype=acwrite bufhidden=wipe
+    setlocal nomodified buftype=acwrite bufhidden=wipe
     setlocal noswapfile nonumber filetype=vired nowrap
     &l:statusline = b:cwd
     SetupViredColours()
@@ -143,14 +190,14 @@ def Render()
         autocmd! * <buffer>
         autocmd BufWriteCmd <buffer> Sync()
         autocmd CursorMoved,CursorMovedI <buffer> LockCursor()
+        autocmd QuitPre <buffer> setlocal nomodified
     augroup END
 
     nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
-    nnoremap <buffer><nowait> q <Cmd>setlocal nomodified<CR><Cmd>bdelete<CR>
     nnoremap <buffer><nowait> ! <ScriptCmd>ShellCommand()<CR>
+    nnoremap <buffer><nowait> . <ScriptCmd>Render()<CR>
 
-    cursor(3, 0)
     LockCursor()
     TrackFiles()
 enddef
