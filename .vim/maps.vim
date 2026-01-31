@@ -84,6 +84,9 @@ nn <c-b> <cmd>Buffers<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
+"easy align
+nn ga <Plug>(EasyAlign)
+vn ga <Plug>(EasyAlign)
 "vismulti
 let g:VM_maps = {}
 let g:VM_show_warnings = 0
