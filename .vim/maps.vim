@@ -19,7 +19,7 @@ fu! s:viredstart()
     Vired
   elseif argc() == 1 && isdirectory(argv(0))
     bw!
-    Vired argv(0)
+    execute 'Vired ' . fnameescape(argv(0))
   endif
 endfu
 ":
