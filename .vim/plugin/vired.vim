@@ -6,10 +6,12 @@ var fname_regex = '^\%(\s*\S\+\s\+\)\{5}\zs.*'
 sign define ViredTracker
 
 # setup
-export def OpenVired()
+export def OpenVired(path: string = '')
+    var target = path == '' ? getcwd() : path
+    target = fnamemodify(target, ':p')
     setlocal nomodified
     enew
-    b:cwd = getcwd()
+    b:cwd = target
     Render()
 enddef
 
@@ -303,4 +305,4 @@ def ShellCommand()
     execute 'botright terminal ' .. rcmd
 enddef
 
-command! Vired OpenVired()
+command! -nargs=? -complete=dir Vired OpenVired(<f-args>)
