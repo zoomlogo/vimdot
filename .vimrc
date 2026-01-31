@@ -16,11 +16,11 @@ let g:gitgutter_sign_priority=0
 let g:loaded_netrw=1
 let g:loaded_netrwPlugin=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
-"lsp (to disable it, comment the next line)
-pa lsp
-if exists('g:loaded_lsp')
-  so ~/.vim/lspconf.vim
-endif
+aug ll
+  au!
+  au vimenter * ++once pa lsp
+  au vimenter * ++once so ~/.vim/lspconf.vim
+aug END
 "other
 so ~/.vim/maps.vim "mappings
 so ~/.vim/syn.vim  "syntax highlighting

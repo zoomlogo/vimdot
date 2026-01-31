@@ -26,7 +26,6 @@ tpope/vim-abolish
 tpope/vim-commentary
 tpope/vim-fugitive
 tpope/vim-repeat
-tpope/vim-sensible
 tpope/vim-surround
 
 junegunn/fzf
