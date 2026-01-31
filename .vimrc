@@ -18,8 +18,7 @@ let g:loaded_netrwPlugin=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 aug ll
   au!
-  au vimenter * ++once pa lsp
-  au vimenter * ++once so ~/.vim/lspconf.vim
+  au vimenter * ++once pa lsp | so ~/.vim/lspconf.vim
 aug END
 "other
 so ~/.vim/maps.vim "mappings
