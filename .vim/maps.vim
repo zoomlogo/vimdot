@@ -11,6 +11,11 @@ nn <leader>cc <cmd>ChangeColor<cr>
 nn D d$
 nn Y y$
 nn <m-w> viw
+"quicklist
+nn <leader>cg <cmd>copen<cr>
+nn ]q <cmd>cn<cr>
+nn [q <cmd>cp<cr>
+nn [] <cmd>cgetbuffer<cr>
 "vired autostart
 nn - <cmd>Vired<cr>
 au vimenter * call s:viredstart()
@@ -102,8 +107,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 nn <m-a> <cmd>LspCodeAction<cr>
-nn <m-d> <cmd>LspDiag next<cr>
-nn <m-D> <cmd>LspDiag prev<cr>
+nn <leader>d <cmd>LspDiag next<cr>
+nn <leader>D <cmd>LspDiag prev<cr>
 nn <m-s> <cmd>LspDiagShow<cr>
 nn <leader>gd <cmd>LspGotoDeclaration<cr>
 nn gd <cmd>LspGotoDefinition<cr>

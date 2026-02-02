@@ -5,8 +5,7 @@ se bs=2 sc wmnu shm=asWIcq ttimeout ttm=100 top rtp+=~/k/vim-k enc=utf-8 scl=yes
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
-filet plugin indent on
-sy enable
+filet plugin indent on | sy enable
 colo habamax
 let &listchars="tab:\xbb "
 let g:colorscheme_changer_colors=['decino','everforest','onedark','gruvbox','cemant']
@@ -21,6 +20,7 @@ aug x
   au filetype * setl fo-=o
 aug END
 "other
+pa! cfilter | pa! matchit | pa! termdebug
 pa lsp | so ~/.vim/lspconf.vim
 so ~/.vim/maps.vim "mappings
 so ~/.vim/syn.vim  "syntax highlighting
