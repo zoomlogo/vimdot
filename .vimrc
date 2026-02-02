@@ -7,7 +7,7 @@ au bufnew,bufnewfile,bufread *.k :se ft=k
 au vimleave * se gcr=a:ver25
 filet plugin indent on
 sy enable
-colo onedark
+colo habamax
 let &listchars="tab:\xbb "
 let g:colorscheme_changer_colors=['decino','everforest','onedark','gruvbox','cemant']
 let g:rainbow_active=1

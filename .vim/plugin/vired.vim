@@ -9,6 +9,7 @@ sign define ViredTracker
 export def OpenVired(path: string = '')
     var target = path == '' ? getcwd() : path
     target = fnamemodify(target, ':p')
+    if target[-1] == '/' | target = target[0 : -2] | endif
     setlocal nomodified
     enew
     b:cwd = target
@@ -35,7 +36,7 @@ def SetupViredColours()
 
     hi def link ViredType Structure
     hi def link ViredRead String
-    hi def link ViredWrite Error
+    hi def link ViredWrite WarningMsg
     hi def link ViredExec Statement
     hi def link ViredDash Comment
 
