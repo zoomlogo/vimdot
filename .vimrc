@@ -16,10 +16,11 @@ let g:gitgutter_sign_priority=0
 let g:loaded_netrw=1
 let g:loaded_netrwPlugin=1
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
-aug ll
+aug x
   au!
-  au vimenter * ++once pa lsp | so ~/.vim/lspconf.vim
+  au filetype * setl fo-=o
 aug END
 "other
+pa lsp | so ~/.vim/lspconf.vim
 so ~/.vim/maps.vim "mappings
 so ~/.vim/syn.vim  "syntax highlighting
