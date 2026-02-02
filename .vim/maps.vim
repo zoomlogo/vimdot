@@ -101,22 +101,17 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "undotree
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
-aug llkb
-  au!
-  au User LspAttached {
-    nn <m-a> <cmd>LspCodeAction<cr>
-    nn <m-d> <cmd>LspDiag next<cr>
-    nn <m-D> <cmd>LspDiag prev<cr>
-    nn <m-s> <cmd>LspDiagShow<cr>
-    nn <leader>gd <cmd>LspGotoDeclaration<cr>
-    nn gd <cmd>LspGotoDefinition<cr>
-    nn <leader>gi <cmd>LspGotoImpl<cr>
-    nn gy <cmd>LspGotoTypedef<cr>
-    nn K <cmd>LspHover<cr>
-    nn gr <cmd>LspRename<cr>
-    nn <m-p> <cmd>LspSwitchSourceHeader<cr>
-  }
-aug END
+nn <m-a> <cmd>LspCodeAction<cr>
+nn <m-d> <cmd>LspDiag next<cr>
+nn <m-D> <cmd>LspDiag prev<cr>
+nn <m-s> <cmd>LspDiagShow<cr>
+nn <leader>gd <cmd>LspGotoDeclaration<cr>
+nn gd <cmd>LspGotoDefinition<cr>
+nn <leader>gi <cmd>LspGotoImpl<cr>
+nn gy <cmd>LspGotoTypedef<cr>
+nn K <cmd>LspHover<cr>
+nn gr <cmd>LspRename<cr>
+nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 "wsl-only
 if executable('clip.exe')
   vn <silent> <leader>y y<cmd>call system('clip.exe', @")<cr>
