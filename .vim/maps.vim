@@ -56,23 +56,14 @@ nn <m-M> <c-w>r
 "tab for completion
 ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
 ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
-"file specific maps:
+"file specific settings
 aug B
   au!
-  "quick runs:
-  au filetype python nn <buffer> <leader>b :up<cr>:term bash -c "python '%'"<cr>
-  au filetype k nn <buffer> <leader>b :up<cr>:term bash -c "~/k/k '%'"<cr>
-  au filetype c nn <buffer> <leader>b :up<cr>:term bash -c "gcc '%' -Wall -Wextra -O3 -lm -std=gnu23 && ./a.out"<cr>
-  au filetype cpp nn <buffer> <leader>b :up<cr>:term bash -c "g++ '%' -Wall -Wextra -O3 -lm -std=gnu++23 && ./a.out"<cr>
-
-  au filetype tex nn <buffer> <leader>b :up<cr>:term bash -c "pdflatex '%' && pdfmv '%:t:r'.pdf"<cr>
-  au bufnew,bufnewfile,bufread *.flx nn <buffer> <leader>b :up<cr>:term flax f %<cr>
-
-  "file specific maps
   au filetype make setl noet
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
 aug END
+nn <leader>b <cmd>BuildMe<cr>
 "c/c++ source/header swapping
 if !exists('g:loaded_lsp')
   "LspSwitchSourceHeader replaces this
