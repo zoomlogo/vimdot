@@ -142,6 +142,11 @@ def NewFileOrDir(line: string)
 
     if !empty(glob(fp)) | return | endif
 
+    var parent = fnamemodify(fp, ':h')
+    if !isdirectory(parent)
+        mkdir(parent, 'p')
+    endif
+
     if name =~ '/$'
         if !isdirectory(fp)
             mkdir(fp, 'p')
@@ -200,6 +205,7 @@ def Render()
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
     nnoremap <buffer><nowait> ! <ScriptCmd>ShellCommand()<CR>
     nnoremap <buffer><nowait> . <ScriptCmd>Render()<CR>
+    nnoremap <buffer><nowait> yy <ScriptCmd>Copy()<CR>
 
     LockCursor()
     TrackFiles()
@@ -241,6 +247,11 @@ def Sync()
             if !empty(glob(dst))
                 echoerr "failed to rename " .. name
                 continue
+            endif
+
+            var dparent = fnamemodify(dst, ':h')
+            if !isdirectory(dparent)
+                mkdir(dparent, 'p')
             endif
 
             if rename(src, dst) == 0
@@ -285,6 +296,28 @@ def Enter()
         Render()
     else
         execute 'edit ' .. fnameescape(fp)
+    endif
+enddef
+
+def Copy()
+    if &modified | echoerr 'save first' | return | endif
+
+    var name = GetFileName(getline('.'))
+    if name == '' || name == '.' || name == '..' | return | endif
+
+    var src = b:cwd .. '/' .. name
+    var target = input('copy to: ', name, 'file') | redraw
+    if target == '' || target == name | return | endif
+
+    var dst = (target =~ '^/') ? target : b:cwd .. '/' .. target
+    var cmd = 'cp -r ' .. shellescape(src) .. ' ' .. shellescape(dst)
+    system(cmd)
+
+    if v:shell_error
+        echoerr 'copy failed'
+    else
+        echo 'copied: ' .. name .. ' -> ' .. target
+        Render()
     endif
 enddef
 
