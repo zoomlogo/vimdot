@@ -12,10 +12,10 @@ nn D d$
 nn Y y$
 nn <m-w> viw
 "quicklist
-nn <leader>cg <cmd>copen<cr>
 nn ]q <cmd>cn<cr>
 nn [q <cmd>cp<cr>
-nn [] <cmd>cgetbuffer<cr>
+nn [] <cmd>copen<cr>
+nn ][ <cmd>cgetbuffer<cr>
 "vired autostart
 nn - <cmd>Vired<cr>
 au vimenter * call s:viredstart()
