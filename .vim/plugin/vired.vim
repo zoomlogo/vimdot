@@ -11,7 +11,7 @@ export def OpenVired(path: string = '')
     target = fnamemodify(target, ':p')
     if target[-1] == '/' | target = target[0 : -2] | endif
     setlocal nomodified
-    enew
+    if expand('%') != '' | enew | endif
     b:cwd = target
     Render()
 enddef

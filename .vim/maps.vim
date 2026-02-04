@@ -16,15 +16,15 @@ nn ]q <cmd>cn<cr>
 nn [q <cmd>cp<cr>
 nn [] <cmd>copen<cr>
 nn ][ <cmd>cgetbuffer<cr>
-"vired autostart
+"vired autostart (autocmd defined below)
 nn - <cmd>Vired<cr>
-au vimenter * call s:viredstart()
 fu! s:viredstart()
   if argc() == 0
     Vired
   elseif argc() == 1 && isdirectory(argv(0))
+    let l:path = fnameescape(expand(argv(0)))
     bw!
-    execute 'Vired ' . fnameescape(argv(0))
+    execute 'Vired ' . l:path
   endif
 endfu
 ":
@@ -56,9 +56,10 @@ nn <m-M> <c-w>r
 "tab for completion
 ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
 ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
-"file specific settings
-aug B
+"file specific settings/autocmds
+aug vimdot
   au!
+  au vimenter * ++once call s:viredstart()
   au filetype make setl noet
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
