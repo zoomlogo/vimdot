@@ -64,6 +64,7 @@ aug B
   au filetype c,cpp setl commentstring=//\ %s
 aug END
 nn <leader>b <cmd>BuildMe<cr>
+nn <leader>r <cmd>RunMe<cr>
 "c/c++ source/header swapping
 if !exists('g:loaded_lsp')
   "LspSwitchSourceHeader replaces this
