@@ -2,57 +2,32 @@
 " agaric <agaric@protonmail.com>
 " modified by zoomlogo
 
-" user sets background to light or dark depending on his wish
 hi clear
 if exists("syntax_on")
   sy reset
 en
 let colors_name = "cemant"
 
-" palette
-if &bg ==# 'dark'
-  let s:foreground = "#b9bdc5"
-  let s:background = "#36383f"
+let s:foreground = "#b9bdc5"
+let s:background = "#36383f"
 
-  let s:Dark = "#16161d"
-  let s:Red = "#a32c2d"
-  let s:Green = "#4b7d08"
-  let s:Yellow = "#916814"
-  let s:Blue = "#3c56aa"
-  let s:Magenta = "#91328c"
-  let s:Cyan = "#237e6f"
-  let s:Light = "#92959d"
+let s:Dark    = "#16161d"
+let s:Red     = "#a32c2d"
+let s:Green   = "#4b7d08"
+let s:Yellow  = "#916814"
+let s:Blue    = "#3c56aa"
+let s:Magenta = "#91328c"
+let s:Cyan    = "#237e6f"
+let s:Light   = "#92959d"
 
-  let s:dark = "#575a61"
-  let s:red = "#cf554d"
-  let s:green = "#72a336"
-  let s:yellow = "#ba8d3b"
-  let s:blue = "#667ad3"
-  let s:magenta = "#ba59b3"
-  let s:cyan = "#4ea494"
-  let s:light = "#d2d6de"
-el
-  let s:background = "#b9bdc5"
-  let s:foreground = "#36383f"
-
-  let s:Dark = "#16161d"
-  let s:Red = "#a32c2d"
-  let s:Green = "#4b7d08"
-  let s:Yellow = "#916814"
-  let s:Blue = "#3c56aa"
-  let s:Magenta = "#91328c"
-  let s:Cyan = "#237e6f"
-  let s:Light = "#92959d"
-
-  let s:dark = "#575a61"
-  let s:red = "#cf554d"
-  let s:green = "#72a336"
-  let s:yellow = "#ba8d3b"
-  let s:blue = "#667ad3"
-  let s:magenta = "#ba59b3"
-  let s:cyan = "#4ea494"
-  let s:light = "#d2d6de"
-en
+let s:dark    = "#575a61"
+let s:red     = "#cf554d"
+let s:green   = "#72a336"
+let s:yellow  = "#ba8d3b"
+let s:blue    = "#667ad3"
+let s:magenta = "#ba59b3"
+let s:cyan    = "#4ea494"
+let s:light   = "#d2d6de"
 
 exe "hi Normal       guifg=" . s:foreground . " guibg=" . s:background
 exe "hi ErrorMsg     term=standout ctermbg=1 ctermfg=15 guibg=" . s:red . " guifg=" . s:Light
@@ -143,16 +118,16 @@ exe "hi Ignore  ctermfg=7 guifg=" . s:light
 exe "hi Todo    ctermbg=11 ctermfg=0 guibg=" . s:Blue . " guifg=" . s:dark
 exe "hi Underlined term=underline cterm=underline ctermfg=12 gui=underline guifg=" . s:Blue
 
-exe "hi DiagnosticError guifg=" . s:Red . " guibg=" . s:background
+exe "hi DiagnosticError   guifg=" . s:Red    . " guibg=" . s:background
 exe "hi DiagnosticWarning guifg=" . s:yellow . " guibg=" . s:background
-exe "hi DiagnosticInfo guifg=" . s:Cyan . " guibg=" . s:background
-exe "hi DiagnosticHint guifg=" . s:Green . " guibg=" . s:background
+exe "hi DiagnosticInfo    guifg=" . s:Cyan   . " guibg=" . s:background
+exe "hi DiagnosticHint    guifg=" . s:Green  . " guibg=" . s:background
 
-exe "hi DiagnosticsVirtualTextError guifg=" . s:Red . " guibg=" . s:background
-exe "hi DiagnosticsVirtualTextWarning guifg=" . s:yellow . " guibg=" . s:background
-exe "hi DiagnosticsVirtualTextInformation guifg=" . s:Cyan . " guibg=" . s:background
-exe "hi DiagnosticsVirtualTextHint guifg=" . s:Green . " guibg=" . s:background
+exe "hi DiagnosticsVirtualTextError       guifg=" . s:Red    . " guibg=" . s:background
+exe "hi DiagnosticsVirtualTextWarning     guifg=" . s:yellow . " guibg=" . s:background
+exe "hi DiagnosticsVirtualTextInformation guifg=" . s:Cyan   . " guibg=" . s:background
+exe "hi DiagnosticsVirtualTextHint        guifg=" . s:Green  . " guibg=" . s:background
 
-exe "hi GitSignsAdd guifg=" . s:Blue . " guibg=" . s:background
+exe "hi GitSignsAdd    guifg=" . s:Blue    . " guibg=" . s:background
 exe "hi GitSignsChange guifg=" . s:Magenta . " guibg=" . s:background
-exe "hi GitSignsDelete guifg=" . s:Red . " guibg=" . s:background
+exe "hi GitSignsDelete guifg=" . s:Red     . " guibg=" . s:background
