@@ -157,7 +157,7 @@ def GetBuildCommand(): string
 enddef
 
 # runme internals
-def LogRunBuffer(msg: string)
+def OnExitRunPost(msg: string)
     setbufvar(run_termid, '&modifiable', 1)
     if bufexists(run_termid)
         appendbufline(run_termid, '$', msg)
@@ -166,12 +166,15 @@ def LogRunBuffer(msg: string)
             win_execute(winid, 'normal! G')
         endif
     endif
-    setbufvar(run_termid, '&modifiable', 0)
+    setbufvar(run_termid, '&buftype', 'nofile')
+    setbufvar(run_termid, '&bufhidden', 'wipe')
+    setbufvar(run_termid, '&swapfile', 0)
+    setbufvar(run_termid, '&modified', 0)
 enddef
 
 def OnExitRun(j: job, status: number)
     var msg = (status == 0) ? 'Finished' : 'Failed with exit code ' .. status
-    timer_start(10, (timer) => LogRunBuffer('----- [' .. msg .. '] -----'))
+    timer_start(10, (timer) => OnExitRunPost('----- [' .. msg .. '] -----'))
 
     redraw
     echo '[BuildMe] Run: ' .. msg
