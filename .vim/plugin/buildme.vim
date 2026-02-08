@@ -2,6 +2,8 @@ vim9script
 
 # add rules (top gets priority)
 # project build rules (file, cmd if file exists)
+g:bm_build_cmd = get(g:, 'bm_build_cmd', '')
+
 const project_build_rules = [
     ['build.sh', './build.sh'],
     ['Makefile', 'make -j8'],
@@ -19,11 +21,7 @@ const script_build_rules = [
 ]
 
 # project run rules
-if !exists('g:bm_project_run_cmd')
-    # this is local to project, do not set in ~/.vimrc
-    # set it in <project>/.vimrc (`set secure exrc`)
-    g:bm_project_run_cmd = ''
-endif
+g:bm_run_cmd = get(g:, 'bm_run_cmd', '')
 
 const project_run_rules = [
     ['a.out', './a.out'],
@@ -79,7 +77,6 @@ enddef
 
 export def RunMe(incmd: string = '')
     var cmd = incmd
-    if cmd == '' | cmd = g:bm_project_run_cmd | endif
     if cmd == '' | cmd = GetRunCommand() | endif
 
     if cmd == ''
@@ -141,6 +138,8 @@ enddef
 def GetBuildCommand(): string
     building_script = false
 
+    if g:bm_build_cmd != '' | return g:bm_build_cmd | endif
+
     if filereadable('CMakeLists.txt')
         if isdirectory('build') | return 'cmake --build build'
         else
@@ -191,7 +190,7 @@ enddef
 def GetRunCommand(): string
     running_script = false
 
-    if g:bm_project_run_cmd != '' | return g:bm_project_run_cmd | endif
+    if g:bm_run_cmd != '' | return g:bm_run_cmd | endif
 
     for rule in project_run_rules
         if filereadable(rule[0]) | return rule[1] | endif

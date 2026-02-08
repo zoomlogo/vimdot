@@ -1,13 +1,43 @@
 vim9script
 
-if !exists('g:root_cmd')
-    g:root_cmd = 'tcd'
-endif
+g:root_cmd = get(g:, 'root_cmd', 'tcd')
+g:root_patterns = get(g:, 'root_patterns', ['.git', '.gitignore', 'CMakeLists.txt', 'Cargo.toml', 'pyproject.toml'])
 
-if !exists('g:root_patterns')
-    g:root_patterns = ['.git', '.gitignore', 'CMakeLists.txt', 'Cargo.toml', 'pyproject.toml']
-endif
+# load local vimrc
+var trust_file = expand('~/.vim/trusted_configs')
+def IsTrusted(path: string): bool
+    if !filereadable(trust_file) | return false | endif
+    return index(readfile(trust_file), path) != -1
+enddef
 
+def TrustPath(path: string)
+    var trusted = filereadable(trust_file) ? readfile(trust_file) : []
+    if index(trusted, path) == -1
+        add(trusted, path)
+        writefile(trusted, trust_file)
+    endif
+enddef
+
+def LocalLVimrc(root: string)
+    var confpath = simplify(root .. '/.vimrc')
+    if !filereadable(confpath) | return | endif
+
+    if IsTrusted(confpath)
+        execute 'source ' .. fnameescape(confpath)
+    endif
+
+    var msg = 'Found local config: ' .. confpath .. '. Load it?'
+    var choice = confirm(msg, '&1. Yes | &2. No | &3. Always', 1)
+
+    if choice == 1
+        execute 'source ' .. fnameescape(confpath)
+    elseif choice == 3
+        TrustPath(confpath)
+        execute 'source ' .. fnameescape(confpath)
+    endif
+enddef
+
+# rooter:
 def FindRoot(): string
     if &buftype != '' | return '' | endif
 
@@ -43,12 +73,13 @@ def Root()
 
     if root != '' && root != ccwd
         execute g:root_cmd .. ' ' .. fnameescape(root)
+        LocalLVimrc(root)
     endif
 enddef
 
 augroup Rooter
     autocmd!
-    autocmd BufEnter * Root()
+    autocmd BufReadPost,TabEnter * Root()
 augroup END
 
-command! Root call Root()
+command! Root Root()
