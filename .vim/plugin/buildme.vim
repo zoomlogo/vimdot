@@ -38,8 +38,7 @@ var build_job_ref: job = null_job
 var build_job_output: list<string> = []
 var building_script: bool = false
 
-var run_job_ref: job = null_job
-var run_output_buf: string = 'RunMe'
+var run_termid: number = -1
 var running_script: bool = false
 
 # exports
@@ -90,33 +89,29 @@ export def RunMe(incmd: string = '')
     endif
 
     # make buffer
-    var winid = bufwinid(run_output_buf)
-    if winid == -1
-        if bufnr(run_output_buf) != -1 | execute 'bwipeout! ' .. bufnr(run_output_buf) | endif
-
-        botright new
-        try | execute 'file ' .. run_output_buf | catch | endtry
-
-        setlocal buftype=nofile bufhidden=wipe noswapfile nonumber norelativenumber signcolumn=no
-        wincmd p
-    else
-        deletebufline(run_output_buf, 1, '$')
+    if bufexists(run_termid)
+        var job = term_getjob(run_termid)
+        if job_status(job) == 'run'
+            job_stop(job)
+        endif
+        
+        execute 'bwipeout! ' .. run_termid
     endif
 
-    if job_status(run_job_ref) == 'run'
-        job_stop(run_job_ref)
-    endif
+    var options = {
+        curwin: 1,
+        term_name: 'RunMe',
+        exit_cb: OnExitRun,
+        term_finish: 'open',
+        term_kill: 'kill',
+    }
+    botright new
 
     redraw
     var scmd = [&shell, &shellcmdflag, cmd]
-
     echo '[BuildMe] Running...'
-    run_job_ref = job_start(scmd, {
-        out_cb: OnOutputRun,
-        err_cb: OnOutputRun,
-        exit_cb: OnExitRun,
-        out_mode: 'nl'
-    })
+    run_termid = term_start(scmd, options)
+    wincmd p
 enddef
 
 # build me internals
@@ -163,25 +158,20 @@ enddef
 
 # runme internals
 def LogRunBuffer(msg: string)
-    var bufnum = bufnr(run_output_buf)
-    if bufnum != -1
-        if line('$', bufwinid(bufnum)) == 1 && getbufline(bufnum, 1)[0] == ''
-            setbufline(bufnum, 1, msg)
-        else
-            appendbufline(bufnum, '$', msg)
+    setbufvar(run_termid, '&modifiable', 1)
+    if bufexists(run_termid)
+        appendbufline(run_termid, '$', msg)
+        var winid = bufwinid(run_termid)
+        if winid != -1
+            win_execute(winid, 'normal! G')
         endif
-        var winid = bufwinid(bufnum)
-        if winid != -1 | win_execute(winid, 'normal! G') | endif
     endif
-enddef
-
-def OnOutputRun(ch: channel, msg: string)
-    LogRunBuffer(msg)
+    setbufvar(run_termid, '&modifiable', 0)
 enddef
 
 def OnExitRun(j: job, status: number)
     var msg = (status == 0) ? 'Finished' : 'Failed with exit code ' .. status
-    LogRunBuffer('----- [' .. msg .. '] -----')
+    timer_start(10, (timer) => LogRunBuffer('----- [' .. msg .. '] -----'))
 
     redraw
     echo '[BuildMe] Run: ' .. msg
