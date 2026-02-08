@@ -5,9 +5,15 @@ g:root_patterns = get(g:, 'root_patterns', ['.git', '.gitignore', 'CMakeLists.tx
 
 # load local vimrc
 var trust_file = expand('~/.vim/trusted_configs')
+var untrust_file = expand('~/.vim/untrusted_configs')
 def IsTrusted(path: string): bool
     if !filereadable(trust_file) | return false | endif
     return index(readfile(trust_file), path) != -1
+enddef
+
+def IsNotTrusted(path: string): bool
+    if !filereadable(untrust_file) | return false | endif
+    return index(readfile(untrust_file), path) != -1
 enddef
 
 def TrustPath(path: string)
@@ -18,21 +24,33 @@ def TrustPath(path: string)
     endif
 enddef
 
+def DontTrustPath(path: string)
+    var untrusted = filereadable(untrust_file) ? readfile(untrust_file) : []
+    if index(untrusted, path) == -1
+        add(untrusted, path)
+        writefile(untrusted, untrust_file)
+    endif
+enddef
+
 def LocalLVimrc(root: string)
     var confpath = simplify(root .. '/.vimrc')
     if !filereadable(confpath) | return | endif
+    if IsNotTrusted(confpath) | return | endif
 
     if IsTrusted(confpath)
         execute 'source ' .. fnameescape(confpath)
+        return
     endif
 
     var msg = 'Found local config: ' .. confpath .. '. Load it?'
-    var choice = confirm(msg, '&1. Yes | &2. No | &3. Always', 1)
+    var choice = confirm(msg, '&1. Always | &2. Never | &3. Yes | &4. No', 1)
 
     if choice == 1
-        execute 'source ' .. fnameescape(confpath)
-    elseif choice == 3
         TrustPath(confpath)
+        execute 'source ' .. fnameescape(confpath)
+    elseif choice == 2
+        DontTrustPath(confpath)
+    elseif choice == 3
         execute 'source ' .. fnameescape(confpath)
     endif
 enddef
