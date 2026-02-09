@@ -176,6 +176,7 @@ def OnExitRunPost(msg: string)
         var winid = bufwinid(run_termid)
         if winid != -1
             win_execute(winid, 'normal! G')
+            win_execute(winid, 'setlocal nonumber norelativenumber signcolumn=no')
         endif
     endif
     setbufvar(run_termid, '&buftype', 'nofile')
