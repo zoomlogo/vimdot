@@ -1,4 +1,20 @@
 vim9script
+# Notes: Note taking plugin for Vim.
+# Depends on fzf.vim
+#
+# Has a single option:
+# g:notes_global_directory -> Tells the plugin where to store ALL notes.
+#
+# Provides three commands:
+# :Daily -> Opens the daily note in the daily/ directory.
+# :Notes -> Opens the notes index.
+# :SearchNotes -> Uses fzf to search through the notes.
+#
+# Buffer specific mappings:
+# <CR> -> Follow link. Links are defined by [[link]]. New file is created if
+#   required.
+# <BS> -> Uses fzf to search through notes showing those which link to the
+#   current note.
 
 g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
 const note_extension = '.note'
@@ -36,6 +52,21 @@ def FollowLink()
     execute 'edit ' .. fnameescape(target_file)
 enddef
 
+def WhatLinksHere()
+    if !exists('*fzf#vim#grep')
+        echoerr 'Requires fzf.vim'
+        return
+    endif
+
+    var note = expand('%:t:r')
+    var pattern = '[[' .. note .. ']]'
+
+    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F ' .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
+    var spec = fzf#vim#with_preview({'options': ['--prompt', 'Backlinks> ']})
+
+    fzf#vim#grep(cmd, 1, spec, 0)
+enddef
+
 def OpenDaily()
     var date = strftime('%Y-%m-%d')
     var daily_dir = g:notes_global_directory .. '/daily'
@@ -61,7 +92,7 @@ def SetupUI()
     highlight default link WikiLinkText Special
 
     nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
-    nnoremap <buffer> <BS> <C-^>
+    nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>
 enddef
 
 augroup Notes
@@ -71,4 +102,5 @@ augroup Notes
 augroup END
 
 command! Daily OpenDaily()
-command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory ..  '/Index.note')
+command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory ..  '/index.note')
+command! -bang SearchNotes call fzf#vim#files(g:notes_global_directory, fzf#vim#with_preview(), <bang>0)
