@@ -106,7 +106,7 @@ export def RunMe(incmd: string = '')
         if job_status(job) == 'run'
             job_stop(job)
         endif
-        
+
         execute 'bwipeout! ' .. run_termid
     endif
 

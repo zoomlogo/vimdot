@@ -1,0 +1,74 @@
+vim9script
+
+g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
+const note_extension = '.note'
+
+def FollowLink()
+    var line = getline('.')
+    var col = col('.')
+
+    # find [[link]]
+    var link = ''
+    var index = 0
+    while true
+        var match = matchstrpos(line, '\[\[.\{-1,}\]\]', index)
+        if match[1] == -1 | break | endif
+
+        if col >= (match[1] + 1) && col <= match[2]
+            link = trim(match[0][2 : -3])
+            break
+        endif
+
+        index = match[2]
+    endwhile
+    if link == '' | return | endif
+
+    # make subdirectories:
+    var target_file = g:notes_global_directory .. '/' .. link .. note_extension
+    var parents = fnamemodify(target_file, ':h')
+    if !isdirectory(parents)
+        mkdir(parents, 'p')
+        redraw | echo "[Notes] Created directories: " .. parents
+    endif
+
+    # update current buffer and goto [[link]]
+    update
+    execute 'edit ' .. fnameescape(target_file)
+enddef
+
+def OpenDaily()
+    var date = strftime('%Y-%m-%d')
+    var daily_dir = g:notes_global_directory .. '/daily'
+
+    var target_file = daily_dir .. '/' .. date .. note_extension
+    if !isdirectory(daily_dir)
+        mkdir(daily_dir, 'p')
+    endif
+
+    execute 'vsplit ' .. fnameescape(target_file)
+    if line('$') == 1 && getline(1) == ''
+        var daily_template = ['# ' .. date, 'Ref: [[index]]']
+        setline(1, daily_template)
+        normal! G$
+    endif
+enddef
+
+def SetupUI()
+    syntax region WikiLink start='\[\[' end='\]\]' contains=WikiLinkText oneline
+    highlight default link WikiLink Special
+
+    syntax match WikiLinkText /[^\[\]]\+/ contained
+    highlight default link WikiLinkText Special
+
+    nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
+    nnoremap <buffer> <BS> <C-^>
+enddef
+
+augroup Notes
+    autocmd!
+    autocmd BufNewFile,BufRead *.note setfiletype markdown
+    autocmd Filetype markdown if expand('%:e') == 'note' | SetupUI() | endif
+augroup END
+
+command! Daily OpenDaily()
+command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory ..  '/Index.note')
