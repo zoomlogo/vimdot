@@ -1,4 +1,6 @@
 vim9script
+# Root: Minimal port of https://github.com/airblade/vim-rooter in vim9script.
+
 
 g:root_cmd = get(g:, 'root_cmd', 'tcd')
 g:root_patterns = get(g:, 'root_patterns', ['.git', '.gitignore', 'CMakeLists.txt', 'Cargo.toml', 'pyproject.toml'])

@@ -20,9 +20,7 @@ nn ][ <cmd>cgetbuffer<cr>
 "vired autostart (autocmd defined below)
 nn - <cmd>Vired<cr>
 fu! s:viredstart()
-  if argc() == 0
-    Vired
-  elseif argc() == 1 && isdirectory(argv(0))
+  if argc() == 1 && isdirectory(argv(0))
     let l:path = fnameescape(expand(argv(0)))
     bw!
     execute 'Vired ' . l:path

@@ -1,4 +1,16 @@
 vim9script
+# Ivy: Vim9Script scratchpad.
+# Inspired by the *scratch* buffer / IEML in emacs.
+#
+# Provides a single command:
+# :Ivy -> Opens the scratchpad in a split buffer towards the left of the
+# current window.
+#
+# The execution output is put into the buffer.
+# Buffer specific mappings:
+# <CR> -> Runs the current line.
+# <C-e> -> Runs the current highlighted block / paragraph.
+
 
 export def IvyBuffer()
     vnew

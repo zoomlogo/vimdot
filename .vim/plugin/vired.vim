@@ -1,4 +1,23 @@
 vim9script
+# Vired: Vim Directory Editor.
+# Inspired by Emacs' dired.
+#
+# Provides a single command:
+# :Vired <opt:dir> -> Opens directory (or current directory) as a file
+#   listing, emulating ls -l --color output.
+#
+# Vired allows for common file management operations such as renaming,
+# moving, copying, deletion and creation of files and directories using
+# standard Vim commands. Edit the buffer to perform these operations
+# and write the buffer to sync changes with the disk. These operations
+# are irreversible, so be careful before saving.
+#
+# Buffer specific mappings:
+# U -> Go up to the parent directory.
+# . -> Reload Vired.
+# ! -> Run a shell command on the current file.
+# yy -> Copy the current file.
+# <CR> -> Go inside a directory or open a file (current under cursor).
 
 var fname_regex = '^\%(\s*\S\+\s\+\)\{5}\zs.*'
 

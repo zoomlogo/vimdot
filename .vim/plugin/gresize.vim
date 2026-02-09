@@ -1,4 +1,7 @@
 vim9script
+# GResize: Minimal port of https://github.com/roman/golden-ratio in
+# vim9script.
+
 const PHI = 1.61803398875
 
 def GoldenResize()

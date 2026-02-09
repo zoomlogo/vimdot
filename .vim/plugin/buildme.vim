@@ -1,4 +1,16 @@
 vim9script
+# BuildMe: Easily build and run projects/files.
+# The two commands it offers read the execution command from either 3 things
+# (in order):
+# - user defined command (g:bm_..._cmd)
+# - project command (using files as markers)
+# - filetype command (for scripts)
+#
+# Provides two commands:
+# :BuildMe <opt:cmd> -> Builds the project and if the build errors, it pipes
+#   the output into vim's quickfix list.
+# :RunMe <opt:cmd> -> Runs the command in a terminal window.
+
 
 # add rules (top gets priority)
 # project build rules (file, cmd if file exists)
