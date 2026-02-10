@@ -6,8 +6,9 @@ g:root_cmd = get(g:, 'root_cmd', 'tcd')
 g:root_patterns = get(g:, 'root_patterns', ['.git', '.gitignore', 'CMakeLists.txt', 'Cargo.toml', 'pyproject.toml'])
 
 # load local vimrc
-var trust_file = expand('~/.vim/trusted_configs')
-var untrust_file = expand('~/.vim/untrusted_configs')
+const trust_file = expand('~/.vim/trusted_configs')
+const untrust_file = expand('~/.vim/untrusted_configs')
+
 def IsTrusted(path: string): bool
     if !filereadable(trust_file) | return false | endif
     return index(readfile(trust_file), path) != -1
@@ -45,7 +46,7 @@ def LocalLVimrc(root: string)
     endif
 
     var msg = 'Found local config: ' .. confpath .. '. Load it?'
-    var choice = confirm(msg, '&1. Always | &2. Never | &3. Yes | &4. No', 1)
+    var choice = confirm(msg, "&1. Always \n &2. Never \n &3. Yes \n &4. No", 4)
 
     if choice == 1
         TrustPath(confpath)

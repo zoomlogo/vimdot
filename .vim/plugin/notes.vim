@@ -58,7 +58,7 @@ def WhatLinksHere()
         return
     endif
 
-    var note = expand('%:t:r')
+    var note = fnamemodify(strpart(expand('%:p'), len(g:notes_global_directory) + 1), ':r')
     var pattern = '[[' .. note .. ']]'
 
     var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F ' .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
