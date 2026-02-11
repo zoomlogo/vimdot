@@ -22,22 +22,24 @@ vim9script
 # track
 sign define ViredTracker
 
-try
-    prop_type_add('vired_perm_type', {highlight: 'Structure'})
-    prop_type_add('vired_perm_read', {highlight: 'String'})
-    prop_type_add('vired_perm_write', {highlight: 'WarningMsg'})
-    prop_type_add('vired_perm_exec', {highlight: 'Statement'})
-    prop_type_add('vired_perm_dash', {highlight: 'Comment'})
-
-    prop_type_add('vired_sz', {highlight: 'Number'})
-    prop_type_add('vired_date', {highlight: 'Directory'})
-
-    prop_type_add('vired_suffix_dir', {highlight: 'Directory'})
-    prop_type_add('vired_suffix_exec', {highlight: 'String'})
-    prop_type_add('vired_suffix_link', {highlight: 'Constant'})
-    prop_type_add('vired_suffix_link_target', {highlight: 'Comment'})
-catch
-endtry
+if empty(prop_type_get('vired_perm_type'))
+    var hlmap = {
+        vired_perm_type: 'Structure',
+        vired_perm_read: 'String',
+        vired_perm_write: 'WarningMsg',
+        vired_perm_exec: 'Statement',
+        vired_perm_dash: 'Comment',
+        vired_sz: 'Number',
+        vired_date: 'Directory',
+        vired_suffix_dir: 'Directory',
+        vired_suffix_exec: 'String',
+        vired_suffix_link: 'Constant',
+        vired_suffix_link_target: 'Comment',
+    }
+    for [name, hl] in items(hlmap)
+        prop_type_add(name, {highlight: hl, override: true})
+    endfor
+endif
 
 # setup
 export def OpenVired(path: string = '')
@@ -171,17 +173,29 @@ enddef
 def TrackFiles()
     sign_unplace('ViredGroup', {'buffer': bufnr()})
     b:fmap = {}
-    var id = 1
+
     var lines = getline(1, '$')
+    var batch = []
 
     for i in range(len(lines))
         var name = lines[i]
         if name == '' | continue | endif
 
-        sign_place(id, 'ViredGroup', 'ViredTracker', bufnr(), {lnum: i + 1})
-        b:fmap[id] = name
-        id += 1
+        var line = i + 1
+
+        b:fmap[line] = name
+        add(batch, {
+            buffer: bufnr(),
+            id: line,
+            group: 'ViredGroup',
+            name: 'ViredTracker',
+            lnum: line,
+        })
     endfor
+
+    if !empty(batch)
+        sign_placelist(batch)
+    endif
 enddef
 
 # render
