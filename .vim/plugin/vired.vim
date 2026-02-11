@@ -60,36 +60,9 @@ def FormatSize(bytes: number): string
     return printf("%.1fE", size)
 enddef
 
-def GetFileData(dir: string, name: string): list<string>
-    var fp = dir .. '/' .. name
-    var suffix = ''
-    var target = ''
-    var fptype = '-'
-
-    if isdirectory(fp)
-        fptype = 'd'
-        suffix = '/'
-    elseif getftype(fp) == 'link'
-        fptype = 'l'
-        target = fnamemodify(resolve(fp), ":~")
-        if target =~ '^//'
-            target = target[1 : -1]
-        endif
-        suffix = '@'
-    elseif executable(fp)
-        suffix = '*'
-    endif
-
-    var perm = fptype .. getfperm(fp)
-    var sz = fptype == 'd' ? '-' : FormatSize(getfsize(fp))
-    var date = strftime("%b %d %H:%M", getftime(fp))
-
-    return [perm, sz, date, suffix, target]
-enddef
-
 def GetFileList(dir: string): list<string>
     var entries = readdir(dir)
-    if empty(entries) | return ["(empty)"] | endif
+    if empty(entries) | return [] | endif
 
     var dirs = []
     var files = []
@@ -112,44 +85,61 @@ def GetFileList(dir: string): list<string>
     return ls
 enddef
 
-def SetupHighlights(files: list<string>, dir: string)
+def LongList(files: list<string>, dir: string)
     for i in range(len(files))
-        var proplist = GetFileData(dir, files[i])
+        var line = i + 1
+        var len = len(files[i])
+        var file = dir .. '/' .. files[i]
 
-        # parse suffix
-        var suffix = proplist[3]
-        var target = proplist[4]
-        if suffix == '/' # dir
-            prop_add(i + 1, 0, {type: 'vired_suffix_dir', text: suffix})
-            prop_add(i + 1, 1, {type: 'vired_suffix_dir', end_col: len(files[i]) + 1})
-        elseif suffix == '*' # exec
-            prop_add(i + 1, 0, {type: 'vired_suffix_exec', text: suffix})
-            prop_add(i + 1, 1, {type: 'vired_suffix_exec', end_col: len(files[i]) + 1})
-        elseif suffix == '@'  # link
-            prop_add(i + 1, 0, {type: 'vired_suffix_link', text: suffix})
-            prop_add(i + 1, 0, {type: 'vired_suffix_link_target', text: ' -> ' .. target})
-            prop_add(i + 1, 1, {type: 'vired_suffix_link', end_col: len(files[i]) + 1})
+        # get file data
+        var fptype = '-'
+        var suffix = ''
+        var target = ''
+
+        if isdirectory(file)
+            fptype = 'd'
+            suffix = '/'
+        elseif getftype(file) == 'link'
+            fptype = 'l'
+            target = fnamemodify(resolve(file), ":~")
+            if target =~ '^//'
+                target = target[1 : -1]
+            endif
+            suffix = '@'
+        elseif executable(file)
+            suffix = '*'
         endif
 
         # parse perm
-        var perms = proplist[0]
-        # perms always has l/d/- followed by three sets of rwx
-        prop_add(i + 1, 1, {type: perms[0] == '-' ? 'vired_perm_dash' : 'vired_perm_type', text: perms[0]})
-        perms = perms[1 : -1]
+        prop_add(line, 1, {type: fptype == '-' ? 'vired_perm_dash' : 'vired_perm_type', text: fptype})
+
+        var perms = getfperm(file)
         for j in range(3)
-            prop_add(i + 1, 1, {type: perms[0] == '-' ? 'vired_perm_dash' : 'vired_perm_read', text: perms[0]})
-            prop_add(i + 1, 1, {type: perms[1] == '-' ? 'vired_perm_dash' : 'vired_perm_write', text: perms[1]})
-            prop_add(i + 1, 1, {type: perms[2] == '-' ? 'vired_perm_dash' : 'vired_perm_exec', text: perms[2]})
-            perms = perms[3 : -1]
+            prop_add(line, 1, {type: perms[3 * j] == '-' ? 'vired_perm_dash' : 'vired_perm_read', text: perms[3 * j]})
+            prop_add(line, 1, {type: perms[3 * j + 1] == '-' ? 'vired_perm_dash' : 'vired_perm_write', text: perms[3 * j + 1]})
+            prop_add(line, 1, {type: perms[3 * j + 2] == '-' ? 'vired_perm_dash' : 'vired_perm_exec', text: perms[3 * j + 2]})
         endfor
 
         # parse sz
-        var sz = proplist[1]
-        prop_add(i + 1, 1, {type: 'vired_sz', text: printf("%6s ", sz)})
+        var sz = fptype == 'd' ? '-' : FormatSize(getfsize(file))
+        prop_add(line, 1, {type: 'vired_sz', text: printf("%6s ", sz)})
 
         # parse date
-        var date = proplist[2]
-        prop_add(i + 1, 1, {type: 'vired_date', text: date .. ' '})
+        var date = strftime("%b %d %H:%M", getftime(file))
+        prop_add(line, 1, {type: 'vired_date', text: date .. ' '})
+
+        # parse suffix
+        if suffix == '/'      # dir
+            prop_add(line, 0, {type: 'vired_suffix_dir', text: suffix})
+            prop_add(line, 1, {type: 'vired_suffix_dir', end_col: len + 1})
+        elseif suffix == '*'  # exec
+            prop_add(line, 0, {type: 'vired_suffix_exec', text: suffix})
+            prop_add(line, 1, {type: 'vired_suffix_exec', end_col: len + 1})
+        elseif suffix == '@'  # link
+            prop_add(line, 0, {type: 'vired_suffix_link', text: suffix})
+            prop_add(line, 0, {type: 'vired_suffix_link_target', text: ' -> ' .. target})
+            prop_add(line, 1, {type: 'vired_suffix_link', end_col: len + 1})
+        endif
     endfor
 enddef
 
@@ -201,12 +191,12 @@ def Render()
 
     var files = GetFileList(b:cwd)
 
-    if len(files) == 0
-        files = ["(empty)"]
+    if len(files) != 0
+        setline(1, files)
+        LongList(files, b:cwd)
+    else
+        prop_clear(1, line('$'))
     endif
-    setline(1, files)
-
-    SetupHighlights(files, b:cwd)
 
     var bufname = 'vired://' .. b:cwd
     silent! execute 'file ' .. fnameescape(bufname)
