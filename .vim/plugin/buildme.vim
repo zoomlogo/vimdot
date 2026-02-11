@@ -28,8 +28,8 @@ const project_build_rules = [
 # single file build rules
 # script rules (filetype, command)
 const script_build_rules = [
-    ['c', 'gcc {} -Wall -Wextra -O3 -lm -std=gnu23 -march=native'],
-    ['cpp', 'g++ {} -Wall -Wextra -O3 -lm -std=gnu++23 -march=native'],
+    ['c', 'gcc %s -Wall -Wextra -O3 -lm -std=gnu23 -march=native'],
+    ['cpp', 'g++ %s -Wall -Wextra -O3 -lm -std=gnu++23 -march=native'],
 ]
 
 # project run rules
@@ -41,31 +41,32 @@ const project_run_rules = [
 ]
 
 const script_run_rules = [
-    ['python', 'python -u {}'],
-    ['k', '~/k/k {}'],
+    ['python', 'python -u %s'],
+    ['k', '~/k/k %s'],
 ]
 
 # internal state
 var build_job_ref: job = null_job
 var build_job_output: list<string> = []
-var building_script: bool = false
 
 var run_termid: number = -1
-var running_script: bool = false
 
 # exports
 export def BuildMe(incmd: string = '')
     var cmd = incmd
-    if cmd == '' | cmd = GetBuildCommand() | endif
+    var is_script = false
+    if cmd == ''
+        [cmd, is_script] = GetCommand(project_build_rules, script_build_rules, true)
+    endif
 
     if cmd == ''
         echo '[BuildMe] Nothing to build.'
         return
     endif
 
-    if building_script
+    if is_script
         var fp = expand('%:p')
-        cmd = substitute(cmd, '{}', shellescape(fp), 'g')
+        cmd = printf(cmd, shellescape(fp))
     endif
 
     if job_status(build_job_ref) == 'run'
@@ -73,7 +74,6 @@ export def BuildMe(incmd: string = '')
     endif
 
     build_job_output = []
-    redraw
 
     var scmd = [&shell, &shellcmdflag, cmd]
 
@@ -88,16 +88,19 @@ enddef
 
 export def RunMe(incmd: string = '')
     var cmd = incmd
-    if cmd == '' | cmd = GetRunCommand() | endif
+    var is_script = false
+    if cmd == ''
+        [cmd, is_script] = GetCommand(project_run_rules, script_run_rules, false)
+    endif
 
     if cmd == ''
         echo '[BuildMe] Nothing to run.'
         return
     endif
 
-    if running_script
+    if is_script
         var fp = expand('%:p')
-        cmd = substitute(cmd, '{}', shellescape(fp), 'g')
+        cmd = printf(cmd, shellescape(fp))
     endif
 
     # make buffer
@@ -119,7 +122,6 @@ export def RunMe(incmd: string = '')
     }
     botright new
 
-    redraw
     var scmd = [&shell, &shellcmdflag, cmd]
     echo '[BuildMe] Running...'
     run_termid = term_start(scmd, options)
@@ -133,7 +135,6 @@ enddef
 
 def OnExitBuild(j: job, status: number)
     setqflist([], 'r', {title: ' Build Output ', lines: build_job_output})
-    redraw
 
     if status == 0 | echo '[BuildMe] Successful.'
     else
@@ -142,74 +143,53 @@ def OnExitBuild(j: job, status: number)
     endif
 enddef
 
-def GetBuildCommand(): string
-    building_script = false
-
-    if g:bm_build_cmd != '' | return g:bm_build_cmd | endif
-
-    if filereadable('CMakeLists.txt')
-        if isdirectory('build') | return 'cmake --build build'
-        else
-            return 'cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug && cmake --build build'
-        endif
-    endif
-
-    for rule in project_build_rules
-        if filereadable(rule[0]) | return rule[1] | endif
-    endfor
-
-    for rule in script_build_rules
-        if &filetype == rule[0]
-            building_script = true
-            return rule[1]
-        endif
-    endfor
-
-    return ''
-enddef
-
 # runme internals
 def OnExitRunPost(msg: string)
-    setbufvar(run_termid, '&modifiable', 1)
-    if bufexists(run_termid)
+    var winid = bufwinid(run_termid)
+    if bufexists(run_termid) && winid != -1
+        win_execute(winid, 'normal! G')
+        win_execute(winid, 'setlocal nonumber norelativenumber signcolumn=no modifiable')
         appendbufline(run_termid, '$', msg)
-        var winid = bufwinid(run_termid)
-        if winid != -1
-            win_execute(winid, 'normal! G')
-            win_execute(winid, 'setlocal nonumber norelativenumber signcolumn=no')
-        endif
+        win_execute(winid, 'setlocal buftype=nofile bufhidden=wipe noswapfile nomodified')
     endif
-    setbufvar(run_termid, '&buftype', 'nofile')
-    setbufvar(run_termid, '&bufhidden', 'wipe')
-    setbufvar(run_termid, '&swapfile', 0)
-    setbufvar(run_termid, '&modified', 0)
 enddef
 
 def OnExitRun(j: job, status: number)
     var msg = (status == 0) ? 'Finished' : 'Failed with exit code ' .. status
     timer_start(10, (timer) => OnExitRunPost('----- [' .. msg .. '] -----'))
 
-    redraw
     echo '[BuildMe] Run: ' .. msg
 enddef
 
-def GetRunCommand(): string
-    running_script = false
+# generic getcommand, returns [command, is_script]
+def GetCommand(project_rules: list<list<string>>, script_rules: list<list<string>>, is_build: bool): list<any>
+    if is_build
+        if g:bm_build_cmd != '' | return [g:bm_build_cmd, false] | endif
+        # special cmake handling
+        if filereadable('CMakeLists.txt')
+            if isdirectory('build')
+                return ['cmake --build build', false]
+            else
+                return ['cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug && cmake --build build', false]
+            endif
+        endif
+    else
+        if g:bm_run_cmd != '' | return [g:bm_run_cmd, false] | endif
+    endif
 
-    if g:bm_run_cmd != '' | return g:bm_run_cmd | endif
-
-    for rule in project_run_rules
-        if filereadable(rule[0]) | return rule[1] | endif
-    endfor
-
-    for rule in script_run_rules
-        if &filetype == rule[0]
-            running_script = true
-            return rule[1]
+    for rule in project_rules
+        if filereadable(rule[0])
+            return [rule[1], false]
         endif
     endfor
 
-    return ''
+    for rule in script_rules
+        if &filetype == rule[0]
+            return [rule[1], true]
+        endif
+    endfor
+
+    return ['', false]
 enddef
 
 command! -nargs=? -complete=shellcmdline BuildMe BuildMe(<f-args>)

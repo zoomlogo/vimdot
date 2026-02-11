@@ -20,24 +20,12 @@ g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
 const note_extension = '.note'
 
 def FollowLink()
-    var line = getline('.')
-    var col = col('.')
-
     # find [[link]]
-    var link = ''
-    var index = 0
-    while true
-        var match = matchstrpos(line, '\[\[.\{-1,}\]\]', index)
-        if match[1] == -1 | break | endif
-
-        if col >= (match[1] + 1) && col <= match[2]
-            link = trim(match[0][2 : -3])
-            break
-        endif
-
-        index = match[2]
-    endwhile
-    if link == '' | return | endif
+    var word = expand('<cWORD>')
+    var start = matchstrpos(word, '\[\[')[2]
+    var end = matchstrpos(word, '\]\]')[1]
+    if start == -1 || end == -1 | return | endif
+    var link = word[start : end - 1]
 
     # make subdirectories:
     var target_file = g:notes_global_directory .. '/' .. link .. note_extension
@@ -58,7 +46,7 @@ def WhatLinksHere()
         return
     endif
 
-    var note = fnamemodify(strpart(expand('%:p'), len(g:notes_global_directory) + 1), ':r')
+    var note = fnamemodify(expand('%'), ':p:s?^' .. g:notes_global_directory .. '/??:r')
     var pattern = '[[' .. note .. ']]'
 
     var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F ' .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
