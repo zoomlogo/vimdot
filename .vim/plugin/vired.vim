@@ -19,53 +19,33 @@ vim9script
 # yy -> Copy the current file.
 # <CR> -> Go inside a directory or open a file (current under cursor).
 
-var fname_regex = '^\%(\s*\S\+\s\+\)\{5}\zs.*'
-
 # track
 sign define ViredTracker
 
+try
+    prop_type_add('vired_perm_type', {highlight: 'Structure'})
+    prop_type_add('vired_perm_read', {highlight: 'String'})
+    prop_type_add('vired_perm_write', {highlight: 'WarningMsg'})
+    prop_type_add('vired_perm_exec', {highlight: 'Statement'})
+    prop_type_add('vired_perm_dash', {highlight: 'Comment'})
+
+    prop_type_add('vired_sz', {highlight: 'Number'})
+    prop_type_add('vired_date', {highlight: 'Directory'})
+
+    prop_type_add('vired_suffix_dir', {highlight: 'Directory'})
+    prop_type_add('vired_suffix_exec', {highlight: 'String'})
+    prop_type_add('vired_suffix_link', {highlight: 'Constant'})
+    prop_type_add('vired_suffix_link_target', {highlight: 'Comment'})
+catch
+endtry
+
 # setup
 export def OpenVired(path: string = '')
-    var target = path == '' ? getcwd() : path
-    target = fnamemodify(target, ':p')
-    if target[-1] == '/' | target = target[0 : -2] | endif
+    var target = simplify(path == '' ? getcwd() : path)
     setlocal nomodified
     if expand('%') != '' | enew | endif
     b:cwd = target
     Render()
-enddef
-
-# colour
-def SetupViredColours()
-    syn match ViredPerms "^[drwxlst-][rwx-]*" contains=ViredType,ViredRead,ViredWrite,ViredExec,ViredDash nextgroup=ViredSize skipwhite
-    syn match ViredType  "d" contained nextgroup=ViredRead
-    syn match ViredType  "l" contained nextgroup=ViredRead
-    syn match ViredRead  "r" contained nextgroup=ViredWrite
-    syn match ViredWrite "w" contained nextgroup=ViredExec
-    syn match ViredExec  "x" contained nextgroup=ViredRead
-    syn match ViredDash  "-" contained
-
-    syn match ViredSize  "\s*\d\+\%(\.\d\+\)\?[kMGTPEZY]\?" contained nextgroup=ViredDate skipwhite
-    syn match ViredDate  "\s*\S\+\s\+\d\+\s\+\%(\d\+:\d\+\|\d\{4\}\)" contained
-
-    syn match ViredNameDir  "\s\zs[^/]\+/$"
-    syn match ViredNameExec "\s\zs[^*]\+\*$"
-    syn match ViredNameLink "\s\zs[^@]\+@\ze"
-    syn match ViredLinkTarget "->.*$"
-
-    hi def link ViredType Structure
-    hi def link ViredRead String
-    hi def link ViredWrite WarningMsg
-    hi def link ViredExec Statement
-    hi def link ViredDash Comment
-
-    hi def link ViredSize Number
-    hi def link ViredDate Directory
-
-    hi def link ViredNameDir Directory
-    hi def link ViredNameExec String
-    hi def link ViredNameLink Constant
-    hi def link ViredLinkTarget Comment
 enddef
 
 # emulate ls -la in vim9script
@@ -80,9 +60,10 @@ def FormatSize(bytes: number): string
     return printf("%.1fE", size)
 enddef
 
-def FormatLine(dir: string, name: string): string
+def GetFileData(dir: string, name: string): list<string>
     var fp = dir .. '/' .. name
     var suffix = ''
+    var target = ''
     var fptype = '-'
 
     if isdirectory(fp)
@@ -90,9 +71,11 @@ def FormatLine(dir: string, name: string): string
         suffix = '/'
     elseif getftype(fp) == 'link'
         fptype = 'l'
-        var target = fnamemodify(resolve(fp), ":~")
-        if target =~ '^//' | target = target[1 : -1] | endif
-        suffix = '@ -> ' .. target
+        target = fnamemodify(resolve(fp), ":~")
+        if target =~ '^//'
+            target = target[1 : -1]
+        endif
+        suffix = '@'
     elseif executable(fp)
         suffix = '*'
     endif
@@ -101,7 +84,7 @@ def FormatLine(dir: string, name: string): string
     var sz = fptype == 'd' ? '-' : FormatSize(getfsize(fp))
     var date = strftime("%b %d %H:%M", getftime(fp))
 
-    return printf("%s %6s %s %s%s", perm, sz, date, name, suffix)
+    return [perm, sz, date, suffix, target]
 enddef
 
 def GetFileList(dir: string): list<string>
@@ -123,36 +106,54 @@ def GetFileList(dir: string): list<string>
     sort(dirs, 'i')
     sort(files, 'i')
 
-    for dname in dirs | add(ls, FormatLine(dir, dname)) | endfor
-    for fname in files | add(ls, FormatLine(dir, fname)) | endfor
+    for dname in dirs | add(ls, dname) | endfor
+    for fname in files | add(ls, fname) | endfor
 
     return ls
 enddef
 
+def SetupHighlights(files: list<string>, dir: string)
+    for i in range(len(files))
+        var proplist = GetFileData(dir, files[i])
+
+        # parse suffix
+        var suffix = proplist[3]
+        var target = proplist[4]
+        if suffix == '/' # dir
+            prop_add(i + 1, 0, {type: 'vired_suffix_dir', text: suffix})
+            prop_add(i + 1, 1, {type: 'vired_suffix_dir', end_col: len(files[i]) + 1})
+        elseif suffix == '*' # exec
+            prop_add(i + 1, 0, {type: 'vired_suffix_exec', text: suffix})
+            prop_add(i + 1, 1, {type: 'vired_suffix_exec', end_col: len(files[i]) + 1})
+        elseif suffix == '@'  # link
+            prop_add(i + 1, 0, {type: 'vired_suffix_link', text: suffix})
+            prop_add(i + 1, 0, {type: 'vired_suffix_link_target', text: ' -> ' .. target})
+            prop_add(i + 1, 1, {type: 'vired_suffix_link', end_col: len(files[i]) + 1})
+        endif
+
+        # parse perm
+        var perms = proplist[0]
+        # perms always has l/d/- followed by three sets of rwx
+        prop_add(i + 1, 1, {type: perms[0] == '-' ? 'vired_perm_dash' : 'vired_perm_type', text: perms[0]})
+        perms = perms[1 : -1]
+        for j in range(3)
+            prop_add(i + 1, 1, {type: perms[0] == '-' ? 'vired_perm_dash' : 'vired_perm_read', text: perms[0]})
+            prop_add(i + 1, 1, {type: perms[1] == '-' ? 'vired_perm_dash' : 'vired_perm_write', text: perms[1]})
+            prop_add(i + 1, 1, {type: perms[2] == '-' ? 'vired_perm_dash' : 'vired_perm_exec', text: perms[2]})
+            perms = perms[3 : -1]
+        endfor
+
+        # parse sz
+        var sz = proplist[1]
+        prop_add(i + 1, 1, {type: 'vired_sz', text: printf("%6s ", sz)})
+
+        # parse date
+        var date = proplist[2]
+        prop_add(i + 1, 1, {type: 'vired_date', text: date .. ' '})
+    endfor
+enddef
+
 # helpers
-def GetFileName(line: string): string
-    if line == '' || line == '(empty)' | return '' | endif
-
-    var raw = matchstr(line, fname_regex)
-    var name = substitute(raw, ' -> .*$', '', '')
-
-    if name[-1 : -1] =~ '[/*@=|]'
-        name = name[0 : -2]
-    endif
-
-    return name
-enddef
-
-def LockCursor()
-    var line = getline('.')
-    var col = match(getline('.'), fname_regex)
-    if col == -1 | return | endif
-
-    if col('.') < col + 1
-        cursor(line('.'), col + 1)
-    endif
-enddef
-
 def NewFileOrDir(line: string)
     var name = trim(line)
     if name == '' | return | endif
@@ -184,7 +185,7 @@ def TrackFiles()
     var lines = getline(1, '$')
 
     for i in range(len(lines))
-        var name = GetFileName(lines[i])
+        var name = lines[i]
         if name == '' | continue | endif
 
         sign_place(id, 'ViredGroup', 'ViredTracker', bufnr(), {lnum: i + 1})
@@ -205,18 +206,18 @@ def Render()
     endif
     setline(1, files)
 
+    SetupHighlights(files, b:cwd)
+
     var bufname = 'vired://' .. b:cwd
     silent! execute 'file ' .. fnameescape(bufname)
 
     setlocal nomodified buftype=acwrite bufhidden=wipe
     setlocal noswapfile nonumber filetype=vired nowrap
     &l:statusline = b:cwd
-    SetupViredColours()
 
     augroup ViredEvents
         autocmd! * <buffer>
         autocmd BufWriteCmd <buffer> Sync()
-        autocmd CursorMoved,CursorMovedI <buffer> LockCursor()
         autocmd QuitPre <buffer> setlocal nomodified
     augroup END
 
@@ -226,7 +227,6 @@ def Render()
     nnoremap <buffer><nowait> . <ScriptCmd>Render()<CR>
     nnoremap <buffer><nowait> yy <ScriptCmd>Copy()<CR>
 
-    LockCursor()
     TrackFiles()
 enddef
 
@@ -247,7 +247,7 @@ def Sync()
 
         var id = map[lnum]
         var name = b:fmap[id]
-        var nname = GetFileName(lines[i])
+        var nname = lines[i]
 
         seen[id] = true
         if nname == ''
@@ -299,7 +299,7 @@ enddef
 
 # movement
 def Enter()
-    var name = GetFileName(getline('.'))
+    var name = getline('.')
     setlocal nomodified
 
     if name == '.'
@@ -321,7 +321,7 @@ enddef
 def Copy()
     if &modified | echoerr 'save first' | return | endif
 
-    var name = GetFileName(getline('.'))
+    var name = getline('.')
     if name == '' || name == '.' || name == '..' | return | endif
 
     var src = b:cwd .. '/' .. name
@@ -346,7 +346,7 @@ def GoUp()
 enddef
 
 def ShellCommand()
-    var name = GetFileName(getline('.'))
+    var name = getline('.')
     if name == '.' || name == '..' || name == '' | echo "select valid file..." | return | endif
 
     var fp = fnameescape(b:cwd .. '/' .. name)
