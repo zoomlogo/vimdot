@@ -112,8 +112,6 @@ def NDayJump(skip: number)
 enddef
 
 def SetupUI()
-    setfiletype markdown
-
     syntax region WikiLink start='\[\[' end='\]\]' contains=WikiLinkText oneline
     highlight default link WikiLink Special
 
@@ -133,7 +131,8 @@ enddef
 
 augroup Notes
     autocmd!
-    autocmd BufNewFile,BufReadPost *.note SetupUI()
+    autocmd BufNewFile,BufRead *.note set filetype=note.markdown
+    autocmd FileType note.markdown SetupUI()
 augroup END
 
 command! Daily OpenDaily()
