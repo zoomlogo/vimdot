@@ -217,6 +217,7 @@ def Render()
 
     setlocal nomodified buftype=acwrite bufhidden=wipe
     setlocal noswapfile nonumber filetype=vired nowrap
+    setlocal colorcolumn=0 textwidth=0
     &l:statusline = b:cwd
 
     augroup ViredEvents

@@ -20,7 +20,7 @@ g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
 const note_extension = '.note'
 
 def FollowLink()
-    # find [[link]]
+    # find [[link]]; SINGLE WORD ONLY
     var word = expand('<cWORD>')
     var start = matchstrpos(word, '\[\[')[2]
     var end = matchstrpos(word, '\]\]')[1]
@@ -32,7 +32,7 @@ def FollowLink()
     var parents = fnamemodify(target_file, ':h')
     if !isdirectory(parents)
         mkdir(parents, 'p')
-        redraw | echo "[Notes] Created directories: " .. parents
+        echo "[Notes] Created directories: " .. parents
     endif
 
     # update current buffer and goto [[link]]
@@ -49,7 +49,8 @@ def WhatLinksHere()
     var note = fnamemodify(expand('%'), ':p:s?^' .. g:notes_global_directory .. '/??:r')
     var pattern = '[[' .. note .. ']]'
 
-    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F ' .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
+    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F '
+        .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
     var spec = fzf#vim#with_preview({'options': ['--prompt', 'Backlinks> ']})
 
     fzf#vim#grep(cmd, 1, spec, 0)
@@ -79,6 +80,8 @@ def SetupUI()
     syntax match WikiLinkText /[^\[\]]\+/ contained
     highlight default link WikiLinkText Special
 
+    setlocal colorcolumn=78 textwidth=78 formatoptions=tcqn joinspaces
+
     nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
     nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>
 enddef
@@ -90,5 +93,5 @@ augroup Notes
 augroup END
 
 command! Daily OpenDaily()
-command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory ..  '/index.note')
+command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory .. '/index.note')
 command! -bang SearchNotes call fzf#vim#files(g:notes_global_directory, fzf#vim#with_preview(), <bang>0)

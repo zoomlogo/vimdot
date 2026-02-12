@@ -151,6 +151,7 @@ def OnExitRunPost(msg: string)
         win_execute(winid, 'setlocal nonumber norelativenumber signcolumn=no modifiable')
         appendbufline(run_termid, '$', msg)
         win_execute(winid, 'setlocal buftype=nofile bufhidden=wipe noswapfile nomodified')
+        win_execute(winid, 'setlocal colorcolumn=0 textwidth=0')
     endif
 enddef
 

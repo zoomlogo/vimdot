@@ -19,6 +19,7 @@ export def IvyBuffer()
     cursor(3, 1)
 
     setlocal buftype=nofile bufhidden=hide noswapfile filetype=vim nomodified
+    setlocal colorcolumn=0 textwidth=0
 
     nnoremap <buffer> <CR> <ScriptCmd>Run([trim(getline('.'))])<CR>
     nnoremap <buffer> <C-e> <ScriptCmd>Run(getline("'{", "'}"))<CR>
