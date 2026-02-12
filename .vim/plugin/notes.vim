@@ -18,6 +18,7 @@ vim9script
 
 g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
 const note_extension = '.note'
+const daily_dirext = '/daily'
 
 def FollowLink()
     # find [[link]]; SINGLE WORD ONLY
@@ -38,6 +39,11 @@ def FollowLink()
     # update current buffer and goto [[link]]
     update
     execute 'edit ' .. fnameescape(target_file)
+    if line('$') == 1 && getline(1) == ''
+        var template = ['# ' .. link, 'Tags: #inbox', 'Ref: [[index]]', '']
+        setline(1, template)
+        cursor(1, 3)
+    endif
 enddef
 
 def WhatLinksHere()
@@ -56,24 +62,58 @@ def WhatLinksHere()
     fzf#vim#grep(cmd, 1, spec, 0)
 enddef
 
+def SearchTags()
+    if !exists('*fzf#vim#grep')
+        echoerr 'Requires fzf.vim'
+        return
+    endif
+
+    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case '
+        .. shellescape('#\w+') .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
+    var spec = fzf#vim#with_preview({'options': ['--prompt', 'Tags> ']})
+
+    fzf#vim#grep(cmd, 1, spec, 0)
+enddef
+
 def OpenDaily()
     var date = strftime('%Y-%m-%d')
-    var daily_dir = g:notes_global_directory .. '/daily'
+    var daily_dir = g:notes_global_directory .. daily_dirext
 
     var target_file = daily_dir .. '/' .. date .. note_extension
     if !isdirectory(daily_dir)
         mkdir(daily_dir, 'p')
     endif
 
-    execute 'vsplit ' .. fnameescape(target_file)
+    if expand('%:e') == 'note'
+        execute 'edit ' .. fnameescape(target_file)
+    else
+        execute 'vsplit ' .. fnameescape(target_file)
+    endif
+
     if line('$') == 1 && getline(1) == ''
-        var daily_template = ['# ' .. date, 'Ref: [[index]]']
+        var daily_template = ['# ' .. date, 'Tags: #daily', '']
         setline(1, daily_template)
         normal! G$
     endif
 enddef
 
+def NDayJump(skip: number)
+    var cur = expand('%:t:r')
+    var time = strptime('%Y-%m-%d', cur)
+
+    var target = time + skip * 86400
+    var target_file = strftime('%Y-%m-%d', target)
+    target_file = g:notes_global_directory .. daily_dirext .. '/' .. target_file .. note_extension
+
+    if filereadable(target_file)
+        update
+        execute 'edit ' .. fnameescape(target_file)
+    endif
+enddef
+
 def SetupUI()
+    setfiletype markdown
+
     syntax region WikiLink start='\[\[' end='\]\]' contains=WikiLinkText oneline
     highlight default link WikiLink Special
 
@@ -81,17 +121,22 @@ def SetupUI()
     highlight default link WikiLinkText Special
 
     setlocal colorcolumn=78 textwidth=78 formatoptions=tcqn joinspaces
+    setlocal conceallevel=2
 
     nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
     nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>
+    nnoremap <buffer> ]d <ScriptCmd>NDayJump(v:count1)<CR>
+    nnoremap <buffer> [d <ScriptCmd>NDayJump(-1 * v:count1)<CR>
+    nnoremap <buffer> <C-f> <Cmd>SearchNotes<CR>
+    nnoremap <buffer> <C-t> <Cmd>SearchTags<CR>
 enddef
 
 augroup Notes
     autocmd!
-    autocmd BufNewFile,BufRead *.note setfiletype markdown
-    autocmd Filetype markdown if expand('%:e') == 'note' | SetupUI() | endif
+    autocmd BufNewFile,BufReadPost *.note SetupUI()
 augroup END
 
 command! Daily OpenDaily()
 command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory .. '/index.note')
 command! -bang SearchNotes call fzf#vim#files(g:notes_global_directory, fzf#vim#with_preview(), <bang>0)
+command! -bang SearchTags SearchTags()
