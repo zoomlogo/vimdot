@@ -106,7 +106,7 @@ nn <leader>gd <cmd>LspGotoDeclaration<cr>
 nn gd <cmd>LspGotoDefinition<cr>
 nn <leader>gi <cmd>LspGotoImpl<cr>
 nn gy <cmd>LspGotoTypedef<cr>
-nn K <cmd>LspHover<cr>
+nn <leader>k <cmd>LspHover<cr>
 nn gr <cmd>LspRename<cr>
 nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 "wsl-only
