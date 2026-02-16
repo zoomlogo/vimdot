@@ -18,19 +18,8 @@ let g:loaded_netrw=1
 let g:loaded_netrwPlugin=1
 let g:markdown_folding=1
 let g:markdown_fenced_languages=['c','cpp','k','python','rust','vim','bash=sh']
+let $MANWIDTH = 78
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
-aug x
-  au!
-  au filetype * setl fo-=o
-  "bin help
-  au bufreadpre *.bin let &bin=1
-  au bufreadpost *.bin if &bin | %!xxd
-  au bufreadpost *.bin se ft=xxd | endif
-  au bufwritepre *.bin if &bin | %!xxd -r
-  au bufwritepre *.bin endif
-  au bufwritepost *.bin if &bin | %!xxd
-  au bufwritepost *.bin se nomod | endif
-aug END
 "other
 ru ftplugin/man.vim | se keywordprg=:Man
 pa! cfilter | pa! matchit | pa! termdebug

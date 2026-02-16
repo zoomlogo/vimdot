@@ -58,10 +58,25 @@ ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 "file specific settings/autocmds
 aug vimdot
   au!
+  au filetype * setl fo-=o
+  "
   au vimenter * ++once call s:viredstart()
   au filetype make setl noet
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
+  "bin help
+  au bufreadpre *.bin let &bin=1
+  au bufreadpost *.bin if &bin | %!xxd
+  au bufreadpost *.bin se ft=xxd | endif
+  au bufwritepre *.bin if &bin | %!xxd -r
+  au bufwritepre *.bin endif
+  au bufwritepost *.bin if &bin | %!xxd
+  au bufwritepost *.bin se nomod | endif
+  "man
+  au FileType man setlocal colorcolumn=0
+  au FileType man setlocal nonumber
+  au FileType man setlocal norelativenumber
+  au FileType man setlocal signcolumn=no
 aug END
 nn <leader>b <cmd>BuildMe<cr>
 nn <leader>r <cmd>RunMe<cr>
