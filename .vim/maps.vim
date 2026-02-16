@@ -73,10 +73,7 @@ aug vimdot
   au bufwritepost *.bin if &bin | %!xxd
   au bufwritepost *.bin se nomod | endif
   "man
-  au FileType man setlocal colorcolumn=0
-  au FileType man setlocal nonumber
-  au FileType man setlocal norelativenumber
-  au FileType man setlocal signcolumn=no
+  au filetype man setl cc=0 nonu nornu scl=no
 aug END
 nn <leader>b <cmd>BuildMe<cr>
 nn <leader>r <cmd>RunMe<cr>

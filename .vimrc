@@ -18,7 +18,7 @@ let g:loaded_netrw=1
 let g:loaded_netrwPlugin=1
 let g:markdown_folding=1
 let g:markdown_fenced_languages=['c','cpp','k','python','rust','vim','bash=sh']
-let $MANWIDTH = 78
+let $MANWIDTH=78
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 "other
 ru ftplugin/man.vim | se keywordprg=:Man
