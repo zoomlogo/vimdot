@@ -63,7 +63,7 @@ def FindRoot(): string
     if &buftype != '' | return '' | endif
 
     var cwd = expand('%:p:h')
-    if cwd =~ '^\w\+://' | return '' | endif
+    if cwd =~ '^\w\+://' || cwd =~# '/notes' | return '' | endif
     if cwd == '' | return '' | endif
 
     var root = ''
