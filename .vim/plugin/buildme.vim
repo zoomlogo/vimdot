@@ -47,7 +47,6 @@ const script_run_rules = [
 
 # internal state
 var build_job_ref: job = null_job
-var build_job_output: list<string> = []
 
 var run_termid: number = -1
 
@@ -73,7 +72,7 @@ export def BuildMe(incmd: string = '')
         job_stop(build_job_ref)
     endif
 
-    build_job_output = []
+    setqflist([], 'r', {title: ' Build Output ', lines: []})
 
     var scmd = [&shell, &shellcmdflag, cmd]
 
@@ -130,12 +129,10 @@ enddef
 
 # build me internals
 def OnOutputBuild(ch: channel, msg: string)
-    add(build_job_output, msg)
+    setqflist([], 'a', {lines: [msg]})
 enddef
 
 def OnExitBuild(j: job, status: number)
-    setqflist([], 'r', {title: ' Build Output ', lines: build_job_output})
-
     if status == 0 | echo '[BuildMe] Successful.'
     else
         echohl ErrorMsg | echo '[BuildMe:' .. status .. '] Failed!' | echohl None
