@@ -10,7 +10,7 @@ filet plugin indent on | sy enable
 colo habamax
 let &listchars="tab:\xbb "
 let g:colorscheme_changer_colors=['wildcharm','habamax','onedark','gruvbox',
-            \'cemant','unokai','quiet','sorbet','slate','lunaperche']
+            \'cemant','unokai','quiet','sorbet','lunaperche','catppuccin']
 let g:rainbow_active=1
 let g:tex_flavor="latex"
 let g:gitgutter_sign_priority=0

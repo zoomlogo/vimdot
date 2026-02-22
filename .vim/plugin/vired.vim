@@ -124,7 +124,7 @@ def LongList(files: list<string>, dir: string)
 
         # parse sz
         var sz = fptype == 'd' ? '-' : FormatSize(getfsize(file))
-        prop_add(line, 1, {type: 'vired_sz', text: printf("%6s ", sz)})
+        prop_add(line, 1, {type: 'vired_sz', text: printf("%7s ", sz)})
 
         # parse date
         var date = strftime("%b %d %H:%M", getftime(file))
