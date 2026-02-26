@@ -198,6 +198,13 @@ def TrackFiles()
     endif
 enddef
 
+def ChangeDirectory(notify: bool = false)
+    execute 'tcd ' .. fnameescape(b:cwd)
+    if notify
+        echo 'changed directory to: ' .. b:cwd
+    endif
+enddef
+
 # render
 def Render()
     setlocal modifiable
@@ -231,6 +238,7 @@ def Render()
     nnoremap <buffer><nowait> ! <ScriptCmd>ShellCommand()<CR>
     nnoremap <buffer><nowait> . <ScriptCmd>Render()<CR>
     nnoremap <buffer><nowait> yy <ScriptCmd>Copy()<CR>
+    nnoremap <buffer><nowait> zz <ScriptCmd>ChangeDirectory(true)<CR>
 
     TrackFiles()
 enddef
