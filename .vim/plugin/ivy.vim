@@ -22,21 +22,31 @@ export def IvyBuffer()
     setlocal colorcolumn=0 textwidth=0
 
     nnoremap <buffer> <CR> <ScriptCmd>Run([trim(getline('.'))])<CR>
+    nnoremap <buffer> <leader><CR> <ScriptCmd>Run(getline(1, '$'))<CR>
     nnoremap <buffer> <C-e> <ScriptCmd>Run(getline("'{", "'}"))<CR>
     vnoremap <buffer> <C-e> <Esc><ScriptCmd>Run(getline(getpos("'<")[1], getpos("'>")[1]))<CR>
 enddef
 
 # run
 def Run(lines: list<string>)
-    try
-        if len(lines) == 0 || (len(lines) == 1 && lines[0] == '') | return | endif
-        var output = execute(lines)
+    var tmp = tempname()
+    if len(lines) == 0 || (len(lines) == 1 && lines[0] == '') | return | endif
 
+    var to_run = lines
+    if to_run[0] != 'vim9script'
+        insert(to_run, 'vim9script')
+    endif
+    writefile(to_run, tmp)
+
+    try
+        var output = execute('source ' .. fnameescape(tmp))
         if output != ''
             appendbufline(bufnr(), line('.'), trim(output))
         endif
     catch
         echohl ErrorMsg | echo v:exception | echohl None
+    finally
+        delete(tmp)
     endtry
 enddef
 
