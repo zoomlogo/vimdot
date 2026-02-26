@@ -25,9 +25,8 @@ tpope/vim-fugitive
 tpope/vim-repeat
 tpope/vim-surround
 
-junegunn/fzf
-junegunn/fzf.vim
-SirVer/ultisnips
+vim-fuzzbox/fuzzbox.vim
+vim-fuzzbox/fuzzbox-lsp.vim
 opt:yegappan/lsp
 
 joshdick/onedark.vim

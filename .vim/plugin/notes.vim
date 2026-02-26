@@ -1,6 +1,6 @@
 vim9script
 # Notes: Note taking plugin for Vim.
-# Depends on fzf.vim
+# Depends on fuzzbox.vim
 #
 # Has a single option:
 # g:notes_global_directory -> Tells the plugin where to store ALL notes.
@@ -13,7 +13,7 @@ vim9script
 # Buffer specific mappings:
 # <CR> -> Follow link. Links are defined by [[link]]. New file is created if
 #   required.
-# <BS> -> Uses fzf to search through notes showing those which link to the
+# <BS> -> Uses fuzzbox to search through notes showing those which link to the
 #   current note.
 
 g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
@@ -47,32 +47,31 @@ def FollowLink()
 enddef
 
 def WhatLinksHere()
-    if !exists('*fzf#vim#grep')
-        echoerr 'Requires fzf.vim'
+    if !exists('*fuzzbox#internal#launcher#Start')
+        echoerr 'Requires fuzzbox.vim'
         return
     endif
 
     var note = fnamemodify(expand('%'), ':p:s?^' .. g:notes_global_directory .. '/??:r')
     var pattern = '[[' .. note .. ']]'
-
-    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case -F '
-        .. shellescape(pattern) .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
-    var spec = fzf#vim#with_preview({'options': ['--prompt', 'Backlinks> ']})
-
-    fzf#vim#grep(cmd, 1, spec, 0)
+    fuzzbox#internal#launcher#Start('grep', {
+        cwd: g:notes_global_directory,
+        title: 'Backlinks',
+        prompt_text: pattern,
+    })
 enddef
 
 def SearchTags()
-    if !exists('*fzf#vim#grep')
-        echoerr 'Requires fzf.vim'
+    if !exists('*fuzzbox#internal#launcher#Start')
+        echoerr 'Requires fuzzbox.vim'
         return
     endif
 
-    var cmd = 'rg --column --line-number --no-heading --color=always --smart-case '
-        .. shellescape('#\w+') .. ' ' ..  shellescape(g:notes_global_directory) .. ' || true'
-    var spec = fzf#vim#with_preview({'options': ['--prompt', 'Tags> ']})
-
-    fzf#vim#grep(cmd, 1, spec, 0)
+    fuzzbox#internal#launcher#Start('grep', {
+        cwd: g:notes_global_directory,
+        title: 'Tags',
+        prompt_text: '#',
+    })
 enddef
 
 def OpenDaily()
@@ -137,5 +136,5 @@ augroup END
 
 command! Daily OpenDaily()
 command! Notes execute 'vsplit ' .. fnameescape(g:notes_global_directory .. '/index.note')
-command! -bang SearchNotes call fzf#vim#files(g:notes_global_directory, fzf#vim#with_preview(), <bang>0)
+command! -bang SearchNotes call fuzzbox#internal#launcher#Start('files', { cwd: g:notes_global_directory })
 command! -bang SearchTags SearchTags()

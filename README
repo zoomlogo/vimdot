@@ -1,6 +1,6 @@
 dependencies:
 * vim 9+ with python (required for ultisnips)
-* fzf & ripgrep
+* ripgrep
 * optional (lsp): clangd, pylsp, rust-analyzer, verible
 
 installation happens by copying the config files to ~ (overwriting any previous

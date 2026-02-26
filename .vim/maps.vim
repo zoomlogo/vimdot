@@ -85,11 +85,11 @@ if !exists('g:loaded_lsp')
   au bufnew,bufenter *.c nn <m-p> :e %<.h<cr>
   au bufnew,bufenter *.h nn <m-p> :e %<.c<cr>
 endif
-"fzf+rg
-nn <c-g> <cmd>Rg<cr>
-nn <c-f> <cmd>GFiles --cached --others --exclude-standard<cr>
-nn <c-t> <cmd>Files<cr>
-nn <c-b> <cmd>Buffers<cr>
+"fuzzbox
+nn <c-g> <cmd>FuzzyGrep<cr>
+nn <c-f> <cmd>FuzzyGitFiles<cr>
+nn <c-t> <cmd>FuzzyFiles<cr>
+nn <c-b> <cmd>FuzzyBuffers<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
