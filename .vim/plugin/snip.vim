@@ -73,6 +73,13 @@ var compiled_snippets = {
 # erase them upon jumping to $0 (to keep the thing clear)
 # the text properties will hold the following:
 # the token id, length of character to select on jump
+if empty(prop_type_get('snippet_mark'))
+    prop_type_add('snippet_mark', {
+        highlight: 'Search',  # debug
+        start_incl: true,
+        end_incl: true
+    })
+endif
 
 # TODO
 # attach text properties
@@ -80,23 +87,8 @@ var compiled_snippets = {
 # replace all text correctly (multiple $n replacements)
 # run commands in snippet (surrounded by `)
 
-# very simple expand snippet
-# TODO add textprops to markers
+# expand snippet
 def ExpandSnippet(ast: list<dict<any>>)
-    var result = ""
-    for token in ast
-        if token.type == AST.Text
-            result ..= token.value
-        elseif token.type == AST.Eval
-            result ..= eval(token.value)
-        elseif token.type == AST.Mark
-            if has_key(token, 'value')
-                result ..= token.value
-            endif
-        endif
-    endfor
-
-    var lines = split(result, '\n', 1)
     var lnum = line('.')
     var ccol = col('.')
     var curline = getline(lnum)
@@ -104,13 +96,46 @@ def ExpandSnippet(ast: list<dict<any>>)
     var prefix = ccol == 1 ? '' : curline[ : ccol - 2]
     var suffix = curline[ccol - 1 : ]
 
-    lines[0] = prefix .. lines[0]
-    lines[-1] = lines[-1] .. suffix
+    var lines = [prefix]
+    var marks = []
+
+    for token in ast
+        var val = ''
+        if token.type == AST.Text
+            val = token.value
+        elseif token.type == AST.Eval
+            val = eval(token.value)
+        elseif token.type == AST.Mark
+            val = has_key(token, 'value') ? token.value : ''
+            add(marks, {
+                id: token.id,
+                line_offset: len(lines) - 1,
+                col: len(lines[-1]) + 1,
+                len: len(val)
+            })
+        endif
+
+        var parts = split(val, '\n', 1)
+        lines[-1] ..= parts[0]
+        if len(parts) > 1
+            extend(lines, parts[1 : ])
+        endif
+    endfor
+
+    lines[-1] ..= suffix
 
     setline(lnum, lines[0])
     if len(lines) > 1
         append(lnum, lines[1 : ])
     endif
+
+    for mark in marks
+        prop_add(lnum + mark.line_offset, mark.col, {
+            type: 'snippet_mark',
+            length: mark.len,
+            id: mark.id
+        })
+    endfor
 enddef
 
 def JumpAround()
