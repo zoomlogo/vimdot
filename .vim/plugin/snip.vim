@@ -8,15 +8,15 @@ vim9script
 var active_visual_text = ""
 
 # TODO dynamically parse corresponding file and load snippets like so:
-var snippets = {
-    'c': {
-        'once': "#pragma once\n$0",
-        'inc': "#include <${1:stdio}.h>\n$0",
-        'incl': "#include \"${1:stdio}.h\"\n$0",
-        'if': "if (${1:cond}) {\n\t${0:${VISUAL}}\n}\n",
-        'n': "`expand(\"%:t\")`$0",
-    }
-}
+# var snippets = {
+#     'c': {
+#         'once': "#pragma once\n$0",
+#         'inc': "#include <${1:stdio}.h>\n$0",
+#         'incl': "#include \"${1:stdio}.h\"\n$0",
+#         'if': "if (${1:cond}) {\n\t${0:${VISUAL}}\n}\n",
+#         'n': "`expand(\"%:t\")`$0",
+#     }
+# }
 
 # TODO ast format is going to be something like so:
 enum AST
@@ -34,27 +34,43 @@ var compiled_snippets = {
         ],
         'inc': [
             {type: AST.Text, value: "#include <"},
-            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "stdio"}},
+            {type: AST.Mark, id: 1, value: [{type: AST.Text, value: "stdio"}]},
             {type: AST.Text, value: ".h>\n"},
             {type: AST.Mark, id: 0},
         ],
         'incl': [
             {type: AST.Text, value: "#include \""},
-            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "stdio"}},
+            {type: AST.Mark, id: 1, value: [{type: AST.Text, value: "stdio"}]},
             {type: AST.Text, value: ".h\"\n"},
             {type: AST.Mark, id: 0},
         ],
         'if': [
             {type: AST.Text, value: "if ("},
-            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "cond"}},
+            {type: AST.Mark, id: 1, value: [{type: AST.Text, value: "cond"}]},
             {type: AST.Text, value: ") {\n\t"},
-            {type: AST.Mark, id: 0, value: {type: AST.Visual}},
+            {type: AST.Mark, id: 0, value: [{type: AST.Visual}]},
             {type: AST.Text, value: "\n}\n"},
         ],
-        'n': [
-            {type: AST.Eval, value: 'expand("%:t")'},
+        'guard': [
+            {type: AST.Text, value: "#ifndef "},
+            {type: AST.Mark, id: 1, value: [
+                {type: AST.Eval, value: 'toupper(expand("%:t:r"))'},
+                {type: AST.Text, value: '_DEFINED_H'}
+            ]},
+            {type: AST.Text, value: "\n#define "},
+            {type: AST.Mark, id: 1, value: [
+                {type: AST.Eval, value: 'toupper(expand("%:t:r"))'},
+                {type: AST.Text, value: '_DEFINED_H'}
+            ]},
+            {type: AST.Text, value: "\n\n"},
             {type: AST.Mark, id: 0},
-        ]
+            {type: AST.Text, value: "\n\n#endif  // "},
+            {type: AST.Mark, id: 1, value: [
+                {type: AST.Eval, value: 'toupper(expand("%:t:r"))'},
+                {type: AST.Text, value: '_DEFINED_H'}
+            ]},
+        ],
+
     }
 }
 
@@ -129,6 +145,9 @@ def ExpandSnippet(ast: list<dict<any>>)
             })
         endif
 
+        if &expandtab
+            val = val->substitute('\t', repeat(' ', shiftwidth()), 'g')
+        endif
         var parts = split(val, '\n', 1)
         lines[-1] ..= parts[0]
         if len(parts) > 1
@@ -174,7 +193,13 @@ enddef
 # 1. basic snippet expansion from the AST + placement of textprops
 # 2. snippet jumping + multi-replacement
 # 3. parser
-command! -nargs=1 ExpandSnip ExpandSnippet(<args>)
+def ExpandSnip(name: string)
+    if has_key(compiled_snippets['c'], name)
+        ExpandSnippet(compiled_snippets['c'][name])
+    endif
+enddef
+
+command! -nargs=1 ExpandSnip ExpandSnip(<args>)
 inoremap <C-j> <ScriptCmd>JumpForward()<CR>
 snoremap <C-j> <ScriptCmd>JumpForward()<CR>
 vnoremap <C-j> <ScriptCmd>CaptureVisual()<CR>
