@@ -5,6 +5,7 @@ vim9script
 # robust; entire plugin in vim9script
 # inital version will be in a single file (this file)
 # will figure out file structure later (and put in a separate repo)
+var active_visual_text = ""
 
 # TODO dynamically parse corresponding file and load snippets like so:
 var snippets = {
@@ -21,7 +22,8 @@ var snippets = {
 enum AST
     Text,
     Mark,
-    Eval
+    Eval,
+    Visual
 endenum
 
 var compiled_snippets = {
@@ -32,26 +34,26 @@ var compiled_snippets = {
         ],
         'inc': [
             {type: AST.Text, value: "#include <"},
-            {type: AST.Mark, id: 1, value: "stdio"},
+            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "stdio"}},
             {type: AST.Text, value: ".h>\n"},
             {type: AST.Mark, id: 0},
         ],
         'incl': [
             {type: AST.Text, value: "#include \""},
-            {type: AST.Mark, id: 1, value: "stdio"},
+            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "stdio"}},
             {type: AST.Text, value: ".h\"\n"},
             {type: AST.Mark, id: 0},
         ],
         'if': [
             {type: AST.Text, value: "if ("},
-            {type: AST.Mark, id: 1, value: "cond"},
+            {type: AST.Mark, id: 1, value: {type: AST.Text, value: "cond"}},
             {type: AST.Text, value: ") {\n\t"},
-            {type: AST.Mark, id: 0, value: "{VISUAL}"},
+            {type: AST.Mark, id: 0, value: {type: AST.Visual}},
             {type: AST.Text, value: "\n}\n"},
         ],
         'n': [
             {type: AST.Eval, value: 'expand("%:t")'},
-            {type: AST.Mark, value: 0},
+            {type: AST.Mark, id: 0},
         ]
     }
 }
@@ -104,9 +106,21 @@ def ExpandSnippet(ast: list<dict<any>>)
         if token.type == AST.Text
             val = token.value
         elseif token.type == AST.Eval
-            val = eval(token.value)
+            val ..= eval(token.value)
         elseif token.type == AST.Mark
-            val = has_key(token, 'value') ? token.value : ''
+            if has_key(token, 'value')
+                var child_token = token.value
+                if child_token.type == AST.Text
+                    val = child_token.value
+                elseif child_token.type == AST.Eval
+                    val ..= eval(child_token.value)
+                elseif child_token.type == AST.Visual
+                    if active_visual_text != ""
+                        val = active_visual_text
+                        active_visual_text = ""
+                    endif
+                endif
+            endif
             add(marks, {
                 id: token.id,
                 line_offset: len(lines) - 1,
@@ -138,7 +152,19 @@ def ExpandSnippet(ast: list<dict<any>>)
     endfor
 enddef
 
-def JumpAround()
+def CaptureVisual()
+    var saved_register = @"
+    normal! gv""y
+    active_visual_text = @"
+    @" = saved_register
+    normal! gv"_d
+    startinsert
+enddef
+
+def JumpForward()
+enddef
+
+def JumpBackward()
 enddef
 
 def SmartBind()
@@ -148,4 +174,9 @@ enddef
 # 1. basic snippet expansion from the AST + placement of textprops
 # 2. snippet jumping + multi-replacement
 # 3. parser
-command! -nargs=1 TestExpand ExpandSnippet(<args>)
+command! -nargs=1 ExpandSnip ExpandSnippet(<args>)
+inoremap <C-j> <ScriptCmd>JumpForward()<CR>
+snoremap <C-j> <ScriptCmd>JumpForward()<CR>
+vnoremap <C-j> <ScriptCmd>CaptureVisual()<CR>
+inoremap <C-k> <ScriptCmd>JumpBackward()<CR>
+snoremap <C-k> <ScriptCmd>JumpBackward()<CR>
