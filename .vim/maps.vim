@@ -6,6 +6,7 @@ nn <leader>h <cmd>vs<cr>
 nn <leader>v <cmd>sp<cr>
 nn <leader>t <cmd>tabnew<cr>
 nn <leader>n <cmd>tabn<cr>
+nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>cc <cmd>ChangeColor<cr>
 nn <leader>cr <cmd>RandomColor<cr>
