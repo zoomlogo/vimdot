@@ -104,10 +104,6 @@ let g:VM_silent_exit = 1
 let g:VM_maps['Visual Cursors'] = 'gl'
 let g:VM_maps['Add Cursor Down'] = '<C-j>'
 let g:VM_maps['Add Cursor Up'] = '<C-k>'
-"snips
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "undotree
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings

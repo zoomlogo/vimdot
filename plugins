@@ -25,6 +25,7 @@ tpope/vim-fugitive
 tpope/vim-repeat
 tpope/vim-surround
 
+zoomlogo/snip9
 vim-fuzzbox/fuzzbox.vim
 vim-fuzzbox/fuzzbox-lsp.vim
 opt:yegappan/lsp
