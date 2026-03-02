@@ -1,5 +1,5 @@
 dependencies:
-* vim 9+ with python (required for ultisnips)
+* vim 9+
 * ripgrep
 * optional (lsp): clangd, pylsp, rust-analyzer, verible
 

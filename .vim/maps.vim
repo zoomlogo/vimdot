@@ -104,6 +104,14 @@ let g:VM_silent_exit = 1
 let g:VM_maps['Visual Cursors'] = 'gl'
 let g:VM_maps['Add Cursor Down'] = '<C-j>'
 let g:VM_maps['Add Cursor Up'] = '<C-k>'
+"vim-latex
+imap <C-J> <Plug>IMAP_JumpForward
+"snips
+imap <C-j> <Plug>snip9nextOrTrigger
+smap <C-j> <Plug>snip9nextOrTrigger
+xmap <C-j> <Plug>snip9visual
+imap <C-k> <Plug>snip9back
+smap <C-k> <Plug>snip9back
 "undotree
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
