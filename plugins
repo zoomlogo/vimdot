@@ -2,8 +2,8 @@
 bfrg/vim-c-cpp-modern
 compnerd/arm64asm-vim
 rust-lang/rust.vim
-vim-latex/vim-latex
 zoomlogo/vim-apl
+opt:vim-latex/vim-latex
 
 AndrewRadev/sideways.vim
 airblade/vim-gitgutter
