@@ -1,0 +1,116 @@
+# CPP
+snippet guard
+	#ifndef ${1:`toupper(expand("%:t:r"))`_DEFINED_H}
+	#define $1
+
+	$0
+
+	#endif  // $1
+snippet once
+	#pragma once
+	$0
+snippet inc
+	#include <${1:stdio}.h>$0
+snippet incl
+	#include "${1:`expand("%:t:r")`}.h"$0
+# Branching
+snippet if
+	if (${1:true}) {
+		${0:${VISUAL}}
+	}
+snippet el
+	else {
+		${0:${VISUAL}}
+	}
+snippet elif
+	else if (${1:true}) {
+		${0:${VISUAL}}
+	}
+# Loops
+snippet wh
+	while (${1:true}) {
+		${0:${VISUAL}}
+	}
+snippet do
+	do {
+		${0:${VISUAL}}
+	} while (${1:false});
+snippet for
+	for (${4:size_t} ${1:i} = 0; $1 < ${2:n}; ${3:++$1}) {
+		${0:${VISUAL}}
+	}
+# Switch case.
+snippet sw
+	switch (${1:var}) {
+	ca$0
+	}
+snippet ca
+	case ${1:X}:
+		${2:${VISUAL}}
+		break;
+	ca$0
+snippet cad
+	default: $0
+# Other statements.
+snippet ret
+	return ${1:value};$0
+# Structures.
+snippet st
+	typedef struct ${1:name} {
+		$2
+	} $1_t;
+	$0
+snippet en
+	typedef enum ${1:name} {
+		$2
+	} $1_e;
+	$0
+snippet un
+	typedef union ${1:name} {
+		$2
+	} $1_u;
+	$0
+# Short consistent type names.
+snippet types
+	#pragma once
+	#include <stddef.h>
+	#include <stdint.h>
+
+	typedef int8_t   i8;
+	typedef int16_t i16;
+	typedef int32_t i32;
+	typedef int64_t i64;
+
+	typedef uint8_t   u8;
+	typedef uint16_t u16;
+	typedef uint32_t u32;
+	typedef uint64_t u64;
+
+	typedef float  f32;
+	typedef double f64;
+
+	typedef size_t usize;
+	typedef ptrdiff_t isize;
+	${0}
+# Main.
+snippet main
+	${1:int} main(${2:void}) {
+		${0}
+
+		return 0;
+	}
+# Standard library functions.
+snippet pr
+	printf("${1:%d}\n", ${2:var});$0
+snippet prd
+	printf("${1:var} = ${2:%d}\n", $1);$0
+# Heap allocation (including easy nullptr checks).
+snippet mall
+	${1:type} *${2:name} = malloc(${3:1} * sizeof($1));
+	if$0
+snippet call
+	${1:type} *${2:name} = calloc(${3:1}, sizeof($1));
+	if$0
+snippet real
+	${1:type} *${2:name} = realloc(${3:old}, ${4:1} * sizeof($1));
+	if$0

@@ -1,0 +1,94 @@
+# Quick imports.
+snippet std
+	import sys, os, json, enum, dataclasses, subprocess
+	$0
+snippet mp
+	from mpmath import mp
+	$0
+snippet np
+	import numpy as np
+	$0
+snippet pd
+	import pandas as pd
+	$0
+snippet plt
+	import matplotlib.pyplot as plt
+	$0
+# Statements.
+snippet if
+	if ${1:cond}:
+		${0:${VISUAL}}
+snippet el
+	else:
+		${0:${VISUAL}}
+snippet elif
+	elif ${1:cond}:
+		${0:${VISUAL}}
+snippet wh
+	while ${1:cond}:
+		${0:${VISUAL}}
+snippet for
+	for ${1:i} in ${2:range(10)}:
+		${0:${VISUAL}}
+snippet mat
+	match ${1:item}:
+		ca$0
+snippet ca
+	case ${1:x}:
+		${0:${VISUAL}}
+snippet cad
+	case _:
+		${0:${VISUAL}}
+snippet try
+	try:
+		${0:${VISUAL}}
+	except ${1:${2:Exception} as ${3:e}}:
+		$4
+# Functions and classes.
+snippet def
+	def ${1:foo}(${2:args}):
+		${0:pass}
+snippet class
+	class ${1:Foo}:
+		def __init__(self, ${2:args}):
+			${0:pass}
+snippet en
+	class ${1:Foo}(enum.Enum):
+		${2:CONSTANT} = enum.auto()
+		enf$0
+snippet enf
+	${1:CONSTANT} = enum.auto()
+	enf$0
+snippet dc
+	@dataclasses.dataclass
+	class ${1:Foo}:
+		${2:attr}: ${3:type}
+		dcf$0
+snippet dcf
+	${1:attr}: ${2:type}
+	dcf$0
+# File IO.
+snippet read
+	with open(${1:path}, "r") as file:
+		${0:data} = file.read()
+snippet write
+	with open(${1:path}, "${2:w}") as file:
+		file.write(${0:data})
+# JSON file IO.
+snippet jread
+	with open(${1:path}, "r") as file:
+		${0:data} = json.load(file)
+snippet jwrite
+	with open(${1:path}, "w") as file:
+		json.dump(${0:data}, file, indent=4)
+# Shell commands.
+snippet sh
+	${1:result} = subprocess.run([${2:"ls", "-l"}], capture_output=True, text=True)
+	$0
+# Main.
+snippet main
+	def main():
+		${0:pass}
+
+	if __name__ == "__main__":
+		main()

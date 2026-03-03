@@ -1,0 +1,30 @@
+snippet htmldoc
+	<!DOCTYPE HTML>
+	<html lang="${1:en}">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>${2:Document}</title>
+	</head>
+	<body>
+		${0:${VISUAL}}
+	</body>
+	</html>
+snippet attr+
+	${1:attribute}="${2:property}" attr+$0
+snippet attr
+	${1:attribute}="${0:property}"
+snippet link
+	<link rel="stylesheet" href="${1:style.css}">$0
+snippet script
+	<script src="${1:script.js}"></script>$0
+snippet .
+	class="${1}" $0
+snippet #
+	id="${1}" $0
+snippet tag
+	<${1:tag}>
+		${0:${VISUAL}}
+	</$1>
+snippet tagi
+	<${1:tag}> $0 </$1>
