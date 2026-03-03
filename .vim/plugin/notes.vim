@@ -20,29 +20,46 @@ g:notes_global_directory = get(g:, 'notes_global_directory', expand('~/notes'))
 const note_extension = '.note'
 const daily_dirext = '/daily'
 
+# Follow note [[links]] or internet |links|.
 def FollowLink()
-    # find [[link]]; SINGLE WORD ONLY
+    # find link; SINGLE WORD ONLY
     var word = expand('<cWORD>')
-    var start = matchstrpos(word, '\[\[')[2]
-    var end = matchstrpos(word, '\]\]')[1]
-    if start == -1 || end == -1 | return | endif
-    var link = word[start : end - 1]
 
-    # make subdirectories:
-    var target_file = g:notes_global_directory .. '/' .. link .. note_extension
-    var parents = fnamemodify(target_file, ':h')
-    if !isdirectory(parents)
-        mkdir(parents, 'p')
-        echo "[Notes] Created directories: " .. parents
+    var nstart = matchstrpos(word, '\[\[')[2]
+    var nend = matchstrpos(word, '\]\]')[1]
+
+    var wstart = matchstrpos(word, '|')[2]
+    var wend = matchstrpos(word, '|', wstart)[1]
+
+    if nstart != -1 && nend != -1
+        var link = word[nstart : nend - 1]
+
+        # make subdirectories:
+        var target_file = g:notes_global_directory .. '/' .. link .. note_extension
+        var parents = fnamemodify(target_file, ':h')
+        if !isdirectory(parents)
+            mkdir(parents, 'p')
+            echo "[Notes] Created directories: " .. parents
+        endif
+
+        # update current buffer and goto [[link]]
+        update
+        execute 'edit ' .. fnameescape(target_file)
+        if line('$') == 1 && getline(1) == ''
+            var template = ['# ' .. link, 'Tags: #inbox', 'Ref: [[index]]', '']
+            setline(1, template)
+            cursor(1, 3)
+        endif
+
+        return
     endif
 
-    # update current buffer and goto [[link]]
-    update
-    execute 'edit ' .. fnameescape(target_file)
-    if line('$') == 1 && getline(1) == ''
-        var template = ['# ' .. link, 'Tags: #inbox', 'Ref: [[index]]', '']
-        setline(1, template)
-        cursor(1, 3)
+    if wstart != -1 && wend != -1
+        var url = word[wstart : wend - 1]
+        if executable('xdg-open')
+            job_start(['xdg-open', url])
+        endif
+        return
     endif
 enddef
 
@@ -111,11 +128,13 @@ def NDayJump(skip: number)
 enddef
 
 def SetupUI()
-    syntax region WikiLink start='\[\[' end='\]\]' contains=WikiLinkText oneline
-    highlight default link WikiLink Special
-
+    syntax region WikiLink matchgroup=WikiLinkDelim start='\[\[' end='\]\]' concealends contains=WikiLinkText oneline
     syntax match WikiLinkText /[^\[\]]\+/ contained
     highlight default link WikiLinkText Special
+
+    syntax region WebLink matchgroup=WebLinkDelim start='|' end='|' concealends contains=WebLinkText oneline
+    syntax match WebLinkText /[^|]\+/ contained
+    highlight default link WebLinkText String
 
     setlocal colorcolumn=78 textwidth=78 formatoptions=tcqn joinspaces
     setlocal conceallevel=2
