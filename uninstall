@@ -1,4 +1,4 @@
-# #!sh
+#!sh
 # uninstall config:
 echo "* uninstalling vimdot"
 # remove installed files

@@ -136,8 +136,8 @@ def SetupUI()
     syntax match WebLinkText /[^|]\+/ contained
     highlight default link WebLinkText String
 
-    setlocal colorcolumn=78 textwidth=78 formatoptions=tcqn joinspaces
-    setlocal conceallevel=2
+    setlocal colorcolumn=0 textwidth=78 formatoptions=tcqn joinspaces
+    setlocal conceallevel=2 concealcursor=nc expandtab tabstop=4 shiftwidth=4
 
     nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
     nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>

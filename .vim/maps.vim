@@ -62,7 +62,7 @@ aug vimdot
   au filetype * setl fo-=o
   "
   au vimenter * ++once call s:viredstart()
-  au filetype make setl noet
+  au filetype make setl noet ts=8 sw=8
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
   "bin help
@@ -119,10 +119,10 @@ nn <m-a> <cmd>LspCodeAction<cr>
 nn <leader>d <cmd>LspDiag next<cr>
 nn <leader>D <cmd>LspDiag prev<cr>
 nn <m-s> <cmd>LspDiagShow<cr>
-nn <leader>gd <cmd>LspGotoDeclaration<cr>
-nn gd <cmd>LspGotoDefinition<cr>
-nn <leader>gi <cmd>LspGotoImpl<cr>
-nn gy <cmd>LspGotoTypedef<cr>
+nn <leader>gd <cmd>LspGotoDeclaration<cr>zz
+nn gd <cmd>LspGotoDefinition<cr>zz
+nn <leader>gi <cmd>LspGotoImpl<cr>zz
+nn gy <cmd>LspGotoTypedef<cr>zz
 nn <leader>k <cmd>LspHover<cr>
 nn gr <cmd>LspRename<cr>
 nn <m-p> <cmd>LspSwitchSourceHeader<cr>
