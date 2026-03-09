@@ -16,8 +16,6 @@ nn <m-w> viw
 "quicklist
 nn ]q <cmd>cn<cr>
 nn [q <cmd>cp<cr>
-nn [] <cmd>copen<cr>
-nn ][ <cmd>cgetbuffer<cr>
 "vired autostart (autocmd defined below)
 nn - <cmd>Vired<cr>
 fu! s:viredstart()
@@ -41,6 +39,8 @@ ino <silent> <m-j> <Esc><cmd>sil! m .+1<cr>gi
 ino <silent> <m-k> <Esc><cmd>sil! m .-2<cr>gi
 vn <silent> <m-j> :m '>+1<cr>gv=gv
 vn <silent> <m-k> :m '<-2<cr>gv=gv
+"duplicate
+nn <c-y> myyyp`yj
 "center screen
 nn <c-u> <c-u>zz
 nn <c-d> <c-d>zz
@@ -116,8 +116,8 @@ smap <C-k> <Plug>snip9back
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 nn <m-a> <cmd>LspCodeAction<cr>
-nn <leader>d <cmd>LspDiag next<cr>
-nn <leader>D <cmd>LspDiag prev<cr>
+nn ]e <cmd>LspDiag next<cr>
+nn [e <cmd>LspDiag prev<cr>
 nn <m-s> <cmd>LspDiagShow<cr>
 nn <leader>gd <cmd>LspGotoDeclaration<cr>zz
 nn gd <cmd>LspGotoDefinition<cr>zz
@@ -125,6 +125,7 @@ nn <leader>gi <cmd>LspGotoImpl<cr>zz
 nn gy <cmd>LspGotoTypedef<cr>zz
 nn <leader>k <cmd>LspHover<cr>
 nn gr <cmd>LspRename<cr>
+nn <m-r> <cmd>LspShowReferences<cr>
 nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 "wsl-only
 if executable('clip.exe')
