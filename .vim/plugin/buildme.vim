@@ -36,6 +36,7 @@ const script_build_rules = [
 g:bm_run_cmd = get(g:, 'bm_run_cmd', '')
 
 const project_run_rules = [
+    ['run.sh', './run.sh'],
     ['a.out', './a.out'],
     ['main.py', 'python -u main.py'],
 ]

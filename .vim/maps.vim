@@ -88,8 +88,7 @@ if !exists('g:loaded_lsp')
 endif
 "fuzzbox
 nn <c-g> <cmd>FuzzyGrep<cr>
-nn <c-f> <cmd>FuzzyGitFiles<cr>
-nn <c-t> <cmd>FuzzyFiles<cr>
+nn <c-f> <cmd>FuzzyFiles<cr>
 nn <c-b> <cmd>FuzzyBuffers<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
