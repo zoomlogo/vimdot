@@ -115,8 +115,8 @@ smap <C-k> <Plug>snip9back
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 nn <m-a> <cmd>LspCodeAction<cr>
-nn ]e <cmd>LspDiag next<cr>
-nn [e <cmd>LspDiag prev<cr>
+nn ]e <cmd>LspDiag next<cr>zz
+nn [e <cmd>LspDiag prev<cr>zz
 nn <m-s> <cmd>LspDiagShow<cr>
 nn <leader>gd <cmd>LspGotoDeclaration<cr>zz
 nn gd <cmd>LspGotoDefinition<cr>zz
@@ -126,7 +126,7 @@ nn <leader>k <cmd>LspHover<cr>
 nn gr <cmd>LspRename<cr>
 nn <m-r> <cmd>LspShowReferences<cr>
 nn <m-p> <cmd>LspSwitchSourceHeader<cr>
-"wsl-only
-if executable('clip.exe')
-  vn <silent> <leader>y y<cmd>call system('clip.exe', @")<cr>
+"X11-only
+if executable('xclip')
+  vn <silent> <leader>y y<cmd>call system('xclip -selection clipboard', @")<cr>
 endif
