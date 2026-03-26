@@ -3,8 +3,11 @@ dependencies:
 * ripgrep
 * optional (lsp): clangd, pylsp, rust-analyzer, verible
 
-installation happens by copying the config files to ~ (overwriting any previous
-configurations).  it is recommended to back up before installing.
+installation happens by copying the config files to ~
+(overwriting any previous configurations).
+
+it is recommended to back up before installing.
+
 install using:
   git clone https://github.com/zoomlogo/vimdot
   cd vimdot && ./install
