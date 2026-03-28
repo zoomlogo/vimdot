@@ -115,8 +115,8 @@ smap <C-k> <Plug>snip9back
 nn <leader>u <cmd>UndotreeToggle<cr>
 "lsp mappings
 nn <m-a> <cmd>LspCodeAction<cr>
-nn ]e <cmd>LspDiag next<cr>zz
-nn [e <cmd>LspDiag prev<cr>zz
+nn ]e <cmd>LspDiag next<cr>
+nn [e <cmd>LspDiag prev<cr>
 nn <m-s> <cmd>LspDiagShow<cr>
 nn <leader>gd <cmd>LspGotoDeclaration<cr>zz
 nn gd <cmd>LspGotoDefinition<cr>zz
