@@ -1,6 +1,6 @@
-nn <space> <nop>
-let mapleader=" "
 nn Q @q
+"leaders
+let mapleader=","
 nn <leader>w <cmd>up<cr>
 nn <leader>h <cmd>vs<cr>
 nn <leader>v <cmd>sp<cr>
@@ -8,23 +8,16 @@ nn <leader>t <cmd>tabnew<cr>
 nn <leader>n <cmd>tabn<cr>
 nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
-nn <leader>cc <cmd>ChangeColor<cr>
-nn <leader>cr <cmd>RandomColor<cr>
+nn <leader>K K
 nn D d$
 nn Y y$
 nn <m-w> viw
+nn <space> :
+nn : ,
+nn K i<cr><esc>
 "quicklist
 nn ]q <cmd>cn<cr>
 nn [q <cmd>cp<cr>
-"vired autostart (autocmd defined below)
-nn - <cmd>Vired<cr>
-fu! s:viredstart()
-  if argc() == 1 && isdirectory(argv(0))
-    let l:path = fnameescape(expand(argv(0)))
-    bw!
-    execute 'Vired ' . l:path
-  endif
-endfu
 ":
 cno <c-a> <Home>
 cno <c-e> <End>
@@ -76,6 +69,19 @@ aug vimdot
   "man
   au filetype man setl cc=0 nonu nornu scl=no
 aug END
+"colors
+nn <leader>cc <cmd>ChangeColor<cr>
+nn <leader>cr <cmd>RandomColor<cr>
+"vired autostart (autocmd defined below)
+nn - <cmd>Vired<cr>
+fu! s:viredstart()
+  if argc() == 1 && isdirectory(argv(0))
+    let l:path = fnameescape(expand(argv(0)))
+    bw!
+    execute 'Vired ' . l:path
+  endif
+endfu
+"buildme.vim
 nn <leader>b <cmd>BuildMe<cr>
 nn <leader>r <cmd>RunMe<cr>
 "c/c++ source/header swapping
