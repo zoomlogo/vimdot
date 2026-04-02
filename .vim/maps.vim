@@ -1,4 +1,12 @@
+"core
+nn Y y$
+nn <m-w> viw
+nn <space> :
+nn : ,
+nn K i<cr><esc>
 nn Q @q
+"duplicate
+nn <c-y> myyyp`yj
 "leaders
 let mapleader=","
 nn <leader>w <cmd>up<cr>
@@ -9,31 +17,24 @@ nn <leader>n <cmd>tabn<cr>
 nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>K K
-nn D d$
-nn Y y$
-nn <m-w> viw
-nn <space> :
-nn : ,
-nn K i<cr><esc>
 "quicklist
-nn ]q <cmd>cn<cr>
-nn [q <cmd>cp<cr>
+nn ]q <cmd>cn<cr>zz
+nn [q <cmd>cp<cr>zz
+"locationlist
+nn ]l <cmd>lne<cr>zz
+nn [l <cmd>lp<cr>zz
 ":
 cno <c-a> <Home>
 cno <c-e> <End>
-cno <c-p> <Up>
-cno <c-n> <Down>
-cno <c-b> <Left>
-cno <c-f> <Right>
+cno <c-h> <Left>
+cno <c-j> <Down>
+cno <c-k> <Up>
+cno <c-l> <Right>
 "bubble
 nn <silent> <m-j> <cmd>sil! m .+1<cr>
 nn <silent> <m-k> <cmd>sil! m .-2<cr>
-ino <silent> <m-j> <Esc><cmd>sil! m .+1<cr>gi
-ino <silent> <m-k> <Esc><cmd>sil! m .-2<cr>gi
 vn <silent> <m-j> :m '>+1<cr>gv=gv
 vn <silent> <m-k> :m '<-2<cr>gv=gv
-"duplicate
-nn <c-y> myyyp`yj
 "center screen
 nn <c-u> <c-u>zz
 nn <c-d> <c-d>zz
@@ -69,9 +70,6 @@ aug vimdot
   "man
   au filetype man setl cc=0 nonu nornu scl=no
 aug END
-"colors
-nn <leader>cc <cmd>ChangeColor<cr>
-nn <leader>cr <cmd>RandomColor<cr>
 "vired autostart (autocmd defined below)
 nn - <cmd>Vired<cr>
 fu! s:viredstart()
@@ -96,6 +94,7 @@ endif
 nn <c-g> <cmd>FuzzyGrep<cr>
 nn <c-f> <cmd>FuzzyFiles<cr>
 nn <c-b> <cmd>FuzzyBuffers<cr>
+nn <leader>cc <cmd>FuzzyColors<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
