@@ -7,7 +7,7 @@ se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
 filet plugin indent on | sy enable
-colo habamax
+colo catppuccin
 let &listchars="tab:\xbb "
 let g:rainbow_active=1
 let g:tex_flavor="latex"
