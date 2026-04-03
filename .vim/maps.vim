@@ -5,8 +5,6 @@ nn <space> :
 nn : ,
 nn K i<cr><esc>
 nn Q @q
-"duplicate
-nn <c-y> myyyp`yj
 "leaders
 let mapleader=","
 nn <leader>w <cmd>up<cr>
@@ -17,6 +15,8 @@ nn <leader>n <cmd>tabn<cr>
 nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>K K
+"duplicate
+nn <leader>y myyyp`yj
 "quicklist
 nn ]q <cmd>cn<cr>zz
 nn [q <cmd>cp<cr>zz
@@ -38,6 +38,8 @@ vn <silent> <m-k> :m '<-2<cr>gv=gv
 "center screen
 nn <c-u> <c-u>zz
 nn <c-d> <c-d>zz
+nn <c-f> <c-f>zz
+nn <c-b> <c-b>zz
 nn n nzz
 nn N Nzz
 "more window management (along with vim-terminal-help)
@@ -91,10 +93,10 @@ if !exists('g:loaded_lsp')
   au bufnew,bufenter *.h nn <m-p> :e %<.c<cr>
 endif
 "fuzzbox
-nn <c-g> <cmd>FuzzyGrep<cr>
-nn <c-f> <cmd>FuzzyFiles<cr>
-nn <c-b> <cmd>FuzzyBuffers<cr>
-nn <leader>cc <cmd>FuzzyColors<cr>
+nn <leader>g <cmd>FuzzyGrep<cr>
+nn <leader>f <cmd>FuzzyFiles<cr>
+nn <leader>d <cmd>FuzzyBuffers<cr>
+nn <leader>c <cmd>FuzzyColors<cr>
 "swap args
 nn <m-h> <cmd>SidewaysLeft<cr>
 nn <m-l> <cmd>SidewaysRight<cr>
