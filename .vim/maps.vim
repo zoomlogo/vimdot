@@ -15,6 +15,7 @@ nn <leader>n <cmd>tabn<cr>
 nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>K K
+nn <leader>s <cmd>se buftype=nofile<cr>
 "duplicate
 nn <leader>y myyyp`yj
 "quicklist

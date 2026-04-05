@@ -14,7 +14,7 @@ let g:tex_flavor="latex"
 let g:gitgutter_sign_priority=0
 let g:loaded_netrw=1 | let g:loaded_netrwPlugin=1
 let g:markdown_folding=1
-let g:markdown_fenced_languages=['c','cpp','k','python','rust','vim','bash=sh']
+let g:markdown_fenced_languages=['c','cpp','k','python','rust','vim','bash=sh','pikchr']
 let g:fuzzbox_mappings=0
 let g:snips_author='zoomlogo'
 let $MANWIDTH=78
