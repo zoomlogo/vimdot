@@ -15,7 +15,7 @@ nn <leader>n <cmd>tabn<cr>
 nn <leader>p <cmd>tabp<cr>
 nn <leader>cd <cmd>cd %:h<cr>
 nn <leader>K K
-nn <leader>s <cmd>se buftype=nofile<cr>
+nn <leader>s <cmd>se bt=nofile<cr>
 "duplicate
 nn <leader>y myyyp`yj
 "quicklist
@@ -39,8 +39,8 @@ vn <silent> <m-k> :m '<-2<cr>gv=gv
 "center screen
 nn <c-u> <c-u>zz
 nn <c-d> <c-d>zz
-nn <c-f> <c-f>zz
-nn <c-b> <c-b>zz
+nn <c-f> <c-d><c-d>zz
+nn <c-b> <c-u><c-u>zz
 nn n nzz
 nn N Nzz
 "more window management (along with vim-terminal-help)
@@ -138,3 +138,16 @@ nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 if executable('xclip')
   vn <silent> <leader>y y<cmd>call system('xclip -selection clipboard', @")<cr>
 endif
+"quick-diff current (use :Gdiffsplit for git files)
+fu! s:qdiff()
+  vert sp | winc p
+  ene | se bt=nofile | r # | norm! ggdd
+  let &filetype = getbufvar('#', '&filetype')
+  difft | winc p | difft
+endfu
+fu! s:qdiffi()
+  diffo | winc p
+  bw!
+endfu
+com! Diff call s:qdiff()
+com! DiffI call s:qdiffi()
