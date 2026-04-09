@@ -1,8 +1,8 @@
 "basic config
-se nocp nohls nowrap et ts=4 sw=4 nobk ru is nu rnu ls=2 tgc noswf nowb so=6
-se stal=2 list bg=dark cole=1 pp+=~/.vim fdls=99 ai hid cul ic scs nofen cc=80
-se bs=2 sc wmnu shm=asWIcq ttimeout ttm=50 tm=600 top rtp+=~/k/vim-k scl=yes
-se ut=100 bg=dark cpt+=o tw=100 t_Co=256 culopt=number nosmd enc=utf-8
+se nocp nohls nowrap et ts=4 sw=4 is nu rnu ls=2 tgc noswf nowb so=6 nosmd ic ai
+se stal=2 list bg=dark cole=1 pp+=~/.vim fdls=99 hid cul scs nofen cc=80 top sc
+se bs=2 wmnu shm=asWIcq ttimeout ttm=50 tm=600 rtp+=~/k/vim-k scl=yes bg=dark
+se ut=100 cpt+=o tw=100 t_Co=256 culopt=number enc=utf-8 gp=rg\ --vimgrep\ -P
 se stl=%#PmenuSel#\ %{mode()}\ %#Statusline#\ %f\ %m%r%h%=%y\ %l:%c\ %2p%%
 au bufreadpost * sil! norm! g`"zv
 au bufnew,bufnewfile,bufread *.k :se ft=k
