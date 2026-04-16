@@ -53,6 +53,34 @@ nn <m-M> <c-w>r
 "tab for completion
 ino <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
 ino <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
+"quick-diff current state
+fu! s:qdiff()
+  vert sp | winc p
+  ene | se bt=nofile | r # | norm! ggdd
+  let &filetype = getbufvar('#', '&filetype')
+  difft | winc p | difft
+endfu
+fu! s:qdiffi()
+  diffo | winc p
+  bw!
+endfu
+com! Diff call s:qdiff()
+com! DiffI call s:qdiffi()
+"bin
+fu! s:xxd()
+  let l:m=&mod
+  if !exists('b:hex') || !b:hex
+    let b:hex=1
+    %!xxd
+    setl ft=xxd
+  el
+    let b:hex=0
+    %!xxd -r
+    setl ft= | filet detect
+  en
+  if !l:m | setl nomod | en
+endfu
+com! Hex call s:xxd()
 "file specific settings/autocmds
 aug vimdot
   au!
@@ -62,14 +90,6 @@ aug vimdot
   au filetype make setl noet ts=8 sw=8
   au filetype tex setl ts=2 sw=2 isk+=:
   au filetype c,cpp setl commentstring=//\ %s
-  "bin help
-  au bufreadpre *.bin let &bin=1
-  au bufreadpost *.bin if &bin | %!xxd
-  au bufreadpost *.bin se ft=xxd | endif
-  au bufwritepre *.bin if &bin | %!xxd -r
-  au bufwritepre *.bin endif
-  au bufwritepost *.bin if &bin | %!xxd
-  au bufwritepost *.bin se nomod | endif
   "man
   au filetype man setl cc=0 nonu nornu scl=no
 aug END
@@ -138,16 +158,3 @@ nn <m-p> <cmd>LspSwitchSourceHeader<cr>
 if executable('xclip')
   vn <silent> <leader>y y<cmd>call system('xclip -selection clipboard', @")<cr>
 endif
-"quick-diff current (use :Gdiffsplit for git files)
-fu! s:qdiff()
-  vert sp | winc p
-  ene | se bt=nofile | r # | norm! ggdd
-  let &filetype = getbufvar('#', '&filetype')
-  difft | winc p | difft
-endfu
-fu! s:qdiffi()
-  diffo | winc p
-  bw!
-endfu
-com! Diff call s:qdiff()
-com! DiffI call s:qdiffi()
