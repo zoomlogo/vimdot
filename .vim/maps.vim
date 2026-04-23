@@ -2,7 +2,9 @@
 nn Y y$
 nn <m-w> viw
 nn <space> :
+vn <space> :
 nn : ,
+vn : ,
 nn K i<cr><esc>
 nn Q @q
 "leaders
@@ -89,7 +91,8 @@ aug vimdot
   au vimenter * ++once call s:viredstart()
   au filetype make setl noet ts=8 sw=8
   au filetype tex setl ts=2 sw=2 isk+=:
-  au filetype c,cpp setl commentstring=//\ %s
+  au filetype c,cpp setl commentstring=//\ %s noet ts=8 sw=8
+  au filetype markdown setl cole=2 cocu=nc et ts=4 sw=4 js cc=0 tw=78 fo=tcqn
   "man
   au filetype man setl cc=0 nonu nornu scl=no
 aug END
