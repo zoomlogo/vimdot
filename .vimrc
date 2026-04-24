@@ -22,4 +22,4 @@ let $MANWIDTH=78
 ru ftplugin/man.vim | se keywordprg=:Man
 pa! cfilter | pa! matchit | pa! termdebug
 pa lsp | so ~/.vim/lspconf.vim
-so ~/.vim/maps.vim | so ~/.vim/syn.vim
+so ~/.vim/maps.vim | so ~/.vim/pmaps.vim | so ~/.vim/syn.vim
