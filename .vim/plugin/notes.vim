@@ -143,8 +143,8 @@ def SetupUI()
     nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>
     nnoremap <buffer> ]d <ScriptCmd>NDayJump(v:count1)<CR>
     nnoremap <buffer> [d <ScriptCmd>NDayJump(-1 * v:count1)<CR>
-    nnoremap <buffer> <C-f> <Cmd>SearchNotes<CR>
-    nnoremap <buffer> <C-t> <Cmd>SearchTags<CR>
+    nnoremap <buffer> <leader>f <Cmd>SearchNotes<CR>
+    nnoremap <buffer> <leader>t <Cmd>SearchTags<CR>
 enddef
 
 augroup Notes
