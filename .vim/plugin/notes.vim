@@ -11,7 +11,7 @@ vim9script
 # :SearchNotes -> Uses fzf to search through the notes.
 #
 # Buffer specific mappings:
-# ,    -> Follow link. Links are defined by [[link]]. New file is created if
+# <CR> -> Follow link. Links are defined by [[link]]. New file is created if
 #   required.
 # <BS> -> Uses fuzzbox to search through notes showing those which link to the
 #   current note.
@@ -139,7 +139,7 @@ def SetupUI()
     setlocal colorcolumn=0 textwidth=78 formatoptions=tcqn joinspaces
     setlocal conceallevel=2 concealcursor=nc expandtab tabstop=4 shiftwidth=4
 
-    nnoremap <buffer> , <ScriptCmd>FollowLink()<CR>
+    nnoremap <buffer> <CR> <ScriptCmd>FollowLink()<CR>
     nnoremap <buffer> <BS> <ScriptCmd>WhatLinksHere()<CR>
     nnoremap <buffer> ]d <ScriptCmd>NDayJump(v:count1)<CR>
     nnoremap <buffer> [d <ScriptCmd>NDayJump(-1 * v:count1)<CR>

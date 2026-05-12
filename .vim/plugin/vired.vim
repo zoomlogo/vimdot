@@ -17,7 +17,7 @@ vim9script
 # . -> Reload Vired.
 # ! -> Run a shell command on the current file.
 # yy -> Copy the current file.
-# , -> Go inside a directory or open a file (current under cursor).
+# <CR> -> Go inside a directory or open a file (current under cursor).
 
 # track
 sign define ViredTracker
@@ -233,7 +233,7 @@ def Render()
         autocmd QuitPre <buffer> setlocal nomodified
     augroup END
 
-    nnoremap <buffer><nowait> , <ScriptCmd>Enter()<CR>
+    nnoremap <buffer><nowait> <CR> <ScriptCmd>Enter()<CR>
     nnoremap <buffer><nowait> U <ScriptCmd>GoUp()<CR>
     nnoremap <buffer><nowait> ! <ScriptCmd>ShellCommand()<CR>
     nnoremap <buffer><nowait> . <ScriptCmd>Render()<CR>

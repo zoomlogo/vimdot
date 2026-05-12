@@ -8,7 +8,7 @@ vim9script
 #
 # The execution output is put into the buffer.
 # Buffer specific mappings:
-# , -> Runs the current line.
+# <CR> -> Runs the current line.
 # <C-e> -> Runs the current highlighted block / paragraph.
 
 
@@ -21,8 +21,8 @@ export def IvyBuffer()
     setlocal buftype=nofile bufhidden=hide noswapfile filetype=vim nomodified
     setlocal colorcolumn=0 textwidth=0
 
-    nnoremap <buffer> , <ScriptCmd>Run([trim(getline('.'))])<CR>
-    nnoremap <buffer> <leader>, <ScriptCmd>Run(getline(1, '$'))<CR>
+    nnoremap <buffer> <CR> <ScriptCmd>Run([trim(getline('.'))])<CR>
+    nnoremap <buffer> <leader><CR> <ScriptCmd>Run(getline(1, '$'))<CR>
     nnoremap <buffer> <C-e> <ScriptCmd>Run(getline("'{", "'}"))<CR>
     vnoremap <buffer> <C-e> <Esc><ScriptCmd>Run(getline(getpos("'<")[1], getpos("'>")[1]))<CR>
 enddef
