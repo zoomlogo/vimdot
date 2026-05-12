@@ -8,7 +8,7 @@ vn : ,
 nn K i<cr><esc>
 nn Q @q
 "leaders
-let mapleader="\<Enter>"
+let mapleader=","
 nn <leader>w <cmd>up<cr>
 nn <leader>h <cmd>vs<cr>
 nn <leader>v <cmd>sp<cr>
