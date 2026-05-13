@@ -1,6 +1,9 @@
 #!/bin/sh
 # installer script to install vimdot
-echo "* vimdot installer"
+echo "* vimdot installer (deprecated)"
+echo "NOTICE vimdot has moved to codeberg!"
+echo "NOTICE   https://codeberg.org/zoomlogo/vimdot"
+echo "NOTICE please clone from codeberg to keep up with changes"
 OPT_PATH=~/.vim/pack/plugins/opt
 INSTALL_PATH=~/.vim/pack/plugins/start
 

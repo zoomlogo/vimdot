@@ -1,3 +1,5 @@
+NOTE  moved to codeberg: https://codeberg.org/zoomlogo/vimdot
+
 dependencies:
 * vim 9+
 * ripgrep
